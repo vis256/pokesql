@@ -1,11 +1,20 @@
-
 #[macro_use] extern crate rocket;
 #[cfg(test)] mod tests;
 
+use rocket::form::{FromForm, Form};
+
 #[derive(FromForm)]
-struct Options<'r> {
-    emoji: bool,
-    name: Option<&'r str>,
+struct LoginForm<'r> {
+    login: Option<&'r str>,
+    password: Option<&'r str>
+}
+
+#[post("/", data = "<form>")]
+fn login(form: Form<LoginForm>) -> String {
+    format!(
+        "login: {} password: {}",
+        form.login.unwrap_or(""),
+        form.password.unwrap_or(""))
 }
 
 // Try visiting:
@@ -16,8 +25,9 @@ fn world() -> &'static str {
 }
 
 #[launch]
-fn rocket() -> _{
+fn rocket() -> _ {
     rocket::build()
-        .mount("/", routes![world])
+        .mount("/", routes![world, login])
         .mount("/hello", routes![world])
 }
+
