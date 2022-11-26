@@ -2,20 +2,23 @@
 
 use std::env;
 
+use rocket::State;
 use rocket::form::{FromForm, Form};
-use rocket::{State, Ignite, Rocket};
+use rocket::serde::Serialize;
+use rocket::serde::json::Json;
+
 use sqlx::postgres::PgPoolOptions;
 use sqlx::{Pool, Postgres};
 
-#[derive(Debug)]
-struct Queerwa {
-    pub test: Option<i32>
+
+#[derive(Serialize)]
+struct Type {
+    name: String
 }
 
-impl Queerwa {
-    pub async fn get_all(pool: &Pool<Postgres>) -> anyhow::Result<Queerwa> {
-        let user = sqlx::query_as!(Queerwa, "SELECT * FROM tabels").fetch_one(&*pool).await?;
-        Ok(user)
+impl Type {
+    pub async fn get_all(pool: &Pool<Postgres>) -> anyhow::Result<Vec<Type>> {
+        Ok(sqlx::query_as!(Type, "SELECT * FROM Types").fetch_all(&*pool).await?)
     }
 }
 
@@ -40,9 +43,9 @@ async fn world(_pool: &State<Pool<Postgres>>) -> String {
     String::from("Hello, world!")
 }
 
-#[get("/table")]
-async fn table(pool: &State<Pool<Postgres>>) -> String {
-    format!("Got {:?}", Queerwa::get_all(&pool).await.unwrap())
+#[get("/types")]
+async fn types(pool: &State<Pool<Postgres>>) -> Json<Vec<Type>> {
+    Json(Type::get_all(&pool).await.unwrap())
 }
 
 #[rocket::main]
@@ -55,12 +58,12 @@ async fn main() -> anyhow::Result<()> {
         .await?;
 
     rocket::build()
-        .mount("/", routes![world, table])
-        .mount("/hello", routes![world])
-        .mount("login", routes![login])
+        .mount("/", routes![world, types])
+        .mount("/types", routes![types])
+        .mount("/login", routes![login])
         .manage(pool)
-        .ignite()
-        .await?;
+        .ignite().await?
+        .launch().await?;
 
     Ok(())
 }
