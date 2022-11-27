@@ -50,7 +50,8 @@ async fn types(pool: &State<Pool<Postgres>>) -> Json<Vec<Type>> {
 
 #[rocket::main]
 async fn main() -> anyhow::Result<()> {
-    let database_url = env::var("DATABASE_URL")?;
+    let database_url = env::var("DATABASE_URL")
+        .unwrap_or(String::from("postgresql://postgres:12345@127.0.0.1/postgres?sslmode=prefer"));
 
     let pool = PgPoolOptions::new()
         .max_connections(16)
