@@ -10,5 +10,5 @@ pub struct User {
     login: String,
     password: String,
     username: String,
-    is_proffesor: bool
+    is_professor: bool
 }

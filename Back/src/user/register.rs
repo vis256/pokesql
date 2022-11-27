@@ -13,9 +13,9 @@ pub async fn register(
 ) -> Result<String, status::NotFound<String>> {
     if let Ok(mut transaction) = pool.begin().await {
         match sqlx::query!(
-            "INSERT INTO Users(login, password, username, is_proffesor)\
+            "INSERT INTO Users(login, password, username, is_professor)\
              VALUES ($1, $2, $3, $4)",
-            form.login, form.password, form.username, form.is_proffesor
+            form.login, form.password, form.username, form.is_professor
         ).execute(&mut transaction).await {
             Ok(_) => {
                 transaction.commit().await.map_err(|s| status::NotFound(s.to_string()))?;

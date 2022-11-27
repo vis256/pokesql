@@ -23,7 +23,7 @@ pub struct LoginCredentials {
 #[derive(Serialize, Deserialize)]
 struct TokenClaims {
     login: String,
-    proffesor: bool
+    professor: bool
 }
 
 #[post("/", data = "<form>")]
@@ -32,14 +32,14 @@ pub async fn login(
     form: Form<LoginCredentials>
 ) -> Result<String, status::NotFound<&'static str>> {
     if let Ok(r) = sqlx::query!(
-        "SELECT is_proffesor AS prof FROM Users WHERE login = $1 AND password = $2",
+        "SELECT is_professor AS prof FROM Users WHERE login = $1 AND password = $2",
         form.login, form.password
     ).fetch_one(&**pool).await {
         let unsigned_token = Token::new(
             Header{ ..Default::default() },
             TokenClaims {
                 login: String::from(&form.login),
-                proffesor: r.prof
+                professor: r.prof
             });
         let key = Hmac::<Sha256>::new_from_slice(
             env::var("TOKEN_KEY")
@@ -54,7 +54,7 @@ pub async fn login(
 }
 
 // TODO: this could probably be an attribute macro
-pub fn authorize_user<const PROFFESOR: bool>(token: &str) -> anyhow::Result<bool> {
+pub fn authorize_user<const PROFESSOR: bool>(token: &str) -> anyhow::Result<bool> {
     let key: Hmac<Sha256> = Hmac::new_from_slice(
         env::var("TOKEN_KEY")
             .unwrap_or(String::from(DEFAULT_TOKEN_KEY))
@@ -63,5 +63,5 @@ pub fn authorize_user<const PROFFESOR: bool>(token: &str) -> anyhow::Result<bool
     let token: Token<Header, TokenClaims, _> =
         VerifyWithKey::verify_with_key(token, &key)?;
     let (_, claims) = token.into();
-    Ok(claims.proffesor || !PROFFESOR)
+    Ok(claims.professor || !PROFESSOR)
 }

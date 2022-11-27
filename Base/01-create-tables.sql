@@ -8,7 +8,7 @@ CREATE TABLE Users(
     login VARCHAR(32) NOT NULL PRIMARY KEY,
     password VARCHAR(64) NOT NULL, -- sha256sum
     username VARCHAR(32) NOT NULL UNIQUE,
-    is_proffesor BOOLEAN NOT NULL
+    is_professor BOOLEAN NOT NULL
 );
 
 CREATE TABLE Types(
