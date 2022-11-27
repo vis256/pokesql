@@ -1,9 +1,15 @@
 #[macro_use] extern crate rocket;
 
+mod user;
+
+use user::{
+    login,
+    register
+};
+
 use std::env;
 
 use rocket::State;
-use rocket::form::{FromForm, Form};
 use rocket::serde::Serialize;
 use rocket::serde::json::Json;
 
@@ -22,27 +28,6 @@ impl Type {
     }
 }
 
-#[derive(FromForm)]
-struct LoginForm<'a> {
-    login: Option<&'a str>,
-    password: Option<&'a str>
-}
-
-#[post("/", data = "<form>")]
-async fn login(_pool: &State<Pool<Postgres>>, form: Form<LoginForm<'_>>) -> String {
-    format!(
-        "login: {} password: {}",
-        form.login.unwrap_or(""),
-        form.password.unwrap_or(""))
-}
-
-// Try visiting:
-//   http://127.0.0.1:8000/hello/world
-#[get("/")]
-async fn world(_pool: &State<Pool<Postgres>>) -> String {
-    String::from("Hello, world!")
-}
-
 #[get("/types")]
 async fn types(pool: &State<Pool<Postgres>>) -> Json<Vec<Type>> {
     Json(Type::get_all(&pool).await.unwrap())
@@ -50,7 +35,8 @@ async fn types(pool: &State<Pool<Postgres>>) -> Json<Vec<Type>> {
 
 #[rocket::main]
 async fn main() -> anyhow::Result<()> {
-    let database_url = env::var("DATABASE_URL")?;
+    let database_url = env::var("DATABASE_URL")
+        .unwrap_or(String::from("postgresql://postgres:12345@127.0.0.1/postgres?sslmode=prefer"));
 
     let pool = PgPoolOptions::new()
         .max_connections(16)
@@ -58,13 +44,12 @@ async fn main() -> anyhow::Result<()> {
         .await?;
 
     rocket::build()
-        .mount("/", routes![world, types])
+        .mount("/", routes![types, register::register])
         .mount("/types", routes![types])
-        .mount("/login", routes![login])
+        .mount("/login", routes![login::login])
         .manage(pool)
         .ignite().await?
         .launch().await?;
 
     Ok(())
 }
-
