@@ -35,12 +35,25 @@ services:
       - ./Back:/back
     entrypoint: cargo run --release
     working_dir: /back
-    ports:
-      - ${BACKEND_PORT:-8000}:8000
+    expose:
+      - 8000
     restart: unless-stopped
     networks:
       - pokesql
+      - frontend
+  frontend:
+    container_name: front
+    image: alexsuch/angular-cli
+    working_dir: /front
+    volumes:
+      - ./Front:/front
+    cmd: serve
+    restart: unless_stopped
+    networks:
+      - frontend
 
 networks:
   pokesql:
+    driver: bridge
+  frontend:
     driver: bridge
