@@ -35,6 +35,7 @@ export class AuthService {
       this.token.setToken('XD');
         this.router.navigate(['/']);
 
+        this.user.setUserData("Ash Ketchup");
         callback && callback({
           isOk : true,
           data : this.user.user
@@ -43,12 +44,10 @@ export class AuthService {
         this.router.navigate(['/']);
     }
     catch {
-      () => {
         callback && callback({
           isOk : false,
           message : "Authentication failed"
         })
-      }
     }
   }
 
