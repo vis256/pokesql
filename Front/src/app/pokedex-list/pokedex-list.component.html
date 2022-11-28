@@ -1,9 +1,10 @@
 <dx-list
-  [dataSource]="[{ID : 1, name : 'Bulbasaur'}, {ID : 2, name : 'Ivysaur'}, {ID : 3, name : 'Venusaur'}, {ID : 4, name : 'Charmander'}, {ID : 5, name : 'Charmeleon'},]"
+  [dataSource]="pokemonList"
   (onItemClick)="itemClick($event)"
   [searchEnabled]="true"
   searchExpr="name"
   searchMode="contains"
+  nextButtonText="Załaduj więcej"
   >
   <div *dxTemplate="let item of 'item'" style="display : flex;">
     <div style="color: #0008; margin-right: .2rem"> {{item.ID}} </div>
