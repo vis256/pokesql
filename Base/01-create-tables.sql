@@ -27,7 +27,7 @@ CREATE TABLE Arenas(
 
 CREATE TABLE ArenaMembers(
     join_date DATE NOT NULL DEFAULT CURRENT_DATE,
-    usr VARCHAR(32) NOT NULL REFERENCES Users(username),
+    usr VARCHAR(32) NOT NULL REFERENCES Users(username), -- FIXME: change to login
     score INTEGER NOT NULL DEFAULT 0,
     arena VARCHAR(32) NOT NULL REFERENCES Arenas(name),
     PRIMARY KEY(usr, arena)
@@ -35,7 +35,7 @@ CREATE TABLE ArenaMembers(
 
 CREATE TABLE Pokeballs(
     name VARCHAR(32) NOT NULL PRIMARY KEY,
-    power SMALLINT NOT NULL DEFAULT 1
+    power SMALLINT NOT NULL DEFAULT 1 -- FIXME: remove this
 );
 
 CREATE TABLE Pokedex(
@@ -62,8 +62,8 @@ CREATE TABLE Duels(
     id BIGSERIAL PRIMARY KEY,
     duel_date DATE NOT NULL DEFAULT CURRENT_DATE,
     winner BOOLEAN NOT NULL,
-    user1 VARCHAR(32) NOT NULL REFERENCES Users(username),
-    user2 VARCHAR(32) NOT NULL REFERENCES Users(username),
+    user1 VARCHAR(32) NOT NULL REFERENCES Users(username), -- FIXME: Change to login
+    user2 VARCHAR(32) NOT NULL REFERENCES Users(username), -- ^
     pokemon1 BIGINT NOT NULL REFERENCES Pokemons(id),
     pokemon2 BIGINT NOT NULL REFERENCES Pokemons(id),
     arena VARCHAR(32) NOT NULL REFERENCES Arenas(name),
@@ -71,14 +71,14 @@ CREATE TABLE Duels(
 );
  
 CREATE TABLE Counters(
-    type1 VARCHAR(32) NOT NULL REFERENCES Types(name),
+    type1 VARCHAR(32) NOT NULL REFERENCES Types(name), -- maybe more verbose names, ie type & countered_type
     type2 VARCHAR(32) NOT NULL REFERENCES Types(name),
     PRIMARY KEY(type1, type2)
 );
 
 CREATE TABLE Attacks(
     name VARCHAR(32) NOT NULL PRIMARY KEY,
-    power INTEGER NOT NULL, -- TODO: add power constraint
+    power INTEGER NOT NULL, -- TODO: add power constraint: power >= 0
     hit_chance NUMERIC CHECK (hit_chance > 0 AND hit_chance <= 1)
 );
 
