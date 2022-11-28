@@ -1,0 +1,9 @@
+<dx-list
+  [items]="[{ID : 1, name : 'Charizard'}, {ID : 2, name : 'Bulbasaur'}]"
+  (onItemClick)="itemClick($event)"
+  >
+  <div *dxTemplate="let item of 'item'" style="display : flex;">
+    <div style="color: #0008; margin-right: .2rem"> {{item.ID}} </div>
+    {{item.name}}
+  </div>
+</dx-list>

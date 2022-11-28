@@ -8,6 +8,8 @@ import { TasksComponent } from './pages/tasks/tasks.component';
 import { DxDataGridModule, DxFormModule } from 'devextreme-angular';
 import {NewPokedexEntryFormComponent} from "./new-pokedex-entry-form/new-pokedex-entry-form.component";
 import {HttpClientModule} from "@angular/common/http";
+import {PokedexListComponent} from "./pokedex-list/pokedex-list.component";
+import {PokedexEntryComponent} from "./pokedex-entry/pokedex-entry.component";
 
 const routes: Routes = [
   {
@@ -49,6 +51,16 @@ const routes: Routes = [
     path: 'newpokedex',
     component: NewPokedexEntryFormComponent,
     canActivate: [ AuthGuardService ]
+  },
+  {
+    path: 'pokedexlist',
+    component: PokedexListComponent,
+    canActivate: [ AuthGuardService ]
+  },
+  {
+    path : 'pokedex/:pokedexid',
+    component : PokedexEntryComponent,
+    canActivate : [ AuthGuardService ]
   },
   {
     path: '**',

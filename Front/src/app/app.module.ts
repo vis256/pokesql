@@ -11,11 +11,20 @@ import { NewPokedexEntryFormComponent } from './new-pokedex-entry-form/new-poked
 import {DxFormModule} from "devextreme-angular/ui/form";
 import {DxCheckBoxModule, DxNumberBoxModule, DxSelectBoxModule, DxTextBoxModule} from "devextreme-angular";
 import {DxButtonModule} from "devextreme-angular/ui/button";
+import { PokedexListComponent } from './pokedex-list/pokedex-list.component';
+import { PokedexEntryComponent } from './pokedex-entry/pokedex-entry.component';
+import { OwnedPokemonListComponent } from './owned-pokemon-list/owned-pokemon-list.component';
+import { OwnedPokemonEntryComponent } from './owned-pokemon-entry/owned-pokemon-entry.component';
+import {DxListModule} from "devextreme-angular/ui/list";
 
 @NgModule({
   declarations: [
     AppComponent,
-    NewPokedexEntryFormComponent
+    NewPokedexEntryFormComponent,
+    PokedexListComponent,
+    PokedexEntryComponent,
+    OwnedPokemonListComponent,
+    OwnedPokemonEntryComponent
   ],
   imports: [
     BrowserModule,
@@ -34,7 +43,8 @@ import {DxButtonModule} from "devextreme-angular/ui/button";
     DxNumberBoxModule,
     DxSelectBoxModule,
     DxCheckBoxModule,
-    DxButtonModule
+    DxButtonModule,
+    DxListModule
   ],
   providers: [
     AuthService,

@@ -12,8 +12,8 @@ export class NewPokedexEntryFormComponent implements OnInit {
   ) { }
 
   formData : any = {
-    ID : 123,
-    Name : 'XD'
+    Name : 'XD',
+    MinLVL : 1,
   }
 
   ngOnInit(): void {
