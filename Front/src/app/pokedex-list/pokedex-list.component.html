@@ -1,9 +1,13 @@
 <dx-list
-  [items]="[{ID : 1, name : 'Charizard'}, {ID : 2, name : 'Bulbasaur'}]"
+  [dataSource]="[{ID : 1, name : 'Bulbasaur'}, {ID : 2, name : 'Ivysaur'}, {ID : 3, name : 'Venusaur'}, {ID : 4, name : 'Charmander'}, {ID : 5, name : 'Charmeleon'},]"
   (onItemClick)="itemClick($event)"
+  [searchEnabled]="true"
+  searchExpr="name"
+  searchMode="contains"
   >
   <div *dxTemplate="let item of 'item'" style="display : flex;">
     <div style="color: #0008; margin-right: .2rem"> {{item.ID}} </div>
+    <img [src]="'/assets/sprites/pokemon/' + item.ID + '.png'" >
     {{item.name}}
   </div>
 </dx-list>

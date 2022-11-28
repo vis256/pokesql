@@ -9,7 +9,13 @@ import { UnauthenticatedContentModule } from './unauthenticated-content';
 import { AppRoutingModule } from './app-routing.module';
 import { NewPokedexEntryFormComponent } from './new-pokedex-entry-form/new-pokedex-entry-form.component';
 import {DxFormModule} from "devextreme-angular/ui/form";
-import {DxCheckBoxModule, DxNumberBoxModule, DxSelectBoxModule, DxTextBoxModule} from "devextreme-angular";
+import {
+  DxCheckBoxModule,
+  DxDataGridModule,
+  DxNumberBoxModule,
+  DxSelectBoxModule,
+  DxTextBoxModule
+} from "devextreme-angular";
 import {DxButtonModule} from "devextreme-angular/ui/button";
 import { PokedexListComponent } from './pokedex-list/pokedex-list.component';
 import { PokedexEntryComponent } from './pokedex-entry/pokedex-entry.component';
@@ -44,7 +50,8 @@ import {DxListModule} from "devextreme-angular/ui/list";
     DxSelectBoxModule,
     DxCheckBoxModule,
     DxButtonModule,
-    DxListModule
+    DxListModule,
+    DxDataGridModule
   ],
   providers: [
     AuthService,
