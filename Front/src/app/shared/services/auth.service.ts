@@ -26,13 +26,15 @@ export class AuthService {
   }
 
 
-  async logIn(email: string, password: string, callback : Function) {
+  async logIn(username: string, password: string, callback : Function) {
 
     try {
+      console.log(username, password);
+
       // Send request
-      //this.http.get(email, password).subscribe....
-      console.log(email, password);
-      this.token.setToken('XD');
+      this.http.post("localhost:8000/login", {login : username, password}).subscribe((resp : any) => {
+        console.log({resp})
+        // this.token.setToken(resp.body.);
         this.router.navigate(['/']);
 
         this.user.setUserData("Ash Ketchup");
@@ -42,6 +44,8 @@ export class AuthService {
         });
 
         this.router.navigate(['/']);
+      })
+
     }
     catch {
         callback && callback({
