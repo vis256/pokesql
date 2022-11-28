@@ -7,12 +7,12 @@ import { Injectable } from '@angular/core';
 const STORAGE_KEY = 'POKESQL_JWT'
 
 export class TokenService {
-  constructor() { 
-		
+  constructor() {
+
   }
 
   get isLoggedIn() {
-  	return getToken() !== null;
+  	return this.getToken() !== null;
   }
 
   public getToken() {
