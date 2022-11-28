@@ -6,6 +6,8 @@ import { HomeComponent } from './pages/home/home.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { TasksComponent } from './pages/tasks/tasks.component';
 import { DxDataGridModule, DxFormModule } from 'devextreme-angular';
+import {NewPokedexEntryFormComponent} from "./new-pokedex-entry-form/new-pokedex-entry-form.component";
+import {HttpClientModule} from "@angular/common/http";
 
 const routes: Routes = [
   {
@@ -44,13 +46,18 @@ const routes: Routes = [
     canActivate: [ AuthGuardService ]
   },
   {
+    path: 'newpokedex',
+    component: NewPokedexEntryFormComponent,
+    canActivate: [ AuthGuardService ]
+  },
+  {
     path: '**',
     redirectTo: 'home'
   }
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, { useHash: true }), DxDataGridModule, DxFormModule],
+  imports: [RouterModule.forRoot(routes, { useHash: true }), HttpClientModule, DxDataGridModule, DxFormModule],
   providers: [AuthGuardService],
   exports: [RouterModule],
   declarations: [

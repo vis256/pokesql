@@ -5,6 +5,11 @@ export const navigation = [
     icon: 'home'
   },
   {
+    text: 'New Pokedex Entry',
+    path: '/newpokedex',
+    icon: 'add'
+  },
+  {
     text: 'Examples',
     icon: 'folder',
     items: [
