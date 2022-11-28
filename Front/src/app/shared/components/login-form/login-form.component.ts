@@ -23,11 +23,12 @@ export class LoginFormComponent {
     const { email, password } = this.formData;
     this.loading = true;
 
-    const result = await this.authService.logIn(email, password);
-    if (!result.isOk) {
-      this.loading = false;
-      notify(result.message, 'error', 2000);
-    }
+    await this.authService.logIn(email, password, (result : any) => {
+      if (!result.isOk) {
+        this.loading = false;
+        notify(result.message, 'error', 2000);
+      }
+    });
   }
 
   onCreateAccountClick = () => {

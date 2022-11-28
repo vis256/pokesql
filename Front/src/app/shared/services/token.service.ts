@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
 
+const STORAGE_KEY = 'POKESQL_JWT'
+
 @Injectable({
   providedIn: 'root'
 })
-
-const STORAGE_KEY = 'POKESQL_JWT'
-
 export class TokenService {
   constructor() {
 
@@ -20,6 +19,10 @@ export class TokenService {
   }
 
   public setToken( token : string ) {
-	window.localStorage.setItem(STORAGE_KEY, token);
+	  window.localStorage.setItem(STORAGE_KEY, token);
+  }
+
+  public removeToken() {
+    window.localStorage.removeItem(STORAGE_KEY);
   }
 }

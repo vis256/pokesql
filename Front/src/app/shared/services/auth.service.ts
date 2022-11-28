@@ -1,22 +1,23 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router, ActivatedRouteSnapshot } from '@angular/router';
-
-export interface IUser {
-  email: string;
-  avatarUrl?: string
-}
+import {HttpClient} from "@angular/common/http";
+import {TokenService} from "./token.service";
+import {UserService} from "./user.service";
 
 const defaultPath = '/';
-const defaultUser = {
-  email: 'sandra@example.com',
-  avatarUrl: 'https://js.devexpress.com/Demos/WidgetsGallery/JSDemos/images/employees/06.png'
-};
 
 @Injectable()
 export class AuthService {
-  private _user: IUser | null = defaultUser;
+  constructor(
+    private router: Router,
+    private http : HttpClient,
+    private token : TokenService,
+    private user : UserService
+  ) { }
+
+
   get loggedIn(): boolean {
-    return !!this._user;
+    return this.token.isLoggedIn;
   }
 
   private _lastAuthenticatedPath: string = defaultPath;
@@ -24,26 +25,30 @@ export class AuthService {
     this._lastAuthenticatedPath = value;
   }
 
-  constructor(private router: Router) { }
 
-  async logIn(email: string, password: string) {
+  async logIn(email: string, password: string, callback : Function) {
 
     try {
       // Send request
+      //this.http.get(email, password).subscribe....
       console.log(email, password);
-      this._user = { ...defaultUser, email };
-      this.router.navigate([this._lastAuthenticatedPath]);
+      this.token.setToken('XD');
+        this.router.navigate(['/']);
 
-      return {
-        isOk: true,
-        data: this._user
-      };
+        callback && callback({
+          isOk : true,
+          data : this.user.user
+        });
+
+        this.router.navigate(['/']);
     }
     catch {
-      return {
-        isOk: false,
-        message: "Authentication failed"
-      };
+      () => {
+        callback && callback({
+          isOk : false,
+          message : "Authentication failed"
+        })
+      }
     }
   }
 
@@ -53,7 +58,7 @@ export class AuthService {
 
       return {
         isOk: true,
-        data: this._user
+        data: this.user.user
       };
     }
     catch {
@@ -117,7 +122,7 @@ export class AuthService {
   }
 
   async logOut() {
-    this._user = null;
+    this.token.removeToken();
     this.router.navigate(['/login-form']);
   }
 }
