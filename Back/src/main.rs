@@ -46,7 +46,7 @@ async fn main() -> anyhow::Result<()> {
     rocket::build()
         .mount("/", routes![types, register::register])
         .mount("/types", routes![types])
-        .mount("/login", routes![login::login])
+        .mount("/api/login", routes![login::login])
         .manage(pool)
         .ignite().await?
         .launch().await?;
