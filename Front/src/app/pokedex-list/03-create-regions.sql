@@ -1,9 +1,0 @@
-INSERT INTO Regions(name, type) VALUES('Kanto', 'Grass');
-INSERT INTO Regions(name, type) VALUES('Johto', 'Fire');
-INSERT INTO Regions(name, type) VALUES('Hoenn', 'Ground');
-INSERT INTO Regions(name, type) VALUES('Sinnoh', 'Water');
-INSERT INTO Regions(name, type) VALUES('Unova', 'Normal');
-INSERT INTO Regions(name, type) VALUES('Kalos', 'Dragon');
-INSERT INTO Regions(name, type) VALUES('Alola', 'Flying');
-INSERT INTO Regions(name, type) VALUES('Galar', 'Ice');
-INSERT INTO Regions(name, type) VALUES('Paldea', 'Dark');
