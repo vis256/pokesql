@@ -2,8 +2,8 @@ use std::env;
 
 use rocket::State;
 use rocket::response::status;
-use rocket::form::{FromForm, Form};
 use rocket::serde::{Serialize, Deserialize};
+use rocket::serde::json::{Json, json, Value};
 
 use sqlx::{Pool, Postgres};
 
@@ -14,7 +14,7 @@ use sha2::Sha256;
 
 const DEFAULT_TOKEN_KEY: &str = "fgSNhNGCPvQwjqA2cm6YsCx8nYJfmVgTLMdumgX34aOvqOBfLPVV1N8c71hA";
 
-#[derive(FromForm)]
+#[derive(Deserialize)]
 pub struct LoginCredentials {
     login: String,
     password: String
@@ -26,19 +26,20 @@ struct TokenClaims {
     professor: bool
 }
 
-#[post("/", data = "<form>")]
+#[post("/", data = "<credentials>")]
 pub async fn login(
     pool: &State<Pool<Postgres>>,
-    form: Form<LoginCredentials>
-) -> Result<String, status::NotFound<&'static str>> {
+    credentials: Json<LoginCredentials>
+) -> Result<Value, status::Unauthorized<&'static str>> {
+    let cred = credentials.into_inner();
     if let Ok(r) = sqlx::query!(
         "SELECT is_professor AS prof FROM Users WHERE login = $1 AND password = $2",
-        form.login, form.password
+        &cred.login, &cred.password
     ).fetch_one(&**pool).await {
         let unsigned_token = Token::new(
             Header{ ..Default::default() },
             TokenClaims {
-                login: String::from(&form.login),
+                login: String::from(&cred.login),
                 professor: r.prof
             });
         let key = Hmac::<Sha256>::new_from_slice(
@@ -47,9 +48,9 @@ pub async fn login(
                 .as_bytes()
         ).unwrap();
         let signed_token = unsigned_token.sign_with_key(&key).unwrap();
-        Ok(signed_token.into())
+        Ok(json!({ "token": String::from(signed_token) }))
     } else {
-        Err(status::NotFound("Username or password is incorrect"))
+        Err(status::Unauthorized(None))
     }
 }
 
