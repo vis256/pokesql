@@ -34,7 +34,7 @@ export class AuthService {
       // Send request
       this.http.post("api/login", {login : username, password}).subscribe((resp : any) => {
         console.log({if_u_see_this_maybe_this_works: resp})
-        // this.token.setToken(resp.body.);
+        this.token.setToken(resp.token);
         this.router.navigate(['/']);
 
         this.user.setUserData("Ash Ketchup");
