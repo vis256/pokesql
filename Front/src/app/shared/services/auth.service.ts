@@ -32,8 +32,8 @@ export class AuthService {
       console.log(username, password);
 
       // Send request
-      this.http.post("localhost:8000/login", {login : username, password}).subscribe((resp : any) => {
-        console.log({resp})
+      this.http.post("api/login", {login : username, password}).subscribe((resp : any) => {
+        console.log({if_u_see_this_maybe_this_works: resp})
         // this.token.setToken(resp.body.);
         this.router.navigate(['/']);
 
