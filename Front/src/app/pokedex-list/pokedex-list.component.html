@@ -1,14 +1,30 @@
-<dx-list
-  [dataSource]="pokemonList"
-  (onItemClick)="itemClick($event)"
-  [searchEnabled]="true"
-  searchExpr="name"
-  searchMode="contains"
-  nextButtonText="Załaduj więcej"
-  >
-  <div *dxTemplate="let item of 'item'" style="display : flex;">
-    <div style="color: #0008; margin-right: .2rem"> {{item.ID}} </div>
-    <img [src]="'/assets/sprites/pokemon/' + item.ID + '.png'" >
-    {{item.name}}
+<img class="background" src="/assets/backgrounds/lab.jpg">
+
+<div class="main-container">
+  <div class="main">
+    <dx-scroll-view>
+      <dx-list
+        [dataSource]="pokemonList"
+        (onItemClick)="itemClick($event)"
+        [searchEnabled]="true"
+        searchExpr="name"
+        searchMode="contains"
+        nextButtonText="Załaduj więcej"
+      >
+        <div *dxTemplate="let item of 'item'" style="display : flex; flex-direction: column">
+          <img [src]="'/assets/sprites/pokemon/' + item.ID + '.png'" >
+          <div style="display: flex;">
+            <div style="color: #fff8; margin-right: .2rem"> {{item.ID}} </div>
+            {{item.name}}
+          </div>
+          <div style="display: flex; flex-direction: row">
+            <app-type-label [type]="'Fire'"></app-type-label>
+            <app-type-label [type]="'Grass'"></app-type-label>
+          </div>
+        </div>
+      </dx-list>
+    </dx-scroll-view>
   </div>
-</dx-list>
+
+</div>
+
