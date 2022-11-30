@@ -3,6 +3,8 @@
 <div class="main-container">
   <div class="main">
     <dx-scroll-view>
+      <h1 class="title">Pokedex</h1>
+
       <dx-list
         [dataSource]="pokemonList"
         (onItemClick)="itemClick($event)"
@@ -18,8 +20,7 @@
             {{item.name}}
           </div>
           <div style="display: flex; flex-direction: row">
-            <app-type-label [type]="'Fire'"></app-type-label>
-            <app-type-label [type]="'Grass'"></app-type-label>
+            <app-type-label *ngFor="let type of item.types" [type]="type"></app-type-label>
           </div>
         </div>
       </dx-list>
