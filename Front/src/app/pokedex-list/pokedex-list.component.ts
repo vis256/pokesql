@@ -15,7 +15,7 @@ export class PokedexListComponent implements OnInit {
   ngOnInit(): void {
     console.log({data})
     data.results.forEach((pokemon : any, index : number) => {
-      this.pokemonList.push({ID : parseInt(pokemon.national_number), name : pokemon.name})
+      this.pokemonList.push({ID : parseInt(pokemon.national_number), name : pokemon.name, types : pokemon.type})
     })
   }
 
