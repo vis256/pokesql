@@ -5,11 +5,15 @@ import { AuthGuardService } from './shared/services';
 import { HomeComponent } from './pages/home/home.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { TasksComponent } from './pages/tasks/tasks.component';
-import { DxDataGridModule, DxFormModule } from 'devextreme-angular';
+import {DxDataGridModule, DxFormModule, DxTileViewModule} from 'devextreme-angular';
 import {NewPokedexEntryFormComponent} from "./new-pokedex-entry-form/new-pokedex-entry-form.component";
 import {HttpClientModule} from "@angular/common/http";
 import {PokedexListComponent} from "./pokedex-list/pokedex-list.component";
 import {PokedexEntryComponent} from "./pokedex-entry/pokedex-entry.component";
+import {OwnedPokemonListComponent} from "./owned-pokemon-list/owned-pokemon-list.component";
+import {DxScrollViewModule} from "devextreme-angular/ui/scroll-view";
+import {PokedexComponent} from "./pokedex/pokedex.component";
+import {DxListModule} from "devextreme-angular/ui/list";
 
 const routes: Routes = [
   {
@@ -53,7 +57,7 @@ const routes: Routes = [
     canActivate: [ AuthGuardService ]
   },
   {
-    path: 'pokedexlist',
+    path: 'pokedex/list',
     component: PokedexListComponent,
     canActivate: [ AuthGuardService ]
   },
@@ -63,13 +67,23 @@ const routes: Routes = [
     canActivate : [ AuthGuardService ]
   },
   {
+    path : 'pokedex',
+    component : PokedexComponent,
+    canActivate : [ AuthGuardService ]
+  },
+  {
+    path : 'mypokemon',
+    component : OwnedPokemonListComponent,
+    canActivate : [ AuthGuardService ]
+  },
+  {
     path: '**',
     redirectTo: 'home'
   }
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, { useHash: true }), HttpClientModule, DxDataGridModule, DxFormModule],
+  imports: [RouterModule.forRoot(routes, { useHash: true }), HttpClientModule, DxDataGridModule, DxFormModule, DxTileViewModule, DxScrollViewModule, DxListModule ],
   providers: [AuthGuardService],
   exports: [RouterModule],
   declarations: [

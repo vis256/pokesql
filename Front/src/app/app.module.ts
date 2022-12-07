@@ -14,7 +14,7 @@ import {
   DxDataGridModule,
   DxNumberBoxModule,
   DxSelectBoxModule,
-  DxTextBoxModule
+  DxTextBoxModule, DxTileViewModule
 } from "devextreme-angular";
 import {DxButtonModule} from "devextreme-angular/ui/button";
 import { PokedexListComponent } from './pokedex-list/pokedex-list.component';
@@ -24,6 +24,7 @@ import { OwnedPokemonEntryComponent } from './owned-pokemon-entry/owned-pokemon-
 import {DxListModule} from "devextreme-angular/ui/list";
 import {DxScrollViewModule} from "devextreme-angular/ui/scroll-view";
 import { TypeLabelComponent } from './shared/components/type-label/type-label.component';
+import { PokedexComponent } from './pokedex/pokedex.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { TypeLabelComponent } from './shared/components/type-label/type-label.co
     PokedexEntryComponent,
     OwnedPokemonListComponent,
     OwnedPokemonEntryComponent,
-    TypeLabelComponent
+    TypeLabelComponent,
+    PokedexComponent
   ],
   imports: [
     BrowserModule,
@@ -55,7 +57,8 @@ import { TypeLabelComponent } from './shared/components/type-label/type-label.co
     DxButtonModule,
     DxListModule,
     DxDataGridModule,
-    DxScrollViewModule
+    DxScrollViewModule,
+    DxTileViewModule
   ],
   providers: [
     AuthService,

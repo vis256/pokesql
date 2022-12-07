@@ -12,4 +12,10 @@ export class OwnedPokemonListComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  pokemonList : any = [];
+
+  itemClick($event : any) {
+    console.log({$event});
+  }
+
 }
