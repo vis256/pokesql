@@ -2,13 +2,13 @@
 
 :host ::ng-deep .dx-list {
   .dx-list-item {
-    border: 0;
-    width: 20%;
-    min-height: 8rem;
-    height: 8rem;
-    max-height: 8rem;
-    overflow: hidden;
-    float: left;
+    border: 0 !important;
+    width: 20% !important;
+    min-height: 8rem !important;
+    height: 8rem !important;
+    max-height: 8rem !important;
+    overflow: hidden !important;
+    float: left !important;
     margin-top: 0 !important;
   }
 }

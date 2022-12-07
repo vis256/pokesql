@@ -5,27 +5,31 @@ export const navigation = [
     icon: 'home'
   },
   {
-    text : 'Pokedex',
-    path : '/pokedexlist',
-    icon : 'folder'
+    text : 'Moje Pokemony',
+    path : 'mypokemon',
+    icon : 'activefolder'
   },
   {
-    text: 'New Pokedex Entry',
-    path: '/newpokedex',
-    icon: 'add'
-  },
-  {
-    text: 'Examples',
-    icon: 'folder',
-    items: [
+    text : 'Kompendium Pokemon',
+    icon : 'globe',
+    items : [
       {
-        text: 'Profile',
-        path: '/profile'
+        text : 'Pokedex',
+        path : '/pokedexlist',
+        icon : 'folder'
       },
       {
-        text: 'Tasks',
-        path: '/tasks'
-      }
+        text : 'Pokeballe',
+        path : '/pokeballs',
+        icon : 'folder'
+      },
     ]
-  }
+  },
+
+  {
+    text: 'Laboratorium',
+    icon: 'globe',
+    path : '/laboratory'
+  },
+
 ];

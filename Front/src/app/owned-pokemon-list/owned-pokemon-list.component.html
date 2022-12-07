@@ -1,1 +1,33 @@
-<p>owned-pokemon-list works!</p>
+<img class="background" src="/assets/backgrounds/town.webp">
+
+<div class="main-container">
+  <div class="main">
+    <dx-scroll-view>
+      <h1 class="title">Moje Pokemony</h1>
+
+      <dx-button text="Dodaj nowego Pokemona" style="margin-bottom: .5rem;"></dx-button>
+
+      <dx-list
+        [dataSource]="pokemonList"
+        (onItemClick)="itemClick($event)"
+        [searchEnabled]="true"
+        searchExpr="name"
+        searchMode="contains"
+        nextButtonText="Załaduj więcej"
+      >
+        <div *dxTemplate="let item of 'item'" style="display : flex; flex-direction: column">
+          <img [src]="'/assets/sprites/pokemon/' + item.ID + '.png'" >
+          <div style="display: flex;">
+            <div style="color: #fff8; margin-right: .2rem"> {{item.ID}} </div>
+            {{item.name}}
+          </div>
+          <div style="display: flex; flex-direction: row">
+            <app-type-label *ngFor="let type of item.types" [type]="type"></app-type-label>
+          </div>
+        </div>
+      </dx-list>
+    </dx-scroll-view>
+  </div>
+
+</div>
+
