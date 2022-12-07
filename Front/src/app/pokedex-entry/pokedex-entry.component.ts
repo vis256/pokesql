@@ -11,10 +11,14 @@ export class PokedexEntryComponent implements OnInit {
     private route : ActivatedRoute
   ) { }
 
+  pokedexId : number | null = null;
+
   ngOnInit(): void {
-    this.route.queryParams.subscribe(data => {
-      console.log({routeData : data})
+    this.route.paramMap.subscribe((data : any) => {
+      this.pokedexId = parseInt(data.params.pokedexid);
     })
+
+    // fetch data from backend
   }
 
 }
