@@ -25,6 +25,8 @@ import {DxListModule} from "devextreme-angular/ui/list";
 import {DxScrollViewModule} from "devextreme-angular/ui/scroll-view";
 import { TypeLabelComponent } from './shared/components/type-label/type-label.component';
 import { PokedexComponent } from './pokedex/pokedex.component';
+import { TypesListComponent } from './types-list/types-list.component';
+import { RegionLabelComponent } from './shared/components/region-label/region-label.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +37,9 @@ import { PokedexComponent } from './pokedex/pokedex.component';
     OwnedPokemonListComponent,
     OwnedPokemonEntryComponent,
     TypeLabelComponent,
-    PokedexComponent
+    PokedexComponent,
+    TypesListComponent,
+    RegionLabelComponent,
   ],
   imports: [
     BrowserModule,

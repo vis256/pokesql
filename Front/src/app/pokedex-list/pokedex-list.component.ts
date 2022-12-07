@@ -22,7 +22,7 @@ export class PokedexListComponent implements OnInit {
   pokemonList : any = [];
 
   itemClick($event: any) {
-    this.router.navigate([`/pokedex/${$event.itemData.ID}`]);
+    this.router.navigate([`/pokedex/entry/${$event.itemData.ID}`]);
   }
 
   dataSource = [

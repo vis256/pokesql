@@ -1,1 +1,50 @@
-<p>pokedex-entry works!</p>
+<img class="background" src="/assets/backgrounds/lab.jpg">
+
+<div class="main-container">
+  <div class="main">
+    <dx-scroll-view>
+      <h1 class="title">{{pokedexId}}  -  Bulbasaur</h1>
+
+      <div class="content">
+        <div class="info-container">
+          <div class="entry">
+            <div class="label">Nazwa gatunku</div>
+            <div class="value">Bulbasaur</div>
+          </div>
+
+          <div class="entry">
+            <div class="label">Numer</div>
+            <div class="value">121</div>
+          </div>
+
+          <div class="entry">
+            <div class="label">Typy</div>
+            <div class="value">
+              <div style="display: flex; flex-direction: row">
+                <app-type-label [type]="'Grass'"></app-type-label>
+                <app-type-label [type]="'Fire'"></app-type-label>
+              </div>
+            </div>
+          </div>
+
+          <div class="entry">
+            <div class="label">Region występowania</div>
+            <app-region-label [region]="'Unova'"></app-region-label>
+          </div>
+
+          <div class="entry">
+            <div class="label">Ataki</div>
+            <div class="value">
+              <dx-select-box [items]="['Quick Attack', 'Chuj', 'XD', 'Ember', 'Lightning']"></dx-select-box>
+            </div>
+          </div>
+
+        </div>
+
+        <img [src]="'/assets/sprites/pokemon/' + pokedexId + '.png'">
+      </div>
+    </dx-scroll-view>
+  </div>
+
+</div>
+
