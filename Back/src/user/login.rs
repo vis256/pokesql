@@ -2,28 +2,23 @@ use std::env;
 
 use rocket::State;
 use rocket::response::status;
-use rocket::serde::{Serialize, Deserialize};
+use rocket::serde::Deserialize;
 use rocket::serde::json::{Json, json, Value};
 
 use sqlx::{Pool, Postgres};
 
-use jwt::{Header, Token, SignWithKey, VerifyWithKey};
+use jwt::{Token, Header, SignWithKey};
 
 use hmac::{Mac, Hmac};
+
 use sha2::Sha256;
 
-const DEFAULT_TOKEN_KEY: &str = "fgSNhNGCPvQwjqA2cm6YsCx8nYJfmVgTLMdumgX34aOvqOBfLPVV1N8c71hA";
+use super::{DEFAULT_TOKEN_KEY, TokenClaims};
 
 #[derive(Deserialize)]
 pub struct LoginCredentials {
     login: String,
     password: String
-}
-
-#[derive(Serialize, Deserialize)]
-struct TokenClaims {
-    login: String,
-    professor: bool
 }
 
 #[post("/", data = "<credentials>")]
@@ -52,17 +47,4 @@ pub async fn login(
     } else {
         Err(status::Unauthorized(None))
     }
-}
-
-// TODO: this could probably be an attribute macro
-pub fn authorize_user<const PROFESSOR: bool>(token: &str) -> anyhow::Result<bool> {
-    let key: Hmac<Sha256> = Hmac::new_from_slice(
-        env::var("TOKEN_KEY")
-            .unwrap_or(String::from(DEFAULT_TOKEN_KEY))
-            .as_bytes()
-    )?;
-    let token: Token<Header, TokenClaims, _> =
-        VerifyWithKey::verify_with_key(token, &key)?;
-    let (_, claims) = token.into();
-    Ok(claims.professor || !PROFESSOR)
 }

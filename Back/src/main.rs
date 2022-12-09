@@ -26,8 +26,9 @@ async fn main() -> anyhow::Result<()> {
             "/api",
             routes![
                 register::register,
-                pokedex::pokedex,
-                pokedex::pokedex_id
+                pokedex::pokedex_get,
+                pokedex::pokedex_id_get,
+                pokedex::pokedex_set,
             ])
         .mount("/api/login", routes![login::login])
         .manage(pool)
