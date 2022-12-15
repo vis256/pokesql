@@ -62,6 +62,16 @@ const routes: Routes = [
     canActivate: [ AuthGuardService ]
   },
   {
+    path: 'pokedex/new',
+    component: NewPokedexEntryFormComponent,
+    canActivate: [ AuthGuardService ]
+  },
+  {
+    path: 'pokedex/edit/:pokedexid',
+    component: NewPokedexEntryFormComponent,
+    canActivate: [ AuthGuardService ]
+  },
+  {
     path : 'pokedex/entry/:pokedexid',
     component : PokedexEntryComponent,
     canActivate : [ AuthGuardService ]

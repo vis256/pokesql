@@ -2,7 +2,7 @@
 
 <div class="main-container">
   <div class="main">
-    <h1 class="title">Dodaj nowy gatunek Pokemona</h1>
+    <h1 class="title">{{formData.ID == -1 ? 'Dodaj nowy gatunek Pokemona' : 'Edytuj dane gatunku'}}</h1>
     <div class="form-container">
       <dx-form
         id="newPokedexEntryForm"
@@ -19,31 +19,31 @@
         <dxi-item
           [colSpan]="2"
           >
-          <dx-text-box label="Nazwa Pokemona" [(value)]="formData.Name"></dx-text-box>
+          <dx-text-box [(value)]="formData.Name" label="Nazwa Pokemona" ></dx-text-box>
         </dxi-item>
 
         <dxi-item
           [colSpan]="2"
           >
-          <dx-select-box label="Region występowania" [items]="['Unova', 'Johto']"></dx-select-box>
+          <dx-select-box [(value)]="formData.Region" label="Region występowania" [items]="['Unova', 'Johto']"></dx-select-box>
         </dxi-item>
 
         <dxi-item
           >
-          <dx-number-box label="Minimalny Level" [(value)]="formData.MinLVL"></dx-number-box>
+          <dx-number-box [(value)]="formData.MinimalLevel" label="Minimalny Level" ></dx-number-box>
         </dxi-item>
         <dxi-item
         >
-          <dx-select-box label="Minimalna jakość Pokeballa" [items]="['Pokeball', 'Great Ball', 'Master Ball']"></dx-select-box>
+          <dx-select-box [(value)]="formData.Pokeball" label="Minimalna jakość Pokeballa" [items]="['Pokeball', 'Great Ball', 'Master Ball']"></dx-select-box>
         </dxi-item>
 
         <dxi-item
         >
-          <dx-select-box label="Typ #1" [items]="['Fire', 'Ice', 'Water', 'Dark', 'Poison', 'Ground', 'Grass', 'Bug', 'Fighting', 'Fairy', 'Ghost']"></dx-select-box>
+          <dx-select-box [(value)]="formData.Types[0]" label="Typ #1" [items]="['Fire', 'Ice', 'Water', 'Dark', 'Poison', 'Ground', 'Grass', 'Bug', 'Fighting', 'Fairy', 'Ghost']"></dx-select-box>
         </dxi-item>
         <dxi-item
         >
-          <dx-select-box label="Typ #2" [items]="['Fire', 'Ice', 'Water', 'Dark', 'Poison', 'Ground', 'Grass', 'Bug', 'Fighting', 'Fairy', 'Ghost']"></dx-select-box>
+          <dx-select-box [(value)]="formData.Types[0]" label="Typ #2" [items]="['Fire', 'Ice', 'Water', 'Dark', 'Poison', 'Ground', 'Grass', 'Bug', 'Fighting', 'Fairy', 'Ghost']"></dx-select-box>
         </dxi-item>
 
         <dxi-item
