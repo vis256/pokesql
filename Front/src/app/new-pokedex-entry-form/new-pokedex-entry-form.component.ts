@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
+import {ActivatedRoute} from "@angular/router";
+import {Pokedex} from "../shared/models/Pokedex";
 
 @Component({
   selector: 'app-new-pokedex-entry-form',
@@ -8,15 +10,30 @@ import {HttpClient} from "@angular/common/http";
 })
 export class NewPokedexEntryFormComponent implements OnInit {
   constructor(
-    private http: HttpClient
+    private http: HttpClient,
+    private route : ActivatedRoute
   ) { }
 
-  formData : any = {
-    Name : 'XD',
-    MinLVL : 1,
+  formData : Pokedex = {
+    ID: -1,
+    Name: "",
+    Types: ["", null],
+    MinimalLevel: 0,
+    Region: "",
+    Pokeball: "",
+    Attacks: [],
   }
 
   ngOnInit(): void {
+    this.route.paramMap.subscribe((data : any) => {
+      console.log({xd: data.params});
+      if (data.params.pokedexid) {
+        const pokedexid = parseInt(data.params.pokedexid);
+        // TODO: fetch data to prefill form
+        this.formData.ID = pokedexid;
+        this.formData.Name = 'CHUJ';
+      }
+    })
   }
 
   submit($event: any) {
