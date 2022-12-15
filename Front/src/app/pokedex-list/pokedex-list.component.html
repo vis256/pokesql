@@ -3,7 +3,18 @@
 <div class="main-container">
   <div class="main">
     <dx-scroll-view>
-      <h1 class="title">Pokedex</h1>
+      <h1 class="title">
+        Pokedex
+        <dx-button
+          *ngIf="user.isProfessor()"
+          (click)="router.navigate(['/pokedex/new'])"
+          class="modify-button"
+          text="Dodaj nowy gatunek"
+          icon="add"
+        >
+        </dx-button>
+      </h1>
+
 
       <dx-list
         [dataSource]="pokemonList"
