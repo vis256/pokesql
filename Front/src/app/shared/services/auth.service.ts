@@ -37,7 +37,7 @@ export class AuthService {
         this.token.setToken(resp.token);
         this.router.navigate(['/']);
 
-        this.user.setUserData("Ash Ketchup");
+        this.user.setUserData("Ash Ketchup", true);
         callback && callback({
           isOk : true,
           data : this.user.user
