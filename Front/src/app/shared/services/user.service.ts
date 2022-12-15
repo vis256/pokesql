@@ -11,7 +11,7 @@ export interface User {
 export class UserService {
   constructor() { }
 
-  public user? : User = {name : 'Not loaded', isProfessor : false};
+  public user? : User = {name : 'Not loaded', isProfessor : true};
 
   public setUserData(name : string, isProfessor : boolean) {
     this.user = { name, isProfessor};
