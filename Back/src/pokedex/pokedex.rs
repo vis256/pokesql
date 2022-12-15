@@ -55,7 +55,7 @@ pub async fn pokedex_set(
     entry: Json<PokedexEntry>,
 ) -> Result<(), Result<status::BadRequest<String>, status::Unauthorized<String>>> {
     match auth {
-        AuthStatus::Professor => Ok(set_pokedex_entry(pool, &entry.into_inner()).await.unwrap()),
+        AuthStatus::Professor(_) => Ok(set_pokedex_entry(pool, &entry.into_inner()).await.unwrap()),
         _ => Err(Err(status::Unauthorized(None)))
     }
 }

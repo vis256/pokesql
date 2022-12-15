@@ -1,9 +1,8 @@
 mod pokedex;
 
-use rocket::serde::Serialize;
+use rocket::serde::{Deserialize, Serialize};
 
 pub use pokedex::*;
-use serde::Deserialize;
 
 #[derive(Serialize, Deserialize)]
 pub struct PokedexEntry {

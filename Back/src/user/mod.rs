@@ -32,8 +32,8 @@ pub enum ApiKeyError {
 }
 
 pub enum AuthStatus {
-    Professor,
-    Trainer,
+    Professor(String),
+    Trainer(String),
     Unauthorized,
 }
 
@@ -43,7 +43,6 @@ impl<'r> FromRequest<'r> for AuthStatus {
     async fn from_request(req: &'r Request<'_>) -> Outcome<Self, Self::Error> {
         match req.headers().get_one("authorization") {
             Some(token) => {
-                println!("{:?}", token);
                 let key: Hmac<Sha256> = Hmac::new_from_slice(
                     env::var("TOKEN_KEY")
                         .unwrap_or(String::from(DEFAULT_TOKEN_KEY))
@@ -56,9 +55,9 @@ impl<'r> FromRequest<'r> for AuthStatus {
                 };
                 let (_, claims) = tkn.into();
                 if claims.professor {
-                    Outcome::Success(Self::Professor)
+                    Outcome::Success(Self::Professor(claims.login))
                 } else {
-                    Outcome::Success(Self::Trainer)
+                    Outcome::Success(Self::Trainer(claims.login))
                 }
             }
             None => Outcome::Failure((Status::BadRequest, ApiKeyError::Missing)),

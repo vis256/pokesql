@@ -2,6 +2,7 @@
 
 mod user;
 mod pokedex;
+mod pokemon;
 
 use user::{
     login,
