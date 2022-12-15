@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
+import {UserService} from "../shared/services";
 
 @Component({
   selector: 'app-pokedex-entry',
@@ -8,7 +9,9 @@ import {ActivatedRoute} from "@angular/router";
 })
 export class PokedexEntryComponent implements OnInit {
   constructor(
-    private route : ActivatedRoute
+    private route : ActivatedRoute,
+    public user : UserService,
+    public router : Router
   ) { }
 
   pokedexId : number | null = null;

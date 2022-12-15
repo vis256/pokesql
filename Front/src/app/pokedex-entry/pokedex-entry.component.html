@@ -3,7 +3,17 @@
 <div class="main-container">
   <div class="main">
     <dx-scroll-view>
-      <h1 class="title">{{pokedexId}}  -  Bulbasaur</h1>
+      <h1 class="title">
+        {{pokedexId}}  -  Bulbasaur
+        <dx-button
+          *ngIf="user.isProfessor()"
+          (click)="router.navigate(['/pokedex/edit/' + pokedexId])"
+          class="modify-button"
+          text="Zmodyfikuj"
+          icon="edit"
+        >
+        </dx-button>
+      </h1>
 
       <div class="content">
         <div class="info-container">
