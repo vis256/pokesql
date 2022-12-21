@@ -39,3 +39,30 @@ BEGIN
     VALUES(pRegionName, pRegionType, pArenaName);
 END;
 $$
+
+CREATE FUNCTIONS updateArenaScore() RETURNS TRIGGER LANGUAGE PLPGSQL
+AS $$
+DECLARE
+    vScore ArenaMembers.score%TYPE;
+    vWinner ArenaMembers.name%TYPE;
+BEGIN
+    IF NEW.winner THEN
+        vWinner = NEW.user1;
+    ELSE
+        vWinner = NEW.user2;
+    END IF;
+
+    SELECT score
+    INTO vScore
+    FROM ArenaMembers
+    WHERE name == NEW.arena AND usr == vWinner;
+
+    vScore := vScore + 1;
+
+    UPDATE ArenaMembers SET score = vScore WHERE name = vWinner;
+END
+$$;
+
+CREATE TRIGGER UpdateArenaScore
+BEFORE INSERT ON Duels
+FOR EACH ROW EXECUTE PROCEDURE updateArenaScore();
