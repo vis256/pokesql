@@ -21,3 +21,21 @@ $$;
 CREATE TRIGGER UpdateArenaLeader
 AFTER INSERT ON Duels
 FOR EACH ROW EXECUTE PROCEDURE updateArenaLeader();
+
+CREATE PROCEDURE addRegionArena(
+    pRegionName Regions.name%TYPE,
+    pRegionType Regions.type%TYPE,
+    pArenaName Arenas.name%TYPE
+) LANGUAGE PLPGSQL AS $$
+BEGIN
+    ALTER TABLE Arenas DISABLE TRIGGER ALL;
+
+    INSERT INTO Arenas (name, region)
+    VALUES (pArenaName, pRegionName);
+
+    ALTER TABLE Arenas ENABLE TRIGGER ALL;
+
+    INSERT INTO Regions (name, type, arena)
+    VALUES(pRegionName, pRegionType, pArenaName);
+END;
+$$
