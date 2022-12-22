@@ -1,0 +1,31 @@
+<img class="background" src="/assets/backgrounds/city.webp">
+
+<div class="main-container">
+  <div class="main">
+    <h1 class="title">{{formData.number == -1 ? 'Dodaj nowego Pokemona' : 'Edytuj dane Pokemona'}}</h1>
+    <div class="form-container">
+      <dx-form
+        id="newPokedexEntryForm"
+        [colCount]="2"
+        [formData]="formData"
+        style="width: 30rem;"
+      >
+        <dxi-item
+          [colSpan]="2"
+        >
+          <dx-select-box [dataSource]="currentPokedexList" valueExpr="number" displayExpr="name" [(value)]="formData.number" label="Gatunek Pokemona" (onValueChanged)="getPokedexData(formData.number)"></dx-select-box>
+        </dxi-item>
+
+        <img [src]="'/assets/sprites/pokemon/' + currentPokedexData.number + '.png'">
+
+
+        <dxi-item
+          [colSpan]="2"
+        >
+          <dx-button style="width: 100%;" [text]="formData.number == -1 ? 'Dodaj nowego Pokemona' : 'Edytuj Pokemona'" (click)="submit($event)"></dx-button>
+        </dxi-item>
+      </dx-form>
+    </div>
+  </div>
+</div>
+
