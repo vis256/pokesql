@@ -15,13 +15,13 @@ export class NewPokedexEntryFormComponent implements OnInit {
   ) { }
 
   formData : Pokedex = {
-    ID: -1,
-    Name: "",
-    Types: ["", null],
-    MinimalLevel: 0,
-    Region: "",
-    Pokeball: "",
-    Attacks: [],
+    number: -1,
+    name: "",
+    min_level: 0,
+    region: "",
+    pokeball: "",
+    primary_type: "",
+    secondary_type: ""
   }
 
   ngOnInit(): void {
@@ -30,8 +30,8 @@ export class NewPokedexEntryFormComponent implements OnInit {
       if (data.params.pokedexid) {
         const pokedexid = parseInt(data.params.pokedexid);
         // TODO: fetch data to prefill form
-        this.formData.ID = pokedexid;
-        this.formData.Name = 'CHUJ';
+        this.formData.number = pokedexid;
+        this.formData.name = 'CHUJ';
       }
     })
   }
