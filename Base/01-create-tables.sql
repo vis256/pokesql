@@ -100,3 +100,9 @@ CREATE TABLE AttacksPokemons(
     attack VARCHAR(32) NOT NULL REFERENCES Attacks(name),
     PRIMARY KEY(attack, pokemon_id)
 );
+
+CREATE TABLE PokeballsPokedex(
+    pokeball VARCHAR(32) NOT NULL REFERENCES Pokeballs(name),
+    pokedex INTEGER NOT NULL REFERENCES Pokedex(number),
+    PRIMARY KEY(pokeball, pokedex)
+);
