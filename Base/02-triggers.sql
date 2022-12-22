@@ -68,3 +68,49 @@ $$;
 CREATE TRIGGER UpdateArenaScore
 BEFORE INSERT ON Duels
 FOR EACH ROW EXECUTE PROCEDURE updateArenaScore();
+
+CREATE FUNCTION defaultPokemonName() RETURNS TRIGGER LANGUAGE PLPGSQL
+AS $$
+DECLARE
+    vPokedexName Pokedex.name%TYPE;
+BEGIN
+    IF NEW.name == NULL THEN
+        SELECT name
+        INTO vPokedexName
+        FROM Pokedex
+        WHERE number == NEW.pokedex_num;
+
+        NEW.name = vPokedexName;
+    END IF;
+
+    RETURN NEW;
+END
+$$;
+
+CREATE TRIGGER verifyPokemonLevel() RETURNS TRIGGER LANGUAGE PLPGSQL
+AS $$
+DECLARE
+    vMinLevel Pokedex.min_level%TYPE;
+BEGIN
+    SELECT min_level
+    INTO vMinLevel
+    FROM Pokedex
+    WHERE number == NEW.pokedex_num;
+
+    IF NEW.level == NULL THEN
+        NEW.level = vMinLevel;
+    END IF;
+
+    IF NEW.level < vMinLevel THEN
+        RAISE EXCEPTION 'Invalid Pokemon level';
+    END IF;
+END
+$$;
+
+CREATE TRIGGER VerifyPokemonLevel
+BEFORE INSERT ON Pokemons
+FOR EACH ROW EXECUTE PROCEDURE verifyPokemonLevel();
+
+CREATE TRIGGER DefaultPokemonName
+BEFORE INSERT ON Pokemons
+FOR EACH ROW EXECUTE PROCEDURE defaultPokemonName();
