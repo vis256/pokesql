@@ -19,67 +19,41 @@
         <div class="info-container">
           <div class="entry">
             <div class="label">Nazwa gatunku</div>
-            <div class="value">Bulbasaur</div>
+            <div class="value">{{pokedexData.name}}</div>
           </div>
 
           <div class="entry">
             <div class="label">Numer</div>
-            <div class="value">121</div>
+            <div class="value">{{pokedexData.number}}</div>
           </div>
 
           <div class="entry">
             <div class="label">Typy</div>
             <div class="value">
               <div style="display: flex; flex-direction: row">
-                <app-type-label [type]="'Grass'"></app-type-label>
-                <app-type-label [type]="'Fire'"></app-type-label>
+                <app-type-label [type]="pokedexData.primary_type"></app-type-label>
+                <app-type-label *ngIf="pokedexData.secondary_type" [type]="pokedexData.secondary_type"></app-type-label>
               </div>
             </div>
           </div>
 
           <div class="entry">
             <div class="label">Region występowania</div>
-            <app-region-label [region]="'Unova'"></app-region-label>
+            <app-region-label [region]="pokedexData.region"></app-region-label>
           </div>
 
           <div class="entry">
             <div class="label">Ataki</div>
             <div class="value">
               <ul>
-                <li>Leaf Blade</li>
-                <li>Ember</li>
-                <li>Ember</li>
-                <li>Ember</li>
-                <li>Ember</li>
-                <li>Ember</li>
-                <li>Ember</li>
-                <li>Ember</li>
-                <li>Ember</li>
-                <li>Ember</li>
-                <li>Ember</li>
-                <li>Ember</li>
-                <li>Ember</li>
-                <li>Ember</li>
-                <li>Ember</li>
-                <li>Ember</li>
-                <li>Ember</li>
-                <li>Ember</li>
-                <li>Ember</li>
-                <li>Ember</li>
-                <li>Ember</li>
-                <li>Ember</li>
-                <li>Ember</li>
-                <li>Ember</li>
-                <li>Ember</li>
-                <li>Ember</li>
-                <li>Ember</li>
+                <li *ngFor="let attack of pokedexData.Attacks">{{attack}}</li>
               </ul>
             </div>
           </div>
 
         </div>
 
-        <img [src]="'/assets/sprites/pokemon/' + pokedexId + '.png'">
+        <img *ngIf="pokedexId !== -1" [src]="'/assets/sprites/pokemon/' + pokedexId + '.png'">
       </div>
     </dx-scroll-view>
   </div>
