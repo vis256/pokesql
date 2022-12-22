@@ -191,3 +191,22 @@ $$;
 CREATE TRIGGER b_VerifyDuelPokemons
 BEFORE INSERT ON Duels
 FOR EACH ROW EXECUTE PROCEDURE verifyDuelPokemons();
+
+CREATE FUNCTION verifyPokeball() RETURNS TRIGGER LANGUAGE PLPGSQL
+AS $$
+BEGIN
+    SELECT *
+    FROM PokeballsPokedex
+    WHERE pokeball == NEW.pokeball AND pokedex == NEW.pokedex_num;
+
+    IF NOT FOUND THEN
+        RAISE EXCEPTION 'This pokemon cannot be caught in this pokeball';
+    END IF;
+
+    RETURN NEW;
+END
+$$;
+
+CREATE TRIGGER VerifyPokeball
+BEFORE INSERT ON Pokemons
+FOR EACH ROW EXECUTE PROCEDURE verifyPokeball();
