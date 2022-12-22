@@ -1,30 +1,34 @@
 import { Component, OnInit } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {ActivatedRoute} from "@angular/router";
-import {Pokedex} from "../shared/models/Pokedex";
 import {PokedexService} from "../shared/services/pokedex.service";
+import {Pokedex} from "../shared/models/Pokedex";
+import {Pokemon} from "../shared/models/Pokemon";
 
 @Component({
-  selector: 'app-new-pokedex-entry-form',
-  templateUrl: './new-pokedex-entry-form.component.html',
-  styleUrls: ['./new-pokedex-entry-form.component.scss']
+  selector: 'app-new-pokemon-entry-form',
+  templateUrl: './new-pokemon-entry-form.component.html',
+  styleUrls: ['./new-pokemon-entry-form.component.scss']
 })
-export class NewPokedexEntryFormComponent implements OnInit {
+export class NewPokemonEntryFormComponent implements OnInit {
   constructor(
     private http: HttpClient,
     private route : ActivatedRoute,
     private pokedex : PokedexService
   ) { }
 
-  formData : Pokedex = {
+  formData : Pokemon = {
     number: -1,
-    name: "",
-    min_level: 0,
-    region: "",
-    pokeball: "Great Ball",
-    primary_type: "",
-    secondary_type: ""
+    ID : 123,
+    name : 'CHUJ'
+
   }
+
+  currentPokedexData : Pokedex = {
+    min_level: 0, name: "", number: 0, primary_type: "", region: ""
+  }
+
+  currentPokedexList : Array<Pokedex> = [];
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((data : any) => {
@@ -33,11 +37,20 @@ export class NewPokedexEntryFormComponent implements OnInit {
         const pokedexid = parseInt(data.params.pokedexid);
 
         this.pokedex.getPokedexEntry(pokedexid!).subscribe((data : any) => {
-          this.formData = data;
-          this.formData.pokeball = 'Great Ball'
+          // this.formData = data;
         });
       }
+    });
+
+    this.pokedex.getPokedexList().subscribe((data : any) => {
+      this.currentPokedexList = data;
     })
+  }
+
+  getPokedexData(number : number) {
+    this.pokedex.getPokedexEntry(number).subscribe((data : any) => {
+      this.currentPokedexData = data;
+    });
   }
 
   submit($event: any) {
