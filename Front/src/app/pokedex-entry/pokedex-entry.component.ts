@@ -19,7 +19,16 @@ export class PokedexEntryComponent implements OnInit {
 
   pokedexId : number | null = null;
 
-  pokedexData? : Pokedex;
+  pokedexData : Pokedex = {
+    Attacks: [],
+    min_level: 0,
+    name: "",
+    number: 0,
+    pokeball: "",
+    primary_type: "",
+    region: "",
+    secondary_type: ""
+  };
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((data : any) => {
@@ -29,7 +38,6 @@ export class PokedexEntryComponent implements OnInit {
     // fetch data from backend
     this.pokedex.getPokedexEntry(this.pokedexId!).subscribe((data : any) => {
       this.pokedexData = data;
-      console.log({pk: this.pokedexData})
     });
   }
 

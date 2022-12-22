@@ -32,9 +32,9 @@ export class TypeLabelComponent implements OnInit {
   @Input()
   type : string = "none";
 
-  color : string = "#ffffff";
+  colors = colors;
+
   ngOnInit(): void {
-    this.color = colors[this.type];
   }
 
 }
