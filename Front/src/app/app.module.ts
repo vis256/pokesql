@@ -12,7 +12,7 @@ import {DxFormModule} from "devextreme-angular/ui/form";
 import {
   DxCheckBoxModule,
   DxDataGridModule,
-  DxNumberBoxModule,
+  DxNumberBoxModule, DxPopupModule,
   DxSelectBoxModule,
   DxTextBoxModule, DxTileViewModule
 } from "devextreme-angular";
@@ -28,6 +28,8 @@ import { PokedexComponent } from './pokedex/pokedex.component';
 import { TypesListComponent } from './types-list/types-list.component';
 import { RegionLabelComponent } from './shared/components/region-label/region-label.component';
 import { NewPokemonEntryFormComponent } from './new-pokemon-entry-form/new-pokemon-entry-form.component';
+import { PokeballListComponent } from './pokeball-list/pokeball-list.component';
+
 
 @NgModule({
   declarations: [
@@ -42,6 +44,8 @@ import { NewPokemonEntryFormComponent } from './new-pokemon-entry-form/new-pokem
     TypesListComponent,
     RegionLabelComponent,
     NewPokemonEntryFormComponent,
+    PokeballListComponent,
+    TypesListComponent,
   ],
   imports: [
     BrowserModule,
@@ -64,7 +68,8 @@ import { NewPokemonEntryFormComponent } from './new-pokemon-entry-form/new-pokem
     DxListModule,
     DxDataGridModule,
     DxScrollViewModule,
-    DxTileViewModule
+    DxTileViewModule,
+    DxPopupModule
   ],
   providers: [
     AuthService,

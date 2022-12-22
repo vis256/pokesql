@@ -15,6 +15,8 @@ import {DxScrollViewModule} from "devextreme-angular/ui/scroll-view";
 import {PokedexComponent} from "./pokedex/pokedex.component";
 import {DxListModule} from "devextreme-angular/ui/list";
 import {NewPokemonEntryFormComponent} from "./new-pokemon-entry-form/new-pokemon-entry-form.component";
+import {PokeballListComponent} from "./pokeball-list/pokeball-list.component";
+import {TypesListComponent} from "./types-list/types-list.component";
 
 const routes: Routes = [
   {
@@ -90,6 +92,16 @@ const routes: Routes = [
   {
     path : 'mypokemon/new',
     component : NewPokemonEntryFormComponent,
+    canActivate : [ AuthGuardService ]
+  },
+  {
+    path : 'pokedex/pokeball/list',
+    component : PokeballListComponent,
+    canActivate : [ AuthGuardService ]
+  },
+  {
+    path : 'pokedex/types/list',
+    component : TypesListComponent,
     canActivate : [ AuthGuardService ]
   },
   {

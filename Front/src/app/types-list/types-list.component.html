@@ -1,1 +1,31 @@
-<p>types-list works!</p>
+<img class="background" src="../../assets/backgrounds/city.webp">
+
+<div class="main-container">
+  <div class="main">
+    <h1 class="title">Typy</h1>
+
+    <dx-scroll-view>
+      <dx-list
+        [items]="types"
+        itemTemplate="item"
+        (onItemClick)="click($event)"
+      >
+        <div *dxTemplate="let item of 'item'" [style]="{
+          backgroundColor: colors[item]
+        }">
+          {{item}}
+        </div>
+      </dx-list>
+    </dx-scroll-view>
+  </div>
+</div>
+
+<dx-popup
+  [(visible)]="popupVisible"
+  [closeOnOutsideClick]="true"
+  [title]="currentType"
+  >
+  <dx-button text="Znajdź Pokemony tego typu"></dx-button>
+  <dx-button text="Idź do regionu tego typu"></dx-button>
+  <dx-button text="Idź do areny tego typu"></dx-button>
+</dx-popup>

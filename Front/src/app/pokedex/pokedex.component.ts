@@ -22,12 +22,12 @@ export class PokedexComponent implements OnInit {
     {
       text : 'Rodzaje Pokeballi',
       background : "../assets/backgrounds/pokeballs.jpg",
-      route : 'pokedex/balls'
+      route : 'pokedex/pokeball/list'
     },
     {
       text : 'Typy',
       background : "../assets/backgrounds/types.jpg",
-      route : 'pokedex/types'
+      route : 'pokedex/types/list'
     },
     {
       text : 'Test',
