@@ -65,7 +65,7 @@ BEGIN
 END
 $$;
 
-CREATE TRIGGER UpdateArenaScore
+CREATE TRIGGER c_UpdateArenaScore
 BEFORE INSERT ON Duels
 FOR EACH ROW EXECUTE PROCEDURE updateArenaScore();
 
@@ -114,3 +114,80 @@ FOR EACH ROW EXECUTE PROCEDURE verifyPokemonLevel();
 CREATE TRIGGER DefaultPokemonName
 BEFORE INSERT ON Pokemons
 FOR EACH ROW EXECUTE PROCEDURE defaultPokemonName();
+
+CREATE FUNCTION verifyDuelTrainers() RETURNS TRIGGER LANGUAGE PLPGSQL
+AS $$
+DECLARE
+    vArenaMemberArena Arenas.name%TYPE;
+BEGIN
+    SELECT arena
+    INTO vArenaMemberArena
+    FROM ArenaMembers
+    WHERE id == NEW.user1;
+
+    IF vArenaMemberArena != NEW.arena THEN
+        RAISE EXCEPTION 'User1 in a member of a wrong arena';
+    END IF;
+
+    SELECT arena
+    INTO vArenaMemberArena
+    FROM ArenaMembers
+    WHERE id == NEW.user2;
+
+    IF vArenaMemberArena != NEW.arena THEN
+        RAISE EXCEPTION 'User2 in a member of a wrong arena';
+    END IF;
+
+    RETURN NEW;
+END
+$$;
+
+CREATE TRIGGER a_VerifyDuelTrainers
+BEFORE INSERT ON Duels
+FOR EACH ROW EXECUTE PROCEDURE verifyDuelTrainers();
+
+CREATE FUNCTION verifyDuelPokemons() RETURNS TRIGGER LANGUAGE PLPGSQL
+AS $$
+DECLARE
+    vUserLogin1 Users.login%TYPE;
+    vUserLogin2 Users.login%TYPE;
+BEGIN
+    SELECT owner
+    INTO vUserLogin1
+    FROM Pokemons
+    WHERE id = NEW.pokemon1;
+    
+    SELECT usr
+    INTO vUserLogin2
+    FROM ArenaMembers
+    WHERE id == NEW.user1;
+
+    IF vUserLogin1 != vUserLogin2 THEN
+        RAISE EXCEPTION 'Pokemon1 does not belong to User1';
+    END IF;
+
+    SELECT usr
+    INTO vUserLogin1
+    FROM ArenaMembers
+    WHERE id == NEW.user2;
+    
+    IF vUserLogin2 == vUserLogin2 THEN
+        RAISE EXCEPTION 'Trainer cannot duel himself';
+    END IF;
+
+    SELECT owner
+    INTO vUserLogin2
+    FROM Pokemons
+    WHERE id = NEW.pokemon2;
+
+    IF vUserLogin1 != vUserLogin2 THEN
+        RAISE EXCEPTION 'Pokemon2 does not belong to User2';
+    END IF;
+
+    RETURN NEW;
+END
+$$;
+
+CREATE TRIGGER b_VerifyDuelPokemons
+BEFORE INSERT ON Duels
+FOR EACH ROW EXECUTE PROCEDURE verifyDuelPokemons();
