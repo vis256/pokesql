@@ -210,3 +210,28 @@ $$;
 CREATE TRIGGER VerifyPokeball
 BEFORE INSERT ON Pokemons
 FOR EACH ROW EXECUTE PROCEDURE verifyPokeball();
+
+CREATE FUNCTION verifyPokemonAttacks() RETURNS TRIGGER LANGUAGE PLPGSQL
+AS $$
+DECLARE
+    vPokedexNum Pokedex.number%TYPE;
+BEGIN
+    SELECT pokedex_num
+    FROM Pokemons
+    WHERE id == NEW.pokemon_id;
+
+    SELECT *
+    FROM AttacksPokedex
+    WHERE attack = NEW.attack AND pokedex_num == vPokedexNum;
+
+    IF NOT FOUND THEN
+        RAISE EXCEPTION 'This pokemon is incapable of learning this attack';
+    END IF;
+
+    RETURN NEW;
+END
+$$;
+
+CREATE TRIGGER VerifyPokemonAttack
+BEFORE INSERT ON AttaksPokemons
+FOR EACH ROW EXECUTE PROCEDURE verifyPokemonAttacks();
