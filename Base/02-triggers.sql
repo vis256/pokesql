@@ -11,7 +11,7 @@ BEGIN
     FROM ArenaMembers WHERE id = vLeaderIdOld;
 
     IF vLeaderScoreOld == NULL OR vLeaderScoreOld < NEW.score THEN
-        UPDATE Arenas SET leader = NEW.id WHERE name == NEW.name;
+        UPDATE Arenas SET leader = NEW.id WHERE name == NEW.arena;
     END IF;
 
     RETURN NEW;
@@ -37,14 +37,14 @@ BEGIN
 
     INSERT INTO Regions (name, type, arena)
     VALUES(pRegionName, pRegionType, pArenaName);
-END;
-$$
+END
+$$;
 
-CREATE FUNCTIONS updateArenaScore() RETURNS TRIGGER LANGUAGE PLPGSQL
+CREATE FUNCTION updateArenaScore() RETURNS TRIGGER LANGUAGE PLPGSQL
 AS $$
 DECLARE
     vScore ArenaMembers.score%TYPE;
-    vWinner ArenaMembers.name%TYPE;
+    vWinner ArenaMembers.id%TYPE;
 BEGIN
     IF NEW.winner THEN
         vWinner = NEW.user1;
@@ -55,11 +55,13 @@ BEGIN
     SELECT score
     INTO vScore
     FROM ArenaMembers
-    WHERE name == NEW.arena AND usr == vWinner;
+    WHERE name == NEW.arena AND id == vWinner;
 
     vScore := vScore + 1;
 
     UPDATE ArenaMembers SET score = vScore WHERE name = vWinner;
+    
+    RETURN NEW;
 END
 $$;
 

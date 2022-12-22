@@ -44,7 +44,7 @@ CREATE TABLE Pokeballs(
 );
 
 CREATE TABLE Pokedex(
-    number SERIAL PRIMARY KEY,
+    number INTEGER PRIMARY KEY,
     name VARCHAR(32) NOT NULL UNIQUE,
     min_level SMALLINT NOT NULL DEFAULT 1 CHECK (min_level >= 0 AND min_level <= 100),
 
