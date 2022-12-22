@@ -3,9 +3,10 @@
 <div class="main-container">
   <div class="main">
     <dx-scroll-view>
-      <h1 class="title">Moje Pokemony</h1>
-
-      <dx-button text="Dodaj nowego Pokemona" style="margin-bottom: .5rem;"></dx-button>
+      <h1 class="title">
+        Moje Pokemony
+        <dx-button class="modify-button" text="Dodaj nowego Pokemona" icon="add" (click)="router.navigate(['/mypokemon/new'])"></dx-button>
+      </h1>
 
       <dx-list
         [dataSource]="pokemonList"
