@@ -1,9 +1,10 @@
 export interface Pokedex {
-  ID : number;
-  Name : string;
-  MinimalLevel : number;
-  Region : string;
-  Pokeball : string;
-  Types : [string, string | null];
-  Attacks : string[];
+  number : number;
+  name : string;
+  min_level : number;
+  region : string;
+  pokeball? : string;
+  primary_type : string;
+  secondary_type? : string;
+  Attacks? : string[];
 }
