@@ -10,7 +10,7 @@ BEGIN
     SELECT score INTO vLeaderScoreOld
     FROM ArenaMembers WHERE id = vLeaderIdOld;
 
-    IF vLeaderScoreOld == NULL OR vLeaderScoreOld < NEW.score THEN
+    IF vLeaderScoreOld IS NULL OR vLeaderScoreOld < NEW.score THEN
         UPDATE Arenas SET leader = NEW.id WHERE name == NEW.arena;
     END IF;
 
@@ -74,7 +74,7 @@ AS $$
 DECLARE
     vPokedexName Pokedex.name%TYPE;
 BEGIN
-    IF NEW.name == NULL THEN
+    IF NEW.name IS NULL THEN
         SELECT name
         INTO vPokedexName
         FROM Pokedex
@@ -97,7 +97,7 @@ BEGIN
     FROM Pokedex
     WHERE number == NEW.pokedex_num;
 
-    IF NEW.level == NULL THEN
+    IF NEW.level IS NULL THEN
         NEW.level = vMinLevel;
     END IF;
 
