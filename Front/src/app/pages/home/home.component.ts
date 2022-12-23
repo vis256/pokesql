@@ -21,9 +21,9 @@ export class HomeComponent {
       route : 'mypokemon'
     },
     {
-      text : 'Dodaj nowego Pokemona',
-      background : "../assets/backgrounds/town.webp",
-      route : 'mypokemon'
+      text : 'Moja Arena',
+      background : "../assets/backgrounds/arena.jpg",
+      route : '/myarena'
     },
     {
       text : 'Laboratorium',

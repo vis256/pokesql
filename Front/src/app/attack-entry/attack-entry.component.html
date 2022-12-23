@@ -1,0 +1,52 @@
+<img class="background" src="/assets/backgrounds/lab.jpg">
+
+<div class="main-container">
+  <div class="main">
+    <dx-scroll-view>
+      <h1 class="title">
+        Atak - {{ attackData?.name }}
+        <dx-button
+          *ngIf="user.isProfessor()"
+          (click)="router.navigate(['/pokedex/attack/edit' + attackName])"
+          class="modify-button"
+          text="Zmodyfikuj"
+          icon="edit"
+        >
+        </dx-button>
+      </h1>
+
+      <div class="content">
+        <div class="info-container">
+          <div class="entry">
+            <div class="label">Nazwa ataku</div>
+            <div class="value">{{attackData?.name}}</div>
+          </div>
+
+          <div class="entry">
+            <div class="label">Moc ataku</div>
+            <div class="value">{{attackData?.power}}</div>
+          </div>
+
+          <div class="entry">
+            <div class="label">Typ ataku</div>
+            <div class="value">
+              <app-type-label [type]="attackData!.type"></app-type-label>
+            </div>
+          </div>
+
+          <div class="entry">
+            <div class="label">Szansa trafienia</div>
+            <div class="value">{{attackData!.hit_chance * 100}}%</div>
+          </div>
+
+          <div class="entry" style="display: flex; flex-direction: column">
+            <dx-button text="Znajdź gatunki Pokemonów, które mogą się nauczyć tego ataku"></dx-button>
+            <dx-button text="Pokaż moje Pokemony, które znają ten atak"></dx-button>
+          </div>
+        </div>
+      </div>
+    </dx-scroll-view>
+  </div>
+
+</div>
+

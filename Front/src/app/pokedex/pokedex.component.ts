@@ -30,74 +30,14 @@ export class PokedexComponent implements OnInit {
       route : 'pokedex/types/list'
     },
     {
-      text : 'Test',
-      background : "../assets/backgrounds/lab.jpg",
-      route : 'mypokemon'
+      text : 'Regiony',
+      background : "../assets/backgrounds/unova.jpeg",
+      route : 'pokedex/regions'
     },
     {
-      text : 'Test',
-      background : "../assets/backgrounds/lab.jpg",
-      route : 'mypokemon'
-    },
-    {
-      text : 'Test',
-      background : "../assets/backgrounds/lab.jpg",
-      route : 'mypokemon'
-    },
-    {
-      text : 'Test',
-      background : "../assets/backgrounds/lab.jpg",
-      route : 'mypokemon'
-    },
-    {
-      text : 'Test',
-      background : "../assets/backgrounds/lab.jpg",
-      route : 'mypokemon'
-    },
-    {
-      text : 'Test',
-      background : "../assets/backgrounds/lab.jpg",
-      route : 'mypokemon'
-    },
-    {
-      text : 'Test',
-      background : "../assets/backgrounds/lab.jpg",
-      route : 'mypokemon'
-    },
-    {
-      text : 'Test',
-      background : "../assets/backgrounds/lab.jpg",
-      route : 'mypokemon'
-    },
-    {
-      text : 'Test',
-      background : "../assets/backgrounds/lab.jpg",
-      route : 'mypokemon'
-    },
-    {
-      text : 'Test',
-      background : "../assets/backgrounds/lab.jpg",
-      route : 'mypokemon'
-    },
-    {
-      text : 'Test',
-      background : "../assets/backgrounds/lab.jpg",
-      route : 'mypokemon'
-    },
-    {
-      text : 'Test',
-      background : "../assets/backgrounds/lab.jpg",
-      route : 'mypokemon'
-    },
-    {
-      text : 'Test',
-      background : "../assets/backgrounds/lab.jpg",
-      route : 'mypokemon'
-    },
-    {
-      text : 'Test',
-      background : "../assets/backgrounds/lab.jpg",
-      route : 'mypokemon'
+      text : 'Areny',
+      background : "../assets/backgrounds/arena.jpg",
+      route : 'pokedex/regions'
     },
   ]
 

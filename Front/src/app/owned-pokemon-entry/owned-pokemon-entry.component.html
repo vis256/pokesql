@@ -46,7 +46,7 @@
             <div class="label">Poznane ataki</div>
             <div class="value">
               <ul>
-                <li *ngFor="let attack of pokedexData?.Attacks">{{attack}}</li>
+                <app-attack-label *ngFor="let attack of pokedexData?.Attacks" [name]="attack"></app-attack-label>
               </ul>
             </div>
           </div>

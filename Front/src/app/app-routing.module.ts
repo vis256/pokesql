@@ -18,6 +18,11 @@ import {NewPokemonEntryFormComponent} from "./new-pokemon-entry-form/new-pokemon
 import {PokeballListComponent} from "./pokeball-list/pokeball-list.component";
 import {TypesListComponent} from "./types-list/types-list.component";
 import {OwnedPokemonEntryComponent} from "./owned-pokemon-entry/owned-pokemon-entry.component";
+import {AttackListComponent} from "./attack-list/attack-list.component";
+import {AttackEntryComponent} from "./attack-entry/attack-entry.component";
+import {ArenaDashboardComponent} from "./arena-dashboard/arena-dashboard.component";
+import {ArenaListComponent} from "./arena-list/arena-list.component";
+import {ArenaEntryComponent} from "./arena-entry/arena-entry.component";
 
 const routes: Routes = [
   {
@@ -108,6 +113,31 @@ const routes: Routes = [
   {
     path : 'pokedex/types/list',
     component : TypesListComponent,
+    canActivate : [ AuthGuardService ]
+  },
+  {
+    path : 'pokedex/attacks/list',
+    component : AttackListComponent,
+    canActivate : [ AuthGuardService ]
+  },
+  {
+    path : 'pokedex/attacks/:attackName',
+    component : AttackEntryComponent,
+    canActivate : [ AuthGuardService ]
+  },
+  {
+    path : 'myarena',
+    component : ArenaDashboardComponent,
+    canActivate : [ AuthGuardService ]
+  },
+  {
+    path : 'arena/list',
+    component : ArenaListComponent,
+    canActivate : [ AuthGuardService ]
+  },
+  {
+    path : 'arena/:regionName',
+    component : ArenaEntryComponent,
     canActivate : [ AuthGuardService ]
   },
   {

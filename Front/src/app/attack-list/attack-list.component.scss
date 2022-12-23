@@ -1,0 +1,8 @@
+@import "../shared/shared";
+
+:host ::ng-deep .dx-list-item {
+  height: .8rem !important;
+  max-height: .8rem !important;
+  min-height: .8rem !important;
+  border-radius: 4px;
+}

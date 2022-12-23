@@ -1,0 +1,25 @@
+@import "../shared/shared";
+
+.content {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: center;
+
+  .info-container {
+    margin-top: 2rem;
+    .entry {
+      font-size: 1.2rem;
+
+      margin-bottom: 2rem;
+      .label {
+        font-weight: 600;
+        color: #fffa;
+        margin-bottom: .5rem;
+      }
+
+      .value {
+
+      }
+    }
+  }
+}

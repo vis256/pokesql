@@ -30,6 +30,11 @@ import { RegionLabelComponent } from './shared/components/region-label/region-la
 import { NewPokemonEntryFormComponent } from './new-pokemon-entry-form/new-pokemon-entry-form.component';
 import { PokeballListComponent } from './pokeball-list/pokeball-list.component';
 import { AttackLabelComponent } from './shared/components/attack-label/attack-label.component';
+import { AttackEntryComponent } from './attack-entry/attack-entry.component';
+import { AttackListComponent } from './attack-list/attack-list.component';
+import { ArenaListComponent } from './arena-list/arena-list.component';
+import { ArenaEntryComponent } from './arena-entry/arena-entry.component';
+import { ArenaDashboardComponent } from './arena-dashboard/arena-dashboard.component';
 
 
 @NgModule({
@@ -48,6 +53,11 @@ import { AttackLabelComponent } from './shared/components/attack-label/attack-la
     PokeballListComponent,
     TypesListComponent,
     AttackLabelComponent,
+    AttackEntryComponent,
+    AttackListComponent,
+    ArenaListComponent,
+    ArenaEntryComponent,
+    ArenaDashboardComponent,
   ],
   imports: [
     BrowserModule,
