@@ -17,6 +17,7 @@ import {DxListModule} from "devextreme-angular/ui/list";
 import {NewPokemonEntryFormComponent} from "./new-pokemon-entry-form/new-pokemon-entry-form.component";
 import {PokeballListComponent} from "./pokeball-list/pokeball-list.component";
 import {TypesListComponent} from "./types-list/types-list.component";
+import {OwnedPokemonEntryComponent} from "./owned-pokemon-entry/owned-pokemon-entry.component";
 
 const routes: Routes = [
   {
@@ -92,6 +93,11 @@ const routes: Routes = [
   {
     path : 'mypokemon/new',
     component : NewPokemonEntryFormComponent,
+    canActivate : [ AuthGuardService ]
+  },
+  {
+    path : 'mypokemon/entry/:pokemonID',
+    component : OwnedPokemonEntryComponent,
     canActivate : [ AuthGuardService ]
   },
   {

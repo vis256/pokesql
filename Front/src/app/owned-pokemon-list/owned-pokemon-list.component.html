@@ -17,13 +17,19 @@
         nextButtonText="Załaduj więcej"
       >
         <div *dxTemplate="let item of 'item'" style="display : flex; flex-direction: column">
-          <img [src]="'/assets/sprites/pokemon/' + item.ID + '.png'" >
+          <img [src]="'/assets/sprites/pokemon/' + item.number + '.png'" >
           <div style="display: flex;">
             <div style="color: #fff8; margin-right: .2rem"> {{item.ID}} </div>
-            {{item.name}}
+            <div *ngIf="item.name" style="font-style: italic">
+              {{item.name}}
+            </div>
+            <div *ngIf="!item.name && pokedexData !== undefined">
+              {{pokedexData[item.number].name}}
+            </div>
           </div>
-          <div style="display: flex; flex-direction: row">
-            <app-type-label *ngFor="let type of item.types" [type]="type"></app-type-label>
+          <div style="display: flex; flex-direction: row" *ngIf="pokedexData !== undefined">
+            <app-type-label [type]="pokedexData[item.number].primary_type"></app-type-label>
+            <app-type-label *ngIf="pokedexData[item.number].secondary_type" [type]="pokedexData[item.number].secondary_type!"></app-type-label>
           </div>
         </div>
       </dx-list>

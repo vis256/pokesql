@@ -1,1 +1,14 @@
 @import "../shared/shared";
+
+:host ::ng-deep .dx-list {
+  .dx-list-item {
+    border: 0 !important;
+    width: 20% !important;
+    min-height: 8rem !important;
+    height: 8rem !important;
+    max-height: 8rem !important;
+    overflow: hidden !important;
+    float: left !important;
+    margin: 0 !important;
+  }
+}

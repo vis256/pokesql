@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import { fromEvent, map } from 'rxjs';
+import {fromEvent, map, Observable} from 'rxjs';
+import {Pokedex} from "../models/Pokedex";
 
 @Injectable({
   providedIn: 'root'
@@ -10,11 +11,11 @@ export class PokedexService {
     private http : HttpClient
   ) { }
 
-  public getPokedexList() {
-    return this.http.get('/api/pokedex')
+  public getPokedexList() : Observable<Pokedex[]> {
+    return this.http.get('/api/pokedex') as Observable<Pokedex[]>
   }
 
-  public getPokedexEntry(number : number) {
-    return this.http.get('/api/pokedex/' + number);
+  public getPokedexEntry(number : number) : Observable<Pokedex> {
+    return this.http.get('/api/pokedex/' + number) as Observable<Pokedex>;
   }
 }

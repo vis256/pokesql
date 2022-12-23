@@ -29,6 +29,7 @@ import { TypesListComponent } from './types-list/types-list.component';
 import { RegionLabelComponent } from './shared/components/region-label/region-label.component';
 import { NewPokemonEntryFormComponent } from './new-pokemon-entry-form/new-pokemon-entry-form.component';
 import { PokeballListComponent } from './pokeball-list/pokeball-list.component';
+import { AttackLabelComponent } from './shared/components/attack-label/attack-label.component';
 
 
 @NgModule({
@@ -46,6 +47,7 @@ import { PokeballListComponent } from './pokeball-list/pokeball-list.component';
     NewPokemonEntryFormComponent,
     PokeballListComponent,
     TypesListComponent,
+    AttackLabelComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,33 @@
+@import "../shared/shared";
+
+.content {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-between;
+
+  img {
+    width: 12rem;
+    height: 12rem;
+    margin: 6rem;
+    margin-left: 15%;
+  }
+
+  .info-container {
+    margin-right: 15%;
+    margin-top: 2rem;
+    .entry {
+      font-size: 1.2rem;
+
+      margin-bottom: 2rem;
+      .label {
+        font-weight: 600;
+        color: #fffa;
+        margin-bottom: .5rem;
+      }
+
+      .value {
+
+      }
+    }
+  }
+}
