@@ -1,17 +1,29 @@
 CREATE FUNCTION updateArenaLeader() RETURNS TRIGGER LANGUAGE PLPGSQL
 AS $$
 DECLARE
-    vLeaderScoreOld ArenaMembers.score%TYPE;
+    vWinner ArenaMembers.id%TYPE;
+    vWinnerScore ArenaMembers.score%TYPE;
+
     vLeaderIdOld Arenas.leader%TYPE;
+	vLeaderScoreOld ArenaMembers.score%TYPE;
 BEGIN
-    SELECT id INTO vLeaderIdOld
-    FROM Arenas WHERE name = NEW.name;
+    IF NEW.winner THEN
+        vWinner = NEW.user1;
+    ELSE
+        vWinner = NEW.user2;
+    END IF;
+
+    SELECT score INTO vWinnerScore
+    FROM ArenaMembers WHERE id = vWinner;
+    
+    SELECT leader INTO vLeaderIdOld
+    FROM Arenas;
 
     SELECT score INTO vLeaderScoreOld
     FROM ArenaMembers WHERE id = vLeaderIdOld;
 
-    IF vLeaderScoreOld IS NULL OR vLeaderScoreOld < NEW.score THEN
-        UPDATE Arenas SET leader = NEW.id WHERE name == NEW.arena;
+    IF vLeaderScoreOld IS NULL OR vLeaderScoreOld < vWinnerScore THEN
+        UPDATE Arenas SET leader = vWinner WHERE name = NEW.arena;
     END IF;
 
     RETURN NEW;
@@ -55,11 +67,11 @@ BEGIN
     SELECT score
     INTO vScore
     FROM ArenaMembers
-    WHERE name == NEW.arena AND id == vWinner;
+    WHERE arena = NEW.arena AND id = vWinner;
 
     vScore := vScore + 1;
 
-    UPDATE ArenaMembers SET score = vScore WHERE name = vWinner;
+    UPDATE ArenaMembers SET score = vScore WHERE id = vWinner;
     
     RETURN NEW;
 END
@@ -78,7 +90,7 @@ BEGIN
         SELECT name
         INTO vPokedexName
         FROM Pokedex
-        WHERE number == NEW.pokedex_num;
+        WHERE number = NEW.pokedex_num;
 
         NEW.name = vPokedexName;
     END IF;
@@ -95,7 +107,7 @@ BEGIN
     SELECT min_level
     INTO vMinLevel
     FROM Pokedex
-    WHERE number == NEW.pokedex_num;
+    WHERE number = NEW.pokedex_num;
 
     IF NEW.level IS NULL THEN
         NEW.level = vMinLevel;
@@ -104,6 +116,8 @@ BEGIN
     IF NEW.level < vMinLevel THEN
         RAISE EXCEPTION 'Invalid Pokemon level';
     END IF;
+
+    RETURN NEW;
 END
 $$;
 
@@ -123,7 +137,7 @@ BEGIN
     SELECT arena
     INTO vArenaMemberArena
     FROM ArenaMembers
-    WHERE id == NEW.user1;
+    WHERE id = NEW.user1;
 
     IF vArenaMemberArena != NEW.arena THEN
         RAISE EXCEPTION 'User1 in a member of a wrong arena';
@@ -132,7 +146,7 @@ BEGIN
     SELECT arena
     INTO vArenaMemberArena
     FROM ArenaMembers
-    WHERE id == NEW.user2;
+    WHERE id = NEW.user2;
 
     IF vArenaMemberArena != NEW.arena THEN
         RAISE EXCEPTION 'User2 in a member of a wrong arena';
@@ -160,7 +174,7 @@ BEGIN
     SELECT usr
     INTO vUserLogin2
     FROM ArenaMembers
-    WHERE id == NEW.user1;
+    WHERE id = NEW.user1;
 
     IF vUserLogin1 != vUserLogin2 THEN
         RAISE EXCEPTION 'Pokemon1 does not belong to User1';
@@ -169,9 +183,9 @@ BEGIN
     SELECT usr
     INTO vUserLogin1
     FROM ArenaMembers
-    WHERE id == NEW.user2;
+    WHERE id = NEW.user2;
     
-    IF vUserLogin2 == vUserLogin2 THEN
+    IF vUserLogin1 = vUserLogin2 THEN
         RAISE EXCEPTION 'Trainer cannot duel himself';
     END IF;
 
@@ -195,9 +209,9 @@ FOR EACH ROW EXECUTE PROCEDURE verifyDuelPokemons();
 CREATE FUNCTION verifyPokeball() RETURNS TRIGGER LANGUAGE PLPGSQL
 AS $$
 BEGIN
-    SELECT *
+    PERFORM *
     FROM PokeballsPokedex
-    WHERE pokeball == NEW.pokeball AND pokedex == NEW.pokedex_num;
+    WHERE pokeball = NEW.pokeball AND pokedex = NEW.pokedex_num;
 
     IF NOT FOUND THEN
         RAISE EXCEPTION 'This pokemon cannot be caught in this pokeball';
@@ -217,12 +231,17 @@ DECLARE
     vPokedexNum Pokedex.number%TYPE;
 BEGIN
     SELECT pokedex_num
+    INTO vPokedexNum
     FROM Pokemons
-    WHERE id == NEW.pokemon_id;
+    WHERE id = NEW.pokemon_id;
 
-    SELECT *
+    IF NOT FOUND THEN
+        RAISE EXCEPTION 'This pokemon is incapable of learning this attack';
+    END IF;
+    
+    PERFORM *
     FROM AttacksPokedex
-    WHERE attack = NEW.attack AND pokedex_num == vPokedexNum;
+    WHERE attack = NEW.attack AND pokedex_num = vPokedexNum;
 
     IF NOT FOUND THEN
         RAISE EXCEPTION 'This pokemon is incapable of learning this attack';
@@ -233,5 +252,5 @@ END
 $$;
 
 CREATE TRIGGER VerifyPokemonAttack
-BEFORE INSERT ON AttaksPokemons
+BEFORE INSERT ON AttacksPokemons
 FOR EACH ROW EXECUTE PROCEDURE verifyPokemonAttacks();
