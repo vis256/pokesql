@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {Router} from "@angular/router";
+import {UserService} from "../shared/services";
 
 @Component({
   selector: 'app-pokeball-list',
@@ -9,7 +10,8 @@ import {Router} from "@angular/router";
 export class PokeballListComponent implements OnInit {
 
   constructor(
-    public router : Router
+    public router : Router,
+    public user : UserService
   ) { }
 
   ngOnInit(): void {

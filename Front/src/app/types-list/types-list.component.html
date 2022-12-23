@@ -2,9 +2,19 @@
 
 <div class="main-container">
   <div class="main">
-    <h1 class="title">Typy</h1>
-
     <dx-scroll-view>
+      <h1 class="title">
+        Typy
+        <dx-button
+          *ngIf="user.isProfessor()"
+          (click)="router.navigate(['/pokedex/new'])"
+          class="modify-button"
+          text="Dodaj nowy typ"
+          icon="add"
+        >
+        </dx-button>
+      </h1>
+
       <dx-list
         [items]="types"
         itemTemplate="item"
@@ -24,8 +34,14 @@
   [(visible)]="popupVisible"
   [closeOnOutsideClick]="true"
   [title]="currentType"
+  [width]="'20rem'"
+  [height]="'min-content'"
   >
-  <dx-button text="Znajdź Pokemony tego typu"></dx-button>
-  <dx-button text="Idź do regionu tego typu"></dx-button>
-  <dx-button text="Idź do areny tego typu"></dx-button>
+  <div
+    style="display: flex; align-items: center; justify-content: center; flex-direction: column"
+  >
+    <dx-button style="margin: 1rem" text="Znajdź Pokemony tego typu"></dx-button>
+    <dx-button style="margin: 1rem" text="Idź do regionu tego typu"></dx-button>
+    <dx-button style="margin: 1rem" text="Idź do areny tego typu"></dx-button>
+  </div>
 </dx-popup>

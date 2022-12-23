@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {UserService} from "../shared/services";
+import {Router} from "@angular/router";
 
 const colors : any = {
   Normal: '#A8A77A',
@@ -28,7 +30,10 @@ const colors : any = {
 })
 export class TypesListComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    public user : UserService,
+    public router : Router
+  ) { }
 
   types : Array<string> = [];
 
