@@ -2,15 +2,17 @@ use sqlx::{Pool, Postgres};
 
 use rocket::State;
 use rocket::form::Form;
-use rocket::response::status::BadRequest;
+use rocket::serde::json::Json;
 
 use super::User;
+
+use crate::response::{ErrInfo, Response};
 
 #[post("/register", data = "<form>")]
 pub async fn register(
     pool: &State<Pool<Postgres>>,
     form: Form<User>
-) -> Result<(), BadRequest<String>> {
+) -> Response<()> {
     let mut transaction = pool.begin().await.unwrap();
     match sqlx::query!(
         "INSERT INTO Users(login, password, username, is_professor)\
@@ -19,11 +21,12 @@ pub async fn register(
     ).execute(&mut transaction).await {
         Ok(_) => {
             transaction.commit().await.unwrap();
-            Ok(())
+            Response::Success(None)
         },
         Err(e) => {
             transaction.rollback().await.unwrap();
-            Err(BadRequest(Some(e.to_string())))
+            Response::BadRequest(
+                Some(Json(ErrInfo::from(e))))
         }
     }
 }
