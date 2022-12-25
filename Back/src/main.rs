@@ -3,6 +3,7 @@
 mod user;
 mod pokedex;
 mod pokemon;
+mod response;
 
 use user::{
     login,
