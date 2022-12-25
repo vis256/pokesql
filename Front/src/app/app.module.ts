@@ -35,6 +35,7 @@ import { AttackListComponent } from './attack-list/attack-list.component';
 import { ArenaListComponent } from './arena-list/arena-list.component';
 import { ArenaEntryComponent } from './arena-entry/arena-entry.component';
 import { ArenaDashboardComponent } from './arena-dashboard/arena-dashboard.component';
+import { FightEntryComponent } from './fight-entry/fight-entry.component';
 
 
 @NgModule({
@@ -58,6 +59,7 @@ import { ArenaDashboardComponent } from './arena-dashboard/arena-dashboard.compo
     ArenaListComponent,
     ArenaEntryComponent,
     ArenaDashboardComponent,
+    FightEntryComponent,
   ],
   imports: [
     BrowserModule,

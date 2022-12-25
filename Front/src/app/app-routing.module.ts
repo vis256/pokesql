@@ -23,6 +23,7 @@ import {AttackEntryComponent} from "./attack-entry/attack-entry.component";
 import {ArenaDashboardComponent} from "./arena-dashboard/arena-dashboard.component";
 import {ArenaListComponent} from "./arena-list/arena-list.component";
 import {ArenaEntryComponent} from "./arena-entry/arena-entry.component";
+import {FightEntryComponent} from "./fight-entry/fight-entry.component";
 
 const routes: Routes = [
   {
@@ -138,6 +139,11 @@ const routes: Routes = [
   {
     path : 'arena/:regionName',
     component : ArenaEntryComponent,
+    canActivate : [ AuthGuardService ]
+  },
+  {
+    path : 'fight/:id',
+    component : FightEntryComponent,
     canActivate : [ AuthGuardService ]
   },
   {

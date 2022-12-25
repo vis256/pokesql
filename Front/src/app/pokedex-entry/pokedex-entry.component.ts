@@ -38,6 +38,7 @@ export class PokedexEntryComponent implements OnInit {
     // fetch data from backend
     this.pokedex.getPokedexEntry(this.pokedexId!).subscribe((data : any) => {
       this.pokedexData = data;
+      this.pokedexData.Attacks = ['Aqua Tail', 'Quick Attack', 'Aqua Jet'];
     });
   }
 
