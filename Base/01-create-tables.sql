@@ -17,31 +17,36 @@ CREATE TABLE Types(
 
 CREATE TABLE Regions(
     name VARCHAR(32) NOT NULL PRIMARY KEY,
-    type VARCHAR(32) NOT NULL REFERENCES Types(name)
+    type VARCHAR(32) NOT NULL REFERENCES Types(name),
+    arena VARCHAR(32) NOT NULL UNIQUE
 );
 
 CREATE TABLE Arenas(
     name VARCHAR(32) NOT NULL PRIMARY KEY,
-    region VARCHAR(32) NOT NULL UNIQUE REFERENCES Regions(name)
+    region VARCHAR(32) NOT NULL UNIQUE REFERENCES Regions(name),
+    leader BIGINT UNIQUE
 );
 
 CREATE TABLE ArenaMembers(
+    id BIGSERIAL PRIMARY KEY,
     join_date DATE NOT NULL DEFAULT CURRENT_DATE,
-    usr VARCHAR(32) NOT NULL REFERENCES Users(username), -- FIXME: change to login
+    usr VARCHAR(32) NOT NULL REFERENCES Users(login),
     score INTEGER NOT NULL DEFAULT 0,
     arena VARCHAR(32) NOT NULL REFERENCES Arenas(name),
-    PRIMARY KEY(usr, arena)
+    UNIQUE(usr, arena)
 );
 
+ALTER TABLE Arenas ADD CONSTRAINT leaderfk FOREIGN KEY(leader) REFERENCES ArenaMembers(id);
+ALTER TABLE Regions ADD CONSTRAINT arenafk FOREIGN KEY(arena) REFERENCES Arenas(name);
+
 CREATE TABLE Pokeballs(
-    name VARCHAR(32) NOT NULL PRIMARY KEY,
-    power SMALLINT NOT NULL DEFAULT 1 -- FIXME: remove this
+    name VARCHAR(32) NOT NULL PRIMARY KEY
 );
 
 CREATE TABLE Pokedex(
-    number SERIAL PRIMARY KEY,
+    number INTEGER PRIMARY KEY,
     name VARCHAR(32) NOT NULL UNIQUE,
-    min_level SMALLINT NOT NULL DEFAULT 1,
+    min_level SMALLINT NOT NULL DEFAULT 1 CHECK (min_level >= 0 AND min_level <= 100),
 
     primary_type VARCHAR(32) NOT NULL REFERENCES Types(name),
     secondary_type VARCHAR(32) REFERENCES Types(name),
@@ -50,8 +55,9 @@ CREATE TABLE Pokedex(
 
 CREATE TABLE Pokemons(
     id BIGSERIAL PRIMARY KEY,
-    name VARCHAR(32) NOT NULL, -- TODO: Add a default value of a pokemon name in pokedex
-    level SMALLINT NOT NULL, -- TODO: Add a default value of the min level for that pokemon in pokedex
+    name VARCHAR(32) NOT NULL,
+    owner VARCHAR(32) NOT NULL REFERENCES Users(login),
+    level SMALLINT NOT NULL,
     sex BOOLEAN NOT NULL, -- 0 for male, 1 for female
 
     pokedex_num INTEGER NOT NULL REFERENCES Pokedex(number),
@@ -62,8 +68,8 @@ CREATE TABLE Duels(
     id BIGSERIAL PRIMARY KEY,
     duel_date DATE NOT NULL DEFAULT CURRENT_DATE,
     winner BOOLEAN NOT NULL,
-    user1 VARCHAR(32) NOT NULL REFERENCES Users(username), -- FIXME: Change to login
-    user2 VARCHAR(32) NOT NULL REFERENCES Users(username), -- ^
+    user1 BIGINT NOT NULL REFERENCES ArenaMembers(id),
+    user2 BIGINT NOT NULL REFERENCES ArenaMembers(id),
     pokemon1 BIGINT NOT NULL REFERENCES Pokemons(id),
     pokemon2 BIGINT NOT NULL REFERENCES Pokemons(id),
     arena VARCHAR(32) NOT NULL REFERENCES Arenas(name),
@@ -71,15 +77,16 @@ CREATE TABLE Duels(
 );
  
 CREATE TABLE Counters(
-    type1 VARCHAR(32) NOT NULL REFERENCES Types(name), -- maybe more verbose names, ie type & countered_type
-    type2 VARCHAR(32) NOT NULL REFERENCES Types(name),
-    PRIMARY KEY(type1, type2)
+    better_type VARCHAR(32) NOT NULL REFERENCES Types(name),
+    worse_type VARCHAR(32) NOT NULL REFERENCES Types(name),
+    PRIMARY KEY(better_type, worse_type)
 );
 
 CREATE TABLE Attacks(
     name VARCHAR(32) NOT NULL PRIMARY KEY,
-    power INTEGER NOT NULL, -- TODO: add power constraint: power >= 0
-    hit_chance NUMERIC CHECK (hit_chance > 0 AND hit_chance <= 1)
+    power INTEGER NOT NULL, CHECK (power >= 0),
+    hit_chance NUMERIC CHECK (hit_chance > 0 AND hit_chance <= 1),
+    type VARCHAR(32) NOT NULL REFERENCES Types(name)
 );
 
 CREATE TABLE AttacksPokedex(
@@ -92,4 +99,10 @@ CREATE TABLE AttacksPokemons(
     pokemon_id BIGINT NOT NULL REFERENCES Pokemons(id),
     attack VARCHAR(32) NOT NULL REFERENCES Attacks(name),
     PRIMARY KEY(attack, pokemon_id)
+);
+
+CREATE TABLE PokeballsPokedex(
+    pokeball VARCHAR(32) NOT NULL REFERENCES Pokeballs(name),
+    pokedex INTEGER NOT NULL REFERENCES Pokedex(number),
+    PRIMARY KEY(pokeball, pokedex)
 );

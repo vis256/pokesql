@@ -1,9 +1,9 @@
-INSERT INTO Regions(name, type) VALUES('Kanto', 'Grass');
-INSERT INTO Regions(name, type) VALUES('Johto', 'Fire');
-INSERT INTO Regions(name, type) VALUES('Hoenn', 'Ground');
-INSERT INTO Regions(name, type) VALUES('Sinnoh', 'Water');
-INSERT INTO Regions(name, type) VALUES('Unova', 'Normal');
-INSERT INTO Regions(name, type) VALUES('Kalos', 'Dragon');
-INSERT INTO Regions(name, type) VALUES('Alola', 'Flying');
-INSERT INTO Regions(name, type) VALUES('Galar', 'Ice');
-INSERT INTO Regions(name, type) VALUES('Paldea', 'Dark');
+CALL addRegionArena('Kanto', 'Grass', 'Kanto Gym');
+CALL addRegionArena('Johto', 'Fire', 'Johto Gym');
+CALL addRegionArena('Hoenn', 'Ground', 'Hoenn Arena');
+CALL addRegionArena('Sinnoh', 'Water', 'Sinnoh Gym');
+CALL addRegionArena('Unova', 'Normal', 'Unova Arena');
+CALL addRegionArena('Kalos', 'Dragon', 'Kalos Battlefield');
+CALL addRegionArena('Alola', 'Flying', 'Alola Gym');
+CALL addRegionArena('Galar', 'Ice', 'Galar Arena');
+CALL addRegionArena('Paldea', 'Dark', 'Paldea Colloseum');
