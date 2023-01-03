@@ -1,32 +1,32 @@
 use sqlx::{Pool, Postgres};
 
 use rocket::State;
-use rocket::form::Form;
-use rocket::response::status;
+use rocket::serde::json::Json;
 
 use super::User;
 
-#[post("/register", data = "<form>")]
+use crate::response::{ErrInfo, Response};
+
+#[post("/register", data = "<entry>")]
 pub async fn register(
     pool: &State<Pool<Postgres>>,
-    form: Form<User>
-) -> Result<String, status::NotFound<String>> {
-    if let Ok(mut transaction) = pool.begin().await {
-        match sqlx::query!(
-            "INSERT INTO Users(login, password, username, is_professor)\
-             VALUES ($1, $2, $3, $4)",
-            form.login, form.password, form.username, form.is_professor
-        ).execute(&mut transaction).await {
-            Ok(_) => {
-                transaction.commit().await.map_err(|s| status::NotFound(s.to_string()))?;
-                Ok("Ok".to_string())
-            },
-            Err(e) => {
-                transaction.rollback().await.map_err(|s| status::NotFound(s.to_string()))?;
-                Ok(e.to_string())
-            }
+    entry: Json<User>
+) -> Response<()> {
+    let mut transaction = pool.begin().await.unwrap();
+    let ent = entry.into_inner();
+    match sqlx::query!(
+        "INSERT INTO Users(login, password, username, is_professor)\
+         VALUES ($1, $2, $3, $4)",
+        ent.login, ent.password, ent.username, ent.is_professor
+    ).execute(&mut transaction).await {
+        Ok(_) => {
+            transaction.commit().await.unwrap();
+            Response::Success(None)
+        },
+        Err(e) => {
+            transaction.rollback().await.unwrap();
+            Response::BadRequest(
+                Some(Json(ErrInfo::from(e))))
         }
-    } else {
-        Ok(String::from("Could not create transaction"))
     }
 }
