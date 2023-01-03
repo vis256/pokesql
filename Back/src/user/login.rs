@@ -47,6 +47,6 @@ pub async fn login(
         Response::Success(
             Some(json!({ "token": String::from(signed_token) })))
     } else {
-        Response::Unauthorized(None)
+        Response::Unauthorized(())
     }
 }

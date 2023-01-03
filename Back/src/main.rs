@@ -4,6 +4,7 @@ mod user;
 mod pokedex;
 mod pokemon;
 mod response;
+mod pokeballs;
 
 use user::{
     login,
@@ -32,7 +33,10 @@ async fn main() -> anyhow::Result<()> {
                 pokedex::pokedex_id_get,
                 pokedex::pokedex_set,
                 pokemon::user_new_pokemon,
-                pokemon::user_pokemons_get
+                pokemon::user_pokemons_get,
+                pokeballs::get_pokeballs,
+                pokeballs::get_pokeball,
+                pokeballs::add_pokeball
             ])
         .mount("/api/login", routes![login::login])
         .manage(pool)
