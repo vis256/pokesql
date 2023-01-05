@@ -8,7 +8,8 @@ mod pokeballs;
 
 use user::{
     login,
-    register
+    register,
+    users
 };
 
 use std::env;
@@ -36,7 +37,9 @@ async fn main() -> anyhow::Result<()> {
                 pokemon::user_pokemons_get,
                 pokeballs::get_pokeballs,
                 pokeballs::get_pokeball,
-                pokeballs::add_pokeball
+                pokeballs::add_pokeball,
+                users::get_users,
+                users::get_user
             ])
         .mount("/api/login", routes![login::login])
         .manage(pool)

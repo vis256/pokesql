@@ -1,5 +1,6 @@
 pub mod login;
 pub mod register;
+pub mod users;
 
 use std::env;
 
@@ -18,6 +19,13 @@ use sha2::Sha256;
 pub struct User {
     login: String,
     password: String,
+    username: String,
+    is_professor: bool
+}
+
+#[derive(Serialize, Deserialize)]
+pub struct UserInfo {
+    login: String,
     username: String,
     is_professor: bool
 }
