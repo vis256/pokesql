@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 
 export interface User {
   name : string;
+  login : string;
   isProfessor : boolean;
 }
 
@@ -11,11 +12,11 @@ export interface User {
 export class UserService {
   constructor() { }
 
-  public user? : User = {name : 'Not loaded', isProfessor : true};
-
-  public setUserData(name : string, isProfessor : boolean) {
-    this.user = { name, isProfessor};
-  }
+  public user? : User = {
+    name : 'Not loaded',
+    login: 'Not loaded',
+    isProfessor : true
+  };
 
   public isProfessor() {
     return this.user!.isProfessor;

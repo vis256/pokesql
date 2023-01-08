@@ -7,7 +7,7 @@
         Moje Pokemony
         <dx-button class="modify-button" text="Dodaj nowego Pokemona" icon="add" (click)="router.navigate(['/mypokemon/new'])"></dx-button>
       </h1>
-
+      <!-- 
       <dx-list
         [dataSource]="pokemonList"
         (onItemClick)="itemClick($event)"
@@ -17,22 +17,61 @@
         nextButtonText="Załaduj więcej"
       >
         <div *dxTemplate="let item of 'item'" style="display : flex; flex-direction: column">
-          <img [src]="'/assets/sprites/pokemon/' + item.number + '.png'" >
+          <img [src]="'/assets/sprites/pokemon/' + item.pokedex_num + '.png'" >
           <div style="display: flex;">
-            <div style="color: #fff8; margin-right: .2rem"> {{item.ID}} </div>
+            <div style="color: #fff8; margin-right: .2rem"> {{item.id}} </div>
             <div *ngIf="item.name" style="font-style: italic">
               {{item.name}}
             </div>
             <div *ngIf="!item.name && pokedexData !== undefined">
-              {{pokedexData[item.number].name}}
+              {{pkdx(item.pokedex_num)!.name}}
             </div>
+            <app-sex-label [sex]="item.sex"></app-sex-label>
           </div>
           <div style="display: flex; flex-direction: row" *ngIf="pokedexData !== undefined">
-            <app-type-label [type]="pokedexData[item.number].primary_type"></app-type-label>
-            <app-type-label *ngIf="pokedexData[item.number].secondary_type" [type]="pokedexData[item.number].secondary_type!"></app-type-label>
+            <app-type-label [type]="pkdx(item.pokedex_num)!.primary_type"></app-type-label>
+            <app-type-label *ngIf="pkdx(item.pokedex_num)?.secondary_type" [type]="pkdx(item.pokedex_num)?.secondary_type!"></app-type-label>
           </div>
         </div>
       </dx-list>
+       -->
+
+      <dx-data-grid
+        [dataSource]="pokemonList"
+        [rowAlternationEnabled]="true"
+        [showBorders]="true"
+        [columnAutoWidth]="true"
+        >
+        <dxo-filter-row [visible]="true"></dxo-filter-row>
+
+        <dxi-column dataField="name" caption="Imie" dataType="string">
+        </dxi-column>
+
+        <dxi-column dataField="level" caption="Poziom" dataType="number">
+        </dxi-column>
+        
+        <dxi-column caption="Typ" dataField="types" dataType="string" cellTemplate="typeTemplate" >
+        </dxi-column>
+
+        <dxi-column dataField="sex" caption="Płeć" 
+          dataType="boolean" 
+          cellTemplate="sexTemplate" 
+          falseText="Mężczyzna"
+          trueText="Kobieta"
+          >
+        </dxi-column>
+
+        <dxi-column dataField="pokeball" caption="Pokeball" dataType="string">
+        </dxi-column>
+        
+        <div *dxTemplate="let s of 'sexTemplate'">
+          <app-sex-label [sex]="s.value"></app-sex-label>
+        </div>
+
+        <div *dxTemplate="let s of 'typeTemplate'" style="display: flex; flex-direction: row;">
+          <app-type-label *ngFor="let type of s.value" [type]="type"></app-type-label>
+        </div>
+      </dx-data-grid>
     </dx-scroll-view>
   </div>
 

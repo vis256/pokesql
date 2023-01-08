@@ -36,6 +36,7 @@ import { ArenaListComponent } from './arena-list/arena-list.component';
 import { ArenaEntryComponent } from './arena-entry/arena-entry.component';
 import { ArenaDashboardComponent } from './arena-dashboard/arena-dashboard.component';
 import { FightEntryComponent } from './fight-entry/fight-entry.component';
+import { SexLabelComponent } from './shared/components/sex-label/sex-label.component';
 
 
 @NgModule({
@@ -60,6 +61,7 @@ import { FightEntryComponent } from './fight-entry/fight-entry.component';
     ArenaEntryComponent,
     ArenaDashboardComponent,
     FightEntryComponent,
+    SexLabelComponent,
   ],
   imports: [
     BrowserModule,

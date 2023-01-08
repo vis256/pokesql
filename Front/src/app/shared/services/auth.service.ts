@@ -37,7 +37,11 @@ export class AuthService {
         this.token.setToken(resp.token);
         this.router.navigate(['/']);
 
-        this.user.setUserData("Ash Ketchup", true);
+        this.user.user = {
+          name : 'Ash Ketchup',
+          login: username,
+          isProfessor : true
+        }
         callback && callback({
           isOk : true,
           data : this.user.user

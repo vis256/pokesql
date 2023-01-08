@@ -18,10 +18,13 @@ export class NewPokemonEntryFormComponent implements OnInit {
   ) { }
 
   formData : Pokemon = {
-    number: -1,
-    ID : 123,
-    name : 'CHUJ'
-
+    id: -1,
+    name: '',
+    level: 0,
+    sex: false,
+    pokedex_num: -1,
+    pokeball: '',
+    owner: ''
   }
 
   currentPokedexData : Pokedex = {

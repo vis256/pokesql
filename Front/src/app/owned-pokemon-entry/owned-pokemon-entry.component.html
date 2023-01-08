@@ -18,13 +18,13 @@
       <div class="content">
         <div class="info-container">
           <div class="entry">
-            <div class="label">Nazwa gatunku</div>
-            <div class="value">{{pokedexData?.name}}</div>
+            <div class="label">Gatunek Pokémona</div>
+            <div class="value">{{pokemonData?.pokedex_num}} - {{pokedexData?.name}}</div>
           </div>
 
           <div class="entry">
-            <div class="label">Numer gatunku</div>
-            <div class="value">{{pokedexData?.number}}</div>
+            <div class="label">Poziom</div>
+            <div class="value">{{pokemonData?.level}}</div>
           </div>
 
           <div class="entry">
@@ -40,6 +40,10 @@
           <div class="entry">
             <div class="label">Region występowania</div>
             <app-region-label [region]="pokedexData!.region"></app-region-label>
+          </div>
+
+          <div class="entry">
+            <div class="label">Płeć - <app-sex-label [sex]="pokemonData?.sex!"></app-sex-label> </div>
           </div>
 
           <div class="entry">

@@ -2,7 +2,7 @@
 
 <div class="main-container">
   <div class="main">
-    <h1 class="title">{{formData.number == -1 ? 'Dodaj nowego Pokemona' : 'Edytuj dane Pokemona'}}</h1>
+    <h1 class="title">{{formData.id == -1 ? 'Dodaj nowego Pokemona' : 'Edytuj dane Pokemona'}}</h1>
     <div class="form-container">
       <dx-form
         id="newPokedexEntryForm"
@@ -13,16 +13,15 @@
         <dxi-item
           [colSpan]="2"
         >
-          <dx-select-box [dataSource]="currentPokedexList" valueExpr="number" displayExpr="name" [(value)]="formData.number" label="Gatunek Pokemona" (onValueChanged)="getPokedexData(formData.number)"></dx-select-box>
+          <dx-select-box [dataSource]="currentPokedexList" valueExpr="number" displayExpr="name" [(value)]="formData.pokedex_num" label="Gatunek Pokemona" (onValueChanged)="getPokedexData(formData.id)"></dx-select-box>
         </dxi-item>
 
-        <img [src]="'/assets/sprites/pokemon/' + currentPokedexData.number + '.png'">
-
+        <img [src]="'/assets/sprites/pokemon/' + formData.pokedex_num + '.png'">
 
         <dxi-item
           [colSpan]="2"
         >
-          <dx-button style="width: 100%;" [text]="formData.number == -1 ? 'Dodaj nowego Pokemona' : 'Edytuj Pokemona'" (click)="submit($event)"></dx-button>
+          <dx-button style="width: 100%;" [text]="formData.id == -1 ? 'Dodaj nowego Pokemona' : 'Edytuj Pokemona'" (click)="submit($event)"></dx-button>
         </dxi-item>
       </dx-form>
     </div>

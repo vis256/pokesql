@@ -23,7 +23,7 @@ export class HeaderComponent implements OnInit {
   @Input()
   title!: string;
 
-  user: User | undefined | null = { name : '', isProfessor: false };
+  user?: User;
 
   userMenuItems = [{
     text: 'Profile',
