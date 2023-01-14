@@ -31,8 +31,7 @@ pub async fn get_user(
                 Response::NotFound(
                     Some(Json(ErrInfo::from(e))))
             } else {
-                Response::BadRequest(
-                    Some(Json(ErrInfo::from(e))))
+                Response::NotFound(None)
             }
         }
     }
