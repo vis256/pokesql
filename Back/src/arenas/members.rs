@@ -7,21 +7,21 @@ use crate::response::Response;
 
 async fn get_one(pool: &Pool<Postgres>, id: i64) -> Result<ArenaMember, Error> {
     sqlx::query_as!(ArenaMember,
-        r#"SELECT id, join_date as "join_date?", usr, score as "score?", arena
+        r#"SELECT id as "id?", join_date as "join_date?", usr, score as "score?", arena
         FROM ArenaMembers WHERE id = $1"#, id
     ).fetch_one(pool).await
 }
 
 async fn get_all_user(pool: &Pool<Postgres>, usr: &str) -> Result<Vec<ArenaMember>, Error> {
     sqlx::query_as!(ArenaMember,
-        r#"SELECT id, join_date as "join_date?", usr, score as "score?", arena
+        r#"SELECT id as "id?", join_date as "join_date?", usr, score as "score?", arena
         FROM ArenaMembers WHERE usr = $1 ORDER BY score DESC"#, usr
     ).fetch_all(pool).await
 }
 
 async fn get_all_arena(pool: &Pool<Postgres>, arena: &str) -> Result<Vec<ArenaMember>, Error> {
     sqlx::query_as!(ArenaMember,
-        r#"SELECT id, join_date as "join_date?", usr, score as "score?", arena
+        r#"SELECT id as "id?", join_date as "join_date?", usr, score as "score?", arena
         FROM ArenaMembers WHERE usr = $1 ORDER BY score DESC"#, arena
     ).fetch_all(pool).await
 }

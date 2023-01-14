@@ -47,7 +47,8 @@ async fn main() -> anyhow::Result<()> {
                 arenas::regions::get_all_regions,
                 arenas::regions::get_region_name,
                 arenas::regions::get_arena_region,
-                arenas::get_all_arenas
+                arenas::get_all_arenas,
+                arenas::add_arena
             ])
         .mount("/api/login", routes![login::login])
         .manage(pool)

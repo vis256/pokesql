@@ -8,7 +8,18 @@ use rocket::State;
 use sqlx::types::chrono::NaiveDate;
 use sqlx::{Error, Postgres, Pool};
 
-#[derive(Serialize, Deserialize)]
+use crate::user::AuthStatus;
+use crate::response::{ErrInfo, Response};
+
+#[derive(Deserialize)]
+pub struct ArenaRegion {
+    region: String,
+    arena: String,
+    #[serde(alias = "type")]
+    type_: String,
+}
+
+#[derive(Serialize)]
 pub struct Arena {
     name: String,
     region: String,
@@ -17,7 +28,8 @@ pub struct Arena {
 
 #[derive(Serialize, Deserialize)]
 pub struct ArenaMember {
-    id: i64,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    id: Option<i64>,
     #[serde(skip_serializing_if = "Option::is_none")]
     join_date: Option<NaiveDate>,
     usr: String,
@@ -41,6 +53,18 @@ async fn get_one(
         .fetch_one(pool).await
 }
 
+async fn new_arena(
+    pool: &Pool<Postgres>,
+    ar: &ArenaRegion
+) -> Result<(), Error> {
+    let mut transaction = pool.begin().await?;
+    sqlx::query!(
+        "call AddRegionArena($1, $2, $3)",
+        ar.region, ar.type_, ar.arena
+    ).execute(&mut transaction).await?;
+    transaction.commit().await
+}
+
 #[get("/arenas")]
 pub async fn get_all_arenas(
     pool: &State<Pool<Postgres>>
@@ -51,3 +75,20 @@ pub async fn get_all_arenas(
     }
 }
 
+#[post("/arenas/new", data = "<ar>")]
+pub async fn add_arena(
+    pool: &State<Pool<Postgres>>,
+    auth: AuthStatus,
+    ar: Json<ArenaRegion>
+) -> Response<()> {
+    match auth {
+        AuthStatus::Professor(_) => {
+            if let Err(e) = new_arena(pool, &ar.into_inner()).await {
+                Response::BadRequest(Some(Json(ErrInfo::from(e))))
+            } else {
+                Response::Success(Some(()))
+            }
+        },
+        _ => Response::Unauthorized(())
+    }
+}
