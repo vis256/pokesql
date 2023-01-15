@@ -28,7 +28,7 @@ export class NewPokemonEntryFormComponent implements OnInit {
     name: '',
     level: 0,
     sex: false,
-    pokedex_num: -1,
+    pokedex_num: null,
     pokeball: '',
     owner: this.user.user?.login!
   }

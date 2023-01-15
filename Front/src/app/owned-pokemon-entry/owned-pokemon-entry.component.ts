@@ -35,7 +35,7 @@ export class OwnedPokemonEntryComponent implements OnInit {
     })
 
     // // fetch data from backend
-    this.pokedex.getPokedexEntry(this.pokemonData!.pokedex_num).subscribe((data : any) => {
+    this.pokedex.getPokedexEntry(this.pokemonData!.pokedex_num!).subscribe((data : any) => {
       this.pokedexData = data;
     });
   }

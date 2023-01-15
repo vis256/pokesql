@@ -4,7 +4,7 @@
   <div class="main">
     <h1 class="title">Dodaj nowego Pokemona</h1>
     <div class="form-container">
-      <div [style.visibility]="formData.pokedex_num !== -1 ? 'visible' : 'hidden'" style="display: flex; flex-direction: row; align-items: center;">
+      <div [style.visibility]="formData.pokedex_num ? 'visible' : 'hidden'" style="display: flex; flex-direction: row; align-items: center;">
         <img width="100" height="100" [src]="'/assets/sprites/pokemon/' + formData.pokedex_num + '.png'">
         <div style="display: flex; flex-direction: column; align-items: center;">
           <div [style.color]="formData.name ? '#fff' : '#fffa'" style="font-size: 2rem; display: flex; flex-direction: row;">
