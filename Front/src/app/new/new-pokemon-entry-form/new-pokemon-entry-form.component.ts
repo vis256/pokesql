@@ -78,7 +78,6 @@ export class NewPokemonEntryFormComponent implements OnInit {
   }
 
   pokedexDisplayExpr($event : any) {
-    console.log({$event});
     if ($event == null) return ''
 
     return `
@@ -93,6 +92,8 @@ export class NewPokemonEntryFormComponent implements OnInit {
   onFormSubmit($event: any) {
     console.log({$event});
     console.log({data: this.formData})
+
+    $event.preventDefault();
 
     this.http.post("http://localhost:5000/newPokedexEntry", this.formData, {}).subscribe(resp => {
       console.log({resp})

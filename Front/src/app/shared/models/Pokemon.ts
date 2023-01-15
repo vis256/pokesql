@@ -3,7 +3,7 @@ export interface Pokemon {
   name : string,
   level : number,
   sex : boolean,
-  pokedex_num : number,
+  pokedex_num : number | null,
   pokeball : string,
   owner : string
 }

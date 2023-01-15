@@ -3,6 +3,9 @@ import {HttpClient} from "@angular/common/http";
 import {ActivatedRoute} from "@angular/router";
 import {Pokedex} from "../../shared/models/Pokedex";
 import {PokedexService} from "../../shared/services/pokedex.service";
+import { Region } from 'src/app/shared/models/Region';
+import { ArenaService } from 'src/app/shared/services/arena.service';
+import { PokeballsService } from 'src/app/shared/services/pokeballs.service';
 
 @Component({
   selector: 'app-new-pokedex-entry-form',
@@ -13,35 +16,44 @@ export class NewPokedexEntryFormComponent implements OnInit {
   constructor(
     private http: HttpClient,
     private route : ActivatedRoute,
-    private pokedex : PokedexService
-  ) { }
+    private pokedex : PokedexService,
+    public arena : ArenaService,
+    public pokeball : PokeballsService
+  ) {
+    this.secondaryTypeComparison = this.secondaryTypeComparison.bind(this);
+  }
 
   formData : Pokedex = {
     number: -1,
-    name: "",
+    name: '',
     min_level: 0,
-    region: "",
-    pokeball: "Great Ball",
-    primary_type: "",
-    secondary_type: ""
-  }
+    region: '',
+    primary_type: '',
+    secondary_type: '',
+    pokeball: ''
+  };
+
+  allRegions : Region[] = [];
 
   ngOnInit(): void {
-    this.route.paramMap.subscribe((data : any) => {
-      console.log({xd: data.params});
-      if (data.params.pokedexid) {
-        const pokedexid = parseInt(data.params.pokedexid);
-
-        this.pokedex.getPokedexEntry(pokedexid!).subscribe((data : any) => {
-          this.formData = data;
-          this.formData.pokeball = 'Great Ball'
-        });
-      }
-    })
+    // Load regions
   }
 
-  submit($event: any) {
-    console.log({data: this.formData})
+  _primary_type : string | null = null;
+
+  setPrimary($event : any) {
+    this._primary_type = $event.value;
+  }
+
+  secondaryTypeComparison = () => {
+    return this.formData.primary_type;
+  }
+
+  onFormSubmit($event: any) {
+    console.log({$event})
+    console.log(this.formData);
+    
+    $event.preventDefault();
 
     this.http.post("http://localhost:5000/newPokedexEntry", this.formData, {}).subscribe(resp => {
       console.log({resp})
