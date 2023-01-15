@@ -35,7 +35,9 @@
             dataSource: currentPokedexList,
             valueExpr: 'number',
             displayExpr: pokedexDisplayExpr,
-            onSelectionChanged: updateCurrentPokedex
+            onSelectionChanged: updateCurrentPokedex,
+            searchEnabled: true,
+            searchExpr: 'name'
           }"
           dataField="pokedex_num"
           >
@@ -62,12 +64,6 @@
           <dxo-label text="Poziom Pokemona"></dxo-label>
           <dxi-validation-rule
             type="range"
-            [min]="1"
-            message="Poziom Pokemona musi być większy niż 1"
-            >
-          </dxi-validation-rule>
-          <dxi-validation-rule
-            type="range"
             [max]="100"
             message="Poziom Pokemona musi być mniejszy niż 100"
             >
@@ -78,12 +74,23 @@
             message="Poziom Pokemona musi być większy niż minimalny"
             >
           </dxi-validation-rule>
+          <dxi-validation-rule
+            type="required"
+            message="Podaj poziom dodawanego Pokemona"
+            >
+          </dxi-validation-rule>
           </dxi-item>
 
         <dxi-item
           [colSpan]="1"
           dataField="sex"
+          editorType="dxSelectBox"
+          [editorOptions]="{
+            dataSource: [true, false],
+            displayExpr: getSexLabel
+          }"
           >
+          <dxo-label text="Płeć Pokemona"></dxo-label>
         </dxi-item>
 
         <dxi-item
