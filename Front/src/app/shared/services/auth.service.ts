@@ -25,7 +25,7 @@ export class AuthService {
     this._lastAuthenticatedPath = value;
   }
 
-
+  // login
   async logIn(username: string, password: string, callback : Function) {
 
     try {

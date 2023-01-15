@@ -1,3 +1,4 @@
+import { HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 const STORAGE_KEY = 'POKESQL_JWT'
@@ -10,6 +11,8 @@ export class TokenService {
 
   }
 
+  public AuthHeaders : HttpHeaders = new HttpHeaders();
+
   get isLoggedIn() {
   	return this.getToken() !== null;
   }
@@ -20,6 +23,7 @@ export class TokenService {
 
   public setToken( token : string ) {
 	  window.localStorage.setItem(STORAGE_KEY, token);
+    this.AuthHeaders.set('Authorization', token);
   }
 
   public removeToken() {
