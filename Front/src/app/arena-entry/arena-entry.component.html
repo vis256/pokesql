@@ -3,7 +3,7 @@
 <div class="main-container">
   <div class="main">
     <h1 class="title">
-      Unova Arena
+      {{arenaData?.arena}}
       <dx-button
         class="modify-button"
         text="Dodaj nową walkę"
@@ -20,7 +20,7 @@
       </div>
       <div style="width: 49%; background-color: #0f02; border-radius: 1rem; padding: 2rem">
         <h3 style="font-size: 2rem">Twoje punkty:</h3>
-        <h2 style="font-size: 3.2rem; font-weight: 500; display: flex; flex-direction: row">11 <div style="font-weight: 200; color: #fffa">[WWWLW]</div></h2>
+        <h2 style="font-size: 3.2rem; font-weight: 500; display: flex; flex-direction: row"> {{arenaData?.score}} </h2>
       </div>
     </div>
 

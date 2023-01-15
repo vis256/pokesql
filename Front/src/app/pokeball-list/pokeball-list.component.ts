@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {Router} from "@angular/router";
+import { Pokeball } from '../shared/models/Pokeball';
 import {UserService} from "../shared/services";
+import { PokeballsService } from '../shared/services/pokeballs.service';
 
 @Component({
   selector: 'app-pokeball-list',
@@ -11,29 +13,16 @@ export class PokeballListComponent implements OnInit {
 
   constructor(
     public router : Router,
-    public user : UserService
+    public user : UserService,
+    private pokeball : PokeballsService
   ) { }
 
   ngOnInit(): void {
-    // TODO: Fetch Pokeball data
+    this.pokeball.getAllPokeballs().subscribe(data => {
+      this.items = data;
+    })
   }
 
 
-  items = [
-    {
-      text : 'Pokeball',
-      background : "../assets/sprites/pokeball/pokeball.webp",
-      route : '/pokedex/list'
-    },
-    {
-      text : 'Great Ball',
-      background : "../assets/sprites/pokeball/pokeball.webp",
-      route : '/pokedex/list'
-    },
-    {
-      text : 'Master Ball',
-      background : "../assets/sprites/pokeball/pokeball.webp",
-      route : '/pokedex/list'
-    },
-  ]
+  items : Pokeball[] = []
 }

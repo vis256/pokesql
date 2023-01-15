@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {ActivatedRoute} from "@angular/router";
-import {Pokedex} from "../shared/models/Pokedex";
-import {PokedexService} from "../shared/services/pokedex.service";
+import {Pokedex} from "../../shared/models/Pokedex";
+import {PokedexService} from "../../shared/services/pokedex.service";
 
 @Component({
   selector: 'app-new-pokedex-entry-form',

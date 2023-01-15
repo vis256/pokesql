@@ -6,7 +6,7 @@ import { HomeComponent } from './pages/home/home.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { TasksComponent } from './pages/tasks/tasks.component';
 import {DxDataGridModule, DxFormModule, DxTileViewModule} from 'devextreme-angular';
-import {NewPokedexEntryFormComponent} from "./new-pokedex-entry-form/new-pokedex-entry-form.component";
+import {NewPokedexEntryFormComponent} from "./new/new-pokedex-entry-form/new-pokedex-entry-form.component";
 import {HttpClientModule} from "@angular/common/http";
 import {PokedexListComponent} from "./pokedex-list/pokedex-list.component";
 import {PokedexEntryComponent} from "./pokedex-entry/pokedex-entry.component";
@@ -14,7 +14,7 @@ import {OwnedPokemonListComponent} from "./owned-pokemon-list/owned-pokemon-list
 import {DxScrollViewModule} from "devextreme-angular/ui/scroll-view";
 import {PokedexComponent} from "./pokedex/pokedex.component";
 import {DxListModule} from "devextreme-angular/ui/list";
-import {NewPokemonEntryFormComponent} from "./new-pokemon-entry-form/new-pokemon-entry-form.component";
+import {NewPokemonEntryFormComponent} from "./new/new-pokemon-entry-form/new-pokemon-entry-form.component";
 import {PokeballListComponent} from "./pokeball-list/pokeball-list.component";
 import {TypesListComponent} from "./types-list/types-list.component";
 import {OwnedPokemonEntryComponent} from "./owned-pokemon-entry/owned-pokemon-entry.component";
@@ -24,6 +24,8 @@ import {ArenaDashboardComponent} from "./arena-dashboard/arena-dashboard.compone
 import {ArenaListComponent} from "./arena-list/arena-list.component";
 import {ArenaEntryComponent} from "./arena-entry/arena-entry.component";
 import {FightEntryComponent} from "./fight-entry/fight-entry.component";
+import { NewPokeballEntryFormComponent } from './new/new-pokeball-entry-form/new-pokeball-entry-form.component';
+import { MyArenaListComponent } from './my-arena-list/my-arena-list.component';
 
 const routes: Routes = [
   {
@@ -112,6 +114,16 @@ const routes: Routes = [
     canActivate : [ AuthGuardService ]
   },
   {
+    path : 'pokedex/pokeball/new',
+    component : NewPokeballEntryFormComponent,
+    canActivate : [ AuthGuardService ]
+  },
+  {
+    path : 'pokedex/pokeball/:pokeballName',
+    component : NewPokeballEntryFormComponent,
+    canActivate : [ AuthGuardService ]
+  },
+  {
     path : 'pokedex/types/list',
     component : TypesListComponent,
     canActivate : [ AuthGuardService ]
@@ -128,7 +140,7 @@ const routes: Routes = [
   },
   {
     path : 'myarena',
-    component : ArenaDashboardComponent,
+    component : MyArenaListComponent,
     canActivate : [ AuthGuardService ]
   },
   {
@@ -137,7 +149,7 @@ const routes: Routes = [
     canActivate : [ AuthGuardService ]
   },
   {
-    path : 'arena/:regionName',
+    path : 'arena/:arenaMemberID',
     component : ArenaEntryComponent,
     canActivate : [ AuthGuardService ]
   },

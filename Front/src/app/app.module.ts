@@ -7,14 +7,14 @@ import { FooterModule, ResetPasswordFormModule, CreateAccountFormModule, ChangeP
 import {AuthService, ScreenService, AppInfoService, UserService, TokenService} from './shared/services';
 import { UnauthenticatedContentModule } from './unauthenticated-content';
 import { AppRoutingModule } from './app-routing.module';
-import { NewPokedexEntryFormComponent } from './new-pokedex-entry-form/new-pokedex-entry-form.component';
+import { NewPokedexEntryFormComponent } from './new/new-pokedex-entry-form/new-pokedex-entry-form.component';
 import {DxFormModule} from "devextreme-angular/ui/form";
 import {
   DxCheckBoxModule,
   DxDataGridModule,
   DxNumberBoxModule, DxPopupModule,
   DxSelectBoxModule,
-  DxTextBoxModule, DxTileViewModule
+  DxTextBoxModule, DxTileViewModule, DxValidationSummaryModule, DxValidatorModule
 } from "devextreme-angular";
 import {DxButtonModule} from "devextreme-angular/ui/button";
 import { PokedexListComponent } from './pokedex-list/pokedex-list.component';
@@ -27,7 +27,7 @@ import { TypeLabelComponent } from './shared/components/type-label/type-label.co
 import { PokedexComponent } from './pokedex/pokedex.component';
 import { TypesListComponent } from './types-list/types-list.component';
 import { RegionLabelComponent } from './shared/components/region-label/region-label.component';
-import { NewPokemonEntryFormComponent } from './new-pokemon-entry-form/new-pokemon-entry-form.component';
+import { NewPokemonEntryFormComponent } from './new/new-pokemon-entry-form/new-pokemon-entry-form.component';
 import { PokeballListComponent } from './pokeball-list/pokeball-list.component';
 import { AttackLabelComponent } from './shared/components/attack-label/attack-label.component';
 import { AttackEntryComponent } from './attack-entry/attack-entry.component';
@@ -37,6 +37,9 @@ import { ArenaEntryComponent } from './arena-entry/arena-entry.component';
 import { ArenaDashboardComponent } from './arena-dashboard/arena-dashboard.component';
 import { FightEntryComponent } from './fight-entry/fight-entry.component';
 import { SexLabelComponent } from './shared/components/sex-label/sex-label.component';
+import { NewPokeballEntryFormComponent } from './new/new-pokeball-entry-form/new-pokeball-entry-form.component';
+import { MyArenaListComponent } from './my-arena-list/my-arena-list.component';
+import { DxiValidationRuleModule } from 'devextreme-angular/ui/nested';
 
 
 @NgModule({
@@ -62,6 +65,8 @@ import { SexLabelComponent } from './shared/components/sex-label/sex-label.compo
     ArenaDashboardComponent,
     FightEntryComponent,
     SexLabelComponent,
+    NewPokeballEntryFormComponent,
+    MyArenaListComponent,
   ],
   imports: [
     BrowserModule,
@@ -85,7 +90,10 @@ import { SexLabelComponent } from './shared/components/sex-label/sex-label.compo
     DxDataGridModule,
     DxScrollViewModule,
     DxTileViewModule,
-    DxPopupModule
+    DxPopupModule,
+    DxValidatorModule,
+    DxiValidationRuleModule,
+    DxValidationSummaryModule
   ],
   providers: [
     AuthService,

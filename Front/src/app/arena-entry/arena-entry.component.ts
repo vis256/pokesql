@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { ArenaMember } from '../shared/models/ArenaMember';
+import { ArenaService } from '../shared/services/arena.service';
 
 @Component({
   selector: 'app-arena-entry',
@@ -7,10 +10,25 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ArenaEntryComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private arena : ArenaService,
+    private route : ActivatedRoute
+  ) { }
 
   ngOnInit(): void {
+    this.route.paramMap.subscribe((data : any) => {
+      console.log({xd: data.params});
+      if (data.params.arenaMemberID) {
+        const arenaMemberID = parseInt(data.params.arenaMemberID);
+
+        this.arena.getArenaMember(arenaMemberID).subscribe(data => {
+          this.arenaData = data;
+        })
+      }
+    })
   }
+
+  arenaData? : ArenaMember;
 
   recentFights = [
     {
