@@ -1,1 +1,5 @@
 @import "../shared/shared";
+
+.ranking ::ng-deep .dx-datagrid {
+    background-color: #f002 !important;
+}

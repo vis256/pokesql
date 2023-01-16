@@ -16,19 +16,132 @@ export class ArenaEntryComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.route.paramMap.subscribe((data : any) => {
-      console.log({xd: data.params});
-      if (data.params.arenaMemberID) {
-        const arenaMemberID = parseInt(data.params.arenaMemberID);
+    // this.route.paramMap.subscribe((data : any) => {
+    //   console.log({xd: data.params});
+    //   if (data.params.arenaMemberID) {
+    //     const arenaMemberID = parseInt(data.params.arenaMemberID);
 
-        this.arena.getArenaMember(arenaMemberID).subscribe(data => {
-          this.arenaData = data;
-        })
-      }
-    })
+    //     this.arena.getArenaMember(arenaMemberID).subscribe(data => {
+    //       this.arenaData = data;
+
+    //       this.arena.getArenaMembers(this.arenaData!.arena).subscribe(data => {
+    //         this.arenaMembers = data;
+    //       })
+    //     })
+    //   }
+    // })
   }
 
   arenaData? : ArenaMember;
+
+  arenaMembers : ArenaMember[] = [
+    {
+      id : 1,
+      join_date: new Date(2020, 12, 23),
+      usr : 'xd234',
+      score : 12,
+      arena : 'xd'
+    },    
+    {
+      id : 2,
+      join_date: new Date(2020, 1, 22),
+      usr : 'jasiu2345',
+      score : 3,
+      arena : 'xd'
+    },
+    {
+      id : 3,
+      join_date: new Date(2020, 11, 21),
+      usr : 'chujadefrgt',
+      score : 1,
+      arena : 'xd'
+    },    {
+      id : 3,
+      join_date: new Date(2020, 11, 21),
+      usr : 'chujadefrgt',
+      score : 1,
+      arena : 'xd'
+    },    {
+      id : 3,
+      join_date: new Date(2020, 11, 21),
+      usr : 'chujadefrgt',
+      score : 1,
+      arena : 'xd'
+    },    {
+      id : 3,
+      join_date: new Date(2020, 11, 21),
+      usr : 'chujadefrgt',
+      score : 1,
+      arena : 'xd'
+    },    {
+      id : 3,
+      join_date: new Date(2020, 11, 21),
+      usr : 'chujadefrgt',
+      score : 1,
+      arena : 'xd'
+    },    {
+      id : 3,
+      join_date: new Date(2020, 11, 21),
+      usr : 'chujadefrgt',
+      score : 1,
+      arena : 'xd'
+    },    {
+      id : 3,
+      join_date: new Date(2020, 11, 21),
+      usr : 'chujadefrgt',
+      score : 1,
+      arena : 'xd'
+    },    {
+      id : 3,
+      join_date: new Date(2020, 11, 21),
+      usr : 'chujadefrgt',
+      score : 1,
+      arena : 'xd'
+    },    {
+      id : 3,
+      join_date: new Date(2020, 11, 21),
+      usr : 'chujadefrgt',
+      score : 1,
+      arena : 'xd'
+    },    {
+      id : 3,
+      join_date: new Date(2020, 11, 21),
+      usr : 'chujadefrgt',
+      score : 1,
+      arena : 'xd'
+    },    {
+      id : 3,
+      join_date: new Date(2020, 11, 21),
+      usr : 'chujadefrgt',
+      score : 1,
+      arena : 'xd'
+    },    {
+      id : 3,
+      join_date: new Date(2020, 11, 21),
+      usr : 'chujadefrgt',
+      score : 1,
+      arena : 'xd'
+    },    {
+      id : 3,
+      join_date: new Date(2020, 11, 21),
+      usr : 'chujadefrgt',
+      score : 1,
+      arena : 'xd'
+    },    {
+      id : 3,
+      join_date: new Date(2020, 11, 21),
+      usr : 'chujadefrgt',
+      score : 1,
+      arena : 'xd'
+    },    {
+      id : 3,
+      join_date: new Date(2020, 11, 21),
+      usr : 'chujadefrgt',
+      score : 1,
+      arena : 'xd'
+    },
+
+  ];
 
   recentFights = [
     {
@@ -63,5 +176,13 @@ export class ArenaEntryComponent implements OnInit {
     },
 
   ]
+
+  askAgain : boolean = true;
+
+  leaveArena() {
+    // TODO: Leave arena
+    console.log("Leaving arena");
+    
+  }
 
 }

@@ -40,6 +40,7 @@ import { SexLabelComponent } from './shared/components/sex-label/sex-label.compo
 import { NewPokeballEntryFormComponent } from './new/new-pokeball-entry-form/new-pokeball-entry-form.component';
 import { MyArenaListComponent } from './my-arena-list/my-arena-list.component';
 import { DxiValidationRuleModule } from 'devextreme-angular/ui/nested';
+import { NewRegionArenaFormComponent } from './new/new-region-arena-form/new-region-arena-form.component';
 
 
 @NgModule({
@@ -67,6 +68,7 @@ import { DxiValidationRuleModule } from 'devextreme-angular/ui/nested';
     SexLabelComponent,
     NewPokeballEntryFormComponent,
     MyArenaListComponent,
+    NewRegionArenaFormComponent,
   ],
   imports: [
     BrowserModule,

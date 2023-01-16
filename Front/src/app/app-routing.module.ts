@@ -26,6 +26,7 @@ import {ArenaEntryComponent} from "./arena-entry/arena-entry.component";
 import {FightEntryComponent} from "./fight-entry/fight-entry.component";
 import { NewPokeballEntryFormComponent } from './new/new-pokeball-entry-form/new-pokeball-entry-form.component';
 import { MyArenaListComponent } from './my-arena-list/my-arena-list.component';
+import { NewRegionArenaFormComponent } from './new/new-region-arena-form/new-region-arena-form.component';
 
 const routes: Routes = [
   {
@@ -156,6 +157,11 @@ const routes: Routes = [
   {
     path : 'fight/:id',
     component : FightEntryComponent,
+    canActivate : [ AuthGuardService ]
+  },
+  {
+    path: 'pokedex/regions/new',
+    component : NewRegionArenaFormComponent,
     canActivate : [ AuthGuardService ]
   },
   {

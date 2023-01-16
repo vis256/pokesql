@@ -2,9 +2,17 @@
 
 <div class="main-container">
   <div class="main">
-    <h1 class="title">Moje Areny</h1>
-
     <dx-scroll-view>
+      <h1 class="title">
+        Moje Areny
+        <dx-button
+          (click)="router.navigate(['/arena/list'])"
+          class="modify-button"
+          text="Znajdź nowe areny"
+          icon="search"
+        >
+      </dx-button>
+      </h1>
       <dx-list
         [items]="myMemberships"
         itemTemplate="item"
