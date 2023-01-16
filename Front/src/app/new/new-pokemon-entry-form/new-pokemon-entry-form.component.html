@@ -9,7 +9,7 @@
         <div style="display: flex; flex-direction: column; align-items: center;">
           <div [style.color]="formData.name ? '#fff' : '#fffa'" style="font-size: 2rem; display: flex; flex-direction: row;">
             {{formData.name ? formData.name : (currentPokedexData ? currentPokedexData.name : '')}}
-            <div [style.color]="formData.level === 0 ? '#fff9' : '#fff'" style="margin-left: .6rem; display: flex; flex-direction: row;">Lv.{{formData.level}} <div style="color: #fffa">>{{currentPokedexData.min_level}}</div></div>
+            <div [style.color]="formData.level === 0 ? '#fff9' : '#fff'" style="margin-left: .6rem; display: flex; flex-direction: row;">Lv.{{formData.level}} <div *ngIf="formData.level < currentPokedexData.min_level" style="color: rgba(248, 72, 72, 0.533); margin-left: .6rem;"> >= {{currentPokedexData.min_level}}</div></div>
           </div>
           <div style="display: flex; flex-direction: row;">
             <app-type-label [type]="currentPokedexData.primary_type"></app-type-label>
