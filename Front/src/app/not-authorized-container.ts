@@ -25,10 +25,10 @@ export class NotAuthorizedContainerComponent {
   get title() {
     const path = this.router.url.split('/')[1];
     switch (path) {
-      case 'login-form': return 'Sign In';
-      case 'reset-password': return 'Reset Password';
-      case 'create-account': return 'Sign Up';
-      case 'change-password': return 'Change Password';
+      case 'login-form': return 'Zaloguj się';
+      case 'reset-password': return 'Zresetuj hasło';
+      case 'create-account': return 'Stwórz konto';
+      case 'change-password': return 'Zmień hasło';
       default: return '';
     }
   }

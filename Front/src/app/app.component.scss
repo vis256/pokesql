@@ -1,6 +1,9 @@
 :host {
   @import "../themes/generated/variables.base.scss";
-  background-color: darken($base-bg, 5.00);
+  background-image: linear-gradient(#000a, #0005), url("../assets/backgrounds/pokemon.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   display: flex;
   height: 100%;
   width: 100%;
