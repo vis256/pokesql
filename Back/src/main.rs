@@ -35,6 +35,7 @@ async fn rocket() -> _ {
                 pokedex::pokedex_get,
                 pokedex::pokedex_id_get,
                 pokedex::pokedex_set,
+                pokedex::pokedex_update,
                 pokemon::user_new_pokemon,
                 pokemon::user_pokemons_get,
                 pokemon::pokemon_attacks,
