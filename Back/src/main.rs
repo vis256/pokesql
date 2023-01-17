@@ -18,15 +18,15 @@ use user::{
 use std::env;
 use sqlx::postgres::PgPoolOptions;
 
-#[rocket::main]
-async fn main() -> anyhow::Result<()> {
+#[rocket::launch]
+async fn rocket() -> _ {
     let database_url = env::var("DATABASE_URL")
         .unwrap_or(String::from("postgresql://postgres:12345@127.0.0.1/postgres?sslmode=prefer"));
 
     let pool = PgPoolOptions::new()
         .max_connections(16)
         .connect(&database_url)
-        .await?;
+        .await.unwrap();
 
     rocket::build()
         .mount(
@@ -56,6 +56,7 @@ async fn main() -> anyhow::Result<()> {
                 arenas::get_all_arenas,
                 arenas::get_arena,
                 arenas::add_arena,
+                arenas::update_arena,
                 types::new_type,
                 types::get_types,
                 attacks::new_attack,
@@ -64,8 +65,4 @@ async fn main() -> anyhow::Result<()> {
             ])
         .mount("/api/login", routes![login::login])
         .manage(pool)
-        .ignite().await?
-        .launch().await?;
-
-    Ok(())
 }

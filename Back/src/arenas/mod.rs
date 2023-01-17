@@ -19,7 +19,7 @@ pub struct ArenaRegion {
     type_: String,
 }
 
-#[derive(Serialize)]
+#[derive(Deserialize, Serialize)]
 pub struct Arena {
     name: String,
     region: String,
@@ -53,6 +53,20 @@ async fn get_one(
         .fetch_one(pool).await
 }
 
+async fn update_one(
+    pool: &Pool<Postgres>,
+    name: &str,
+    arena: &Arena
+) -> Result<(), Error> {
+    let mut transaction = pool.begin().await?;
+    // TODO: should we update this in relations that reference this one?
+    sqlx::query!(
+        r#"UPDATE Arenas SET name = $1, region = $2 WHERE name = $3"#,
+        arena.name, arena.region, name).execute(&mut transaction).await?;
+    transaction.commit().await
+}
+
+
 async fn new_arena(
     pool: &Pool<Postgres>,
     ar: &ArenaRegion
@@ -63,6 +77,29 @@ async fn new_arena(
         ar.region, ar.type_, ar.arena
     ).execute(&mut transaction).await?;
     transaction.commit().await
+}
+
+#[post("/arenas/<name>/update", data = "<arena>")]
+pub async fn update_arena(
+    pool: &State<Pool<Postgres>>,
+    auth: AuthStatus,
+    name: &str,
+    arena: Json<Arena>
+) -> Response<()> {
+    match auth {
+        AuthStatus::Professor(_) => {
+            if let Err(e) = update_one(pool, name, &arena).await {
+                if let Error::RowNotFound = e {
+                    Response::NotFound(Some(Json(ErrInfo::from(e))))
+                } else {
+                    Response::BadRequest(Some(Json(ErrInfo::from(e))))
+                }
+            } else {
+                Response::Success(Some(()))
+            }
+        }
+        _ => Response::Unauthorized(())
+    }
 }
 
 #[get("/arenas")]
