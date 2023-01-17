@@ -92,3 +92,11 @@ pub async fn add_arena(
         _ => Response::Unauthorized(())
     }
 }
+
+#[get("/arenas/<name>")]
+pub async fn get_arena(pool: &State<Pool<Postgres>>, name: &str) -> Option<Json<Arena>> {
+    match get_one(pool, name).await {
+        Ok(arena) => Some(Json(arena)),
+        Err(_) => None
+    }
+}

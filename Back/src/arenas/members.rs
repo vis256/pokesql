@@ -3,7 +3,9 @@ use sqlx::{Error, Postgres, Pool};
 use rocket::State;
 
 use super::ArenaMember;
-use crate::response::Response;
+
+use crate::response::{ErrInfo, Response};
+use crate::user::AuthStatus;
 
 async fn get_one(pool: &Pool<Postgres>, id: i64) -> Result<ArenaMember, Error> {
     sqlx::query_as!(ArenaMember,
@@ -28,10 +30,33 @@ async fn get_all_arena(pool: &Pool<Postgres>, arena: &str) -> Result<Vec<ArenaMe
 
 async fn add_one(pool: &Pool<Postgres>, member: &ArenaMember) -> Result<(), Error> {
     let mut transaction = pool.begin().await?;
-    sqlx::query!("INSERT INTO ArenaMembers (id, usr, arena) \
-        VALUES ($1, $2, $3)", member.id, member.usr, member.arena
+    sqlx::query!("INSERT INTO ArenaMembers (usr, arena) \
+        VALUES ($1, $2)", member.usr, member.arena
     ).execute(&mut transaction).await?;
     transaction.commit().await
+}
+
+#[post("/users/<login>/memberships/new", data = "<member>")]
+pub async fn add_member(
+    pool: &State<Pool<Postgres>>,
+    auth: AuthStatus,
+    login: &str,
+    member: Json<ArenaMember>
+) -> Response<()> {
+    match auth {
+        AuthStatus::Professor(name) |
+        AuthStatus::Trainer(name) => {
+            if name != login {
+                Response::Unauthorized(())
+            } else {
+                match add_one(pool, &member.into_inner()).await {
+                    Ok(()) => Response::Success(Some(())),
+                    Err(e) => Response::BadRequest(Some(Json(ErrInfo::from(e))))
+                }
+            }
+        }
+        _ => Response::Unauthorized(())
+    }
 }
 
 #[get("/arena_members/<id>")]

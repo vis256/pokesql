@@ -85,7 +85,7 @@ CREATE TABLE Counters(
 CREATE TABLE Attacks(
     name VARCHAR(32) NOT NULL PRIMARY KEY,
     power INTEGER NOT NULL, CHECK (power >= 0),
-    hit_chance NUMERIC CHECK (hit_chance > 0 AND hit_chance <= 1),
+    hit_chance NUMERIC NOT NULL CHECK (hit_chance > 0 AND hit_chance <= 1),
     type VARCHAR(32) NOT NULL REFERENCES Types(name)
 );
 
