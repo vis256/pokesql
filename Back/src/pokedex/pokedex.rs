@@ -68,6 +68,6 @@ pub async fn pokedex_set(
                     Some(Json(ErrInfo::from(err))))
             }
         }
-        _ => Response::Unauthorized(None)
+        _ => Response::Unauthorized(())
     }
 }

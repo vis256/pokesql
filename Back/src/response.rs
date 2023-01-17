@@ -11,7 +11,7 @@ pub enum Response<U> {
     #[response(status = 400)]
     BadRequest(Option<Json<ErrInfo>>),
     #[response(status = 401)]
-    Unauthorized(Option<Json<ErrInfo>>),
+    Unauthorized(()),
     #[response(status = 404)]
     NotFound(Option<Json<ErrInfo>>),
 }

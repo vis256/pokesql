@@ -62,7 +62,7 @@ pub async fn user_new_pokemon(
         AuthStatus::Professor(name) |
         AuthStatus::Trainer(name) => {
             if name != login {
-                return Response::Unauthorized(None);
+                return Response::Unauthorized(());
             }
             match add_one(pool, &entry.into_inner()).await {
                 Ok(()) => Response::Success(None),
@@ -70,6 +70,6 @@ pub async fn user_new_pokemon(
                     Some(Json(ErrInfo::from(e))))
             }
         }
-        AuthStatus::Unauthorized => Response::Unauthorized(None),
+        AuthStatus::Unauthorized => Response::Unauthorized(()),
     }
 }
