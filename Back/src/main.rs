@@ -63,6 +63,7 @@ async fn rocket() -> _ {
                 arenas::update_arena,
                 types::new_type,
                 types::get_types,
+                types::update_type,
                 attacks::new_attack,
                 attacks::get_attack,
                 attacks::get_attacks

@@ -23,6 +23,41 @@ async fn add_one(pool: &Pool<Postgres>, type_: &Type) -> Result<(), Error> {
     transaction.commit().await
 }
 
+async fn update_one(
+    pool: &Pool<Postgres>,
+    name: &str,
+    type_: &Type
+) -> Result<(), Error> {
+    let mut transaction = pool.begin().await?;
+    sqlx::query!(
+        "UPDATE Types SET name = $1 WHERE name = $2",
+        type_.name, name).execute(&mut transaction).await?;
+    transaction.commit().await
+}
+
+#[post("/types/<name>/update", data = "<type_>")]
+pub async fn update_type(
+    pool: &State<Pool<Postgres>>,
+    auth: AuthStatus,
+    name: &str,
+    type_: Json<Type>
+) -> Response<()> {
+    match auth {
+        AuthStatus::Professor(_) => {
+            if let Err(e) = update_one(pool, name, &type_.into_inner()).await {
+                if let Error::RowNotFound = e {
+                    Response::NotFound(Some(Json(ErrInfo::from(e))))
+                } else {
+                    Response::BadRequest(Some(Json(ErrInfo::from(e))))
+                }
+            } else {
+                Response::Success(Some(()))
+            }
+        }
+        _ => Response::Unauthorized(())
+    }
+}
+
 #[get("/types")]
 pub async fn get_types(pool: &State<Pool<Postgres>>) -> Json<Vec<Type>> {
     Json(get_all(pool).await.unwrap())
