@@ -41,6 +41,7 @@ async fn rocket() -> _ {
                 pokemon::pokemon_attacks,
                 pokemon::new_attack,
                 pokemon::get_pokemon,
+                pokemon::update_pokemon,
                 pokeballs::get_pokeballs,
                 pokeballs::get_pokeball,
                 pokeballs::add_pokeball,
