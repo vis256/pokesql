@@ -6,6 +6,7 @@ mod pokemon;
 mod response;
 mod pokeballs;
 mod arenas;
+mod types;
 
 use user::{
     login,
@@ -48,7 +49,9 @@ async fn main() -> anyhow::Result<()> {
                 arenas::regions::get_region_name,
                 arenas::regions::get_arena_region,
                 arenas::get_all_arenas,
-                arenas::add_arena
+                arenas::add_arena,
+                types::new_type,
+                types::get_types
             ])
         .mount("/api/login", routes![login::login])
         .manage(pool)
