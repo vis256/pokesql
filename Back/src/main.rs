@@ -45,6 +45,7 @@ async fn rocket() -> _ {
                 pokeballs::add_pokeball,
                 users::get_users,
                 users::get_user,
+                users::update_user,
                 register::register,
                 arenas::members::get_one_member,
                 arenas::members::get_memberships,
