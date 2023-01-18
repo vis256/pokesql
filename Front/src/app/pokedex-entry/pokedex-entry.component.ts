@@ -5,6 +5,8 @@ import {PokedexService} from "../shared/services/pokedex.service";
 import {Pokedex} from "../shared/models/Pokedex";
 import { Attack } from '../shared/models/Attack';
 import { AttackService } from '../shared/services/attack.service';
+import { Pokeball } from '../shared/models/Pokeball';
+import { PokeballsService } from '../shared/services/pokeballs.service';
 
 @Component({
   selector: 'app-pokedex-entry',
@@ -17,7 +19,8 @@ export class PokedexEntryComponent implements OnInit {
     public user : UserService,
     public router : Router,
     public pokedex : PokedexService,
-    private attack : AttackService
+    private attack : AttackService,
+    private pokeball : PokeballsService
   ) { }
 
   pokedexId : number | null = null;
@@ -33,6 +36,7 @@ export class PokedexEntryComponent implements OnInit {
   };
 
   pokedexAttacks : Attack[] = [];
+  pokeballs : Pokeball[] = [];
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((data : any) => {
@@ -45,7 +49,15 @@ export class PokedexEntryComponent implements OnInit {
     });
 
     this.attack.getAttacksForPokedex(this.pokedexId!).subscribe(data => {
+      console.log(data);
+      
       this.pokedexAttacks = data;
+    })
+
+    this.pokeball.getPokeballsUsedForPokedex(this.pokedexId!).subscribe(data => {
+      this.pokeballs = data;
+      console.log(data);
+      
     })
   }
 

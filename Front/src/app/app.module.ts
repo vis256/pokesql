@@ -14,6 +14,7 @@ import {
   DxDataGridModule,
   DxNumberBoxModule, DxPopupModule,
   DxSelectBoxModule,
+  DxTagBoxModule,
   DxTextBoxModule, DxTileViewModule, DxValidationSummaryModule, DxValidatorModule
 } from "devextreme-angular";
 import {DxButtonModule} from "devextreme-angular/ui/button";
@@ -97,7 +98,8 @@ import { NewAttackFormComponent } from './new/new-attack-form/new-attack-form.co
     DxPopupModule,
     DxValidatorModule,
     DxiValidationRuleModule,
-    DxValidationSummaryModule
+    DxValidationSummaryModule,
+    DxTagBoxModule
   ],
   providers: [
     AuthService,

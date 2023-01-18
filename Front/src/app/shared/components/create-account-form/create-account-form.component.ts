@@ -31,7 +31,6 @@ export class CreateAccountFormComponent {
       if (result.isOk) {
         this.router.navigate(['/login-form']);
       } else {
-        notify(result.message, 'error', 2000);
       }
     });
   }

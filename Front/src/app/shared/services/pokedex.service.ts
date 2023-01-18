@@ -21,8 +21,16 @@ export class PokedexService {
     return this.http.get(`/api/pokedex/${id}`) as Observable<Pokedex>;
   }
 
-  public addNewPokedexEntry( newPokedexEntry : Pokedex ) {
-    return this.http.post(`/api/pokedex/new`, newPokedexEntry, {headers : this.token.AuthHeaders})
+  public addNewPokedexEntry( newPokedexEntry : any ) {
+    const d : Pokedex = {
+      number: newPokedexEntry.number,
+      name: newPokedexEntry.name,
+      min_level: newPokedexEntry.min_level,
+      region: newPokedexEntry.region.name,
+      primary_type: newPokedexEntry.primary_type,
+      secondary_type : newPokedexEntry.secondary_type
+    }
+    return this.http.post(`/api/pokedex/new`, d, {headers : this.token.AuthHeaders})
   }
 
   public updatePokedexEntry( pokedexEntry : Pokedex ) {

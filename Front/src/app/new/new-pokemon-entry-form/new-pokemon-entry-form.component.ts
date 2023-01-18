@@ -7,6 +7,7 @@ import {Pokemon} from "../../shared/models/Pokemon";
 import { UserService } from 'src/app/shared/services';
 import { Pokeball } from 'src/app/shared/models/Pokeball';
 import { PokemonService } from 'src/app/shared/services/pokemon.service';
+import { ErrorService } from 'src/app/shared/services/error.service';
 
 @Component({
   selector: 'app-new-pokemon-entry-form',
@@ -19,7 +20,8 @@ export class NewPokemonEntryFormComponent implements OnInit {
     private route : ActivatedRoute,
     private pokedex : PokedexService,
     private user : UserService,
-    private pokemon : PokemonService
+    private pokemon : PokemonService,
+    private error : ErrorService
   ) {
     this.checkMinLevel = this.checkMinLevel.bind(this);
     this.updateCurrentPokedex = this.updateCurrentPokedex.bind(this);
@@ -92,7 +94,7 @@ export class NewPokemonEntryFormComponent implements OnInit {
       },
       err => {
         console.log(err);
-        
+        this.error.displayError(err.error)
       }
     );
   }

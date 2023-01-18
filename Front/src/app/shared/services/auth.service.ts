@@ -4,6 +4,7 @@ import {HttpClient} from "@angular/common/http";
 import {TokenService} from "./token.service";
 import {UserService} from "./user.service";
 import { catchError, throwError } from 'rxjs';
+import { ErrorService } from './error.service';
 
 const defaultPath = '/';
 
@@ -13,7 +14,8 @@ export class AuthService {
     private router: Router,
     private http : HttpClient,
     private token : TokenService,
-    private user : UserService
+    private user : UserService,
+    private error : ErrorService
   ) { }
 
 
@@ -59,7 +61,7 @@ export class AuthService {
           
           callback && callback({
             isOk : false,
-            message: ''
+            message: 'Złe dane logowania'
           });
         }
     }
@@ -68,7 +70,7 @@ export class AuthService {
       
       callback && callback({
         isOk : false,
-        message : "Authentication failed: " + err
+        message : "Złe dane logowania"
       })
     }
   }
@@ -95,13 +97,23 @@ export class AuthService {
       // Send request
       console.log(login, password, username, is_professor);
 
-      this.http.post('api/register', {login, password, username, is_professor}).subscribe((data : any) => {
-        this.router.navigate(['/login']);
-      })
+      this.http.post('api/register', {login, password, username, is_professor}).subscribe(
+        data => {
+          callback && callback({
+            isOk: true
+          })
+        },
+        err => {
+          console.error({err})
+          this.error.displayError(err.error);
 
-      callback && callback({
-        isOk: true
-      })
+          callback && callback({
+            isOk: false
+          })
+        }
+      )
+
+
     }
     catch (err) {
       console.log({err});

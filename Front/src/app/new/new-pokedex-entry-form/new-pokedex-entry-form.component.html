@@ -13,8 +13,26 @@
         validationGroup="pokedexData"
         [showValidationSummary]="true"
         >
+
         <dxi-item
-          [colSpan]="2"
+          [colSpan]="1"
+          dataField="number"
+          editorType="dxNumberBox"
+          [editorOptions]="{
+            min: 0,
+            format: '#'
+          }"
+          >
+          <dxi-validation-rule
+            type="required"
+            message="Podaj numer dodawanego gatunku"
+            >
+          </dxi-validation-rule>
+          <dxo-label text="Numer gatunku"></dxo-label>
+        </dxi-item>
+
+        <dxi-item
+          [colSpan]="1"
           dataField="name"
           editorType="dxTextBox"
           >
@@ -31,7 +49,8 @@
           dataField="region"
           editorType="dxSelectBox"
           [editorOptions]="{
-            dataSource: arena.getAllRegions()
+            dataSource: allRegions,
+            displayExpr: 'name'
           }"
           >
           <dxi-validation-rule
@@ -67,24 +86,10 @@
         </dxi-item>
 
         <dxi-item
-          dataField="pokeball"
-          editorType="dxSelectBox"
-          [editorOptions]="{
-            dataSource: pokeball.getAllPokeballs()
-          }"
-          >
-          <dxi-validation-rule
-            type="required"
-            message="Wybierz Pokeball w jaki może być złapany ten Pokemon"
-            >
-          </dxi-validation-rule>
-        </dxi-item>
-
-        <dxi-item
           dataField="primary_type"
           editorType="dxSelectBox"
           [editorOptions]="{
-            dataSource: ['Normal', 'Fire', 'Grass'],
+            dataSource: allTypes,
             onValueChanged: setPrimary
           }"    
           >
@@ -100,7 +105,7 @@
           dataField="secondary_type"
           editorType="dxSelectBox"
           [editorOptions]="{
-            dataSource: ['Normal', 'Fire', 'Grass']
+            dataSource: allTypes
           }"    
           >
           <dxo-label text="Podrzędny typ"></dxo-label>
@@ -110,6 +115,42 @@
             [ignoreEmptyValue]="true"
             message="Podrzędny typ musi być inny od głównego typu"
             [comparisonTarget]="secondaryTypeComparison"
+            >
+          </dxi-validation-rule>
+        </dxi-item>
+
+        <dxi-item
+          [colSpan]="1"
+          editorType="dxTagBox"
+          dataField="pokeballs"
+          [editorOptions]="{
+            dataSource: allPokeballs,
+            displayExpr: 'name',
+            valueExpr: 'name'
+          }"
+          >
+          <dxo-label text="Pokeballe w jakie może być złapany"></dxo-label>
+          <dxi-validation-rule
+            type="required"
+            message="Wybierz w jakie Pokeballe może być złapany ten gatunek"
+            >
+          </dxi-validation-rule>
+        </dxi-item>
+
+        <dxi-item
+          [colSpan]="1"
+          editorType="dxTagBox"
+          dataField="attacks"
+          [editorOptions]="{
+            dataSource: allAttacks,
+            displayExpr: 'name',
+            valueExpr: 'name'
+          }"
+          >
+          <dxo-label text="Ataki jakie może się nauczyć"></dxo-label>
+          <dxi-validation-rule
+            type="required"
+            message="Wybierz ataki jakie może się nauczyć ten gatunek"
             >
           </dxi-validation-rule>
         </dxi-item>

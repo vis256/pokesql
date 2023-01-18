@@ -61,8 +61,7 @@ CREATE TABLE Pokemons(
     sex BOOLEAN NOT NULL, -- 0 for male, 1 for female
 
     pokedex_num INTEGER NOT NULL REFERENCES Pokedex(number),
-    pokeball VARCHAR(32) NOT NULL REFERENCES Pokeballs(name),
-    owner VARCHAR(32) NOT NULL REFERENCES Users(login)
+    pokeball VARCHAR(32) NOT NULL REFERENCES Pokeballs(name)
 );
 
 CREATE TABLE Duels(

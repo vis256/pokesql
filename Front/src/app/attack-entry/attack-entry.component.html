@@ -4,7 +4,7 @@
   <div class="main">
     <dx-scroll-view>
       <h1 class="title">
-        Atak - {{ attackData?.name }}
+        Atak - {{ attackData.name }}
         <dx-button
           *ngIf="user.isProfessor()"
           (click)="router.navigate(['/pokedex/attack/edit' + attackName])"
@@ -19,29 +19,49 @@
         <div class="info-container">
           <div class="entry">
             <div class="label">Nazwa ataku</div>
-            <div class="value">{{attackData?.name}}</div>
+            <div class="value">{{attackData.name}}</div>
           </div>
 
           <div class="entry">
             <div class="label">Moc ataku</div>
-            <div class="value">{{attackData?.power}}</div>
+            <div class="value">{{attackData.power}}</div>
           </div>
 
           <div class="entry">
             <div class="label">Typ ataku</div>
             <div class="value">
-              <app-type-label [type]="attackData!.type"></app-type-label>
+              <app-type-label [type]="attackData.type_"></app-type-label>
             </div>
           </div>
 
           <div class="entry">
             <div class="label">Szansa trafienia</div>
-            <div class="value">{{attackData!.hit_chance * 100}}%</div>
+            <div class="value">{{attackData.hit_chance * 100 }}%</div>
           </div>
 
-          <div class="entry" style="display: flex; flex-direction: column">
-            <dx-button text="Znajdź gatunki Pokemonów, które mogą się nauczyć tego ataku"></dx-button>
-            <dx-button text="Pokaż moje Pokemony, które znają ten atak"></dx-button>
+          <div class="entry">
+            <div class="label">Gatunki, które mogą poznać ten atak</div>
+            <div class="value">
+              <dx-list
+              [dataSource]="pokedexEntries"
+              [searchEnabled]="true"
+              searchExpr="name"
+              searchMode="contains"
+              nextButtonText="Załaduj więcej"
+              style="width: 70%;"
+              >
+              <div *dxTemplate="let item of 'item'" style="display : flex; flex-direction: column;">
+                <div style="display: flex;">
+                  <div style="color: #fff8; margin-right: .2rem"> {{item.number}} </div>
+                  {{item.name}}
+                </div>
+                <div style="display: flex; flex-direction: row">
+                  <app-type-label [type]="item.primary_type"></app-type-label>
+                  <app-type-label *ngIf="item.secondary_type" [type]="item.secondary_type"></app-type-label>
+                </div>
+              </div>
+            </dx-list>
+            </div>
           </div>
         </div>
       </div>

@@ -279,7 +279,7 @@ pub async fn pokedex_set(
     match auth {
         AuthStatus::Professor(_) => {
             match set_pokedex_entry(pool, &entry.into_inner()).await {
-                Ok(()) => Response::Success(None),
+                Ok(()) => Response::Success(Some(())),
                 Err(err) => Response::BadRequest(
                     Some(Json(ErrInfo::from(err))))
             }

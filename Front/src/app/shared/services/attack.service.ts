@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { TokenService } from './token.service';
 import { Attack } from '../models/Attack';
 import { UserService } from './user.service';
+import { Pokedex } from '../models/Pokedex';
 
 @Injectable({
   providedIn: 'root'
@@ -41,5 +42,9 @@ export class AttackService {
 
   public getAttackByName(attackName : string) : Observable<Attack> {
     return this.http.get(`/api/attacks/${attackName}`) as Observable<Attack>;
+  }
+
+  public getAllPokedexesWithAttack(attackName : string) : Observable<Pokedex[]> {
+    return this.http.get(`/api/attacks/pokedex/${attackName}`) as Observable<Pokedex[]>;
   }
 }

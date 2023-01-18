@@ -16,7 +16,7 @@ export class LoginFormComponent {
   loading = false;
   formData: any = {};
 
-  constructor(private authService: AuthService, private router: Router) { }
+  constructor(private authService: AuthService, public router: Router) { }
 
   async onSubmit(e: Event) {
     e.preventDefault();

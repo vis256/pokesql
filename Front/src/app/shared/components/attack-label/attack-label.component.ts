@@ -37,7 +37,7 @@ export class AttackLabelComponent implements OnInit {
   attack : Attack = {
     name: '',
     power : 0,
-    type : '',
+    type_ : '',
     hit_chance : 0
   };
 
