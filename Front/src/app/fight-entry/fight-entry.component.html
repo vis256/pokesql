@@ -1,0 +1,56 @@
+<img class="background" src="../../assets/backgrounds/stadium.webp">
+
+<div class="main-container">
+  <div class="main">
+    <h1 class="title">
+      Walka #23
+      <dx-button
+        class="modify-button"
+        text="Zmodyifuj dane walki"
+        icon="add"
+        style="margin-right: 12rem"
+      >
+      </dx-button>
+    </h1>
+
+    <div style="display: flex; flex-direction: column; width: 100%; align-items: center">
+      <div>Miejsce walki:</div>
+      <div style="font-weight: 500; margin-bottom: 1rem">Unova Arena</div>
+      <div>Data walki:</div>
+      <div style="font-weight: 500; margin-bottom: 2rem">12/21/2022</div>
+    </div>
+    <div style="display: flex; flex-direction: row; padding-left: 3rem; padding-right: 3rem">
+      <div style="width: 50%; display: flex; flex-direction: column; align-items: center">
+        <div style="color: #0f0a; font-weight: 500; font-size: 1.6rem">Wygrana</div>
+
+        <div style="margin-top: 1rem; font-size: 2rem; font-weight: 400">Ash Ketchup (Ty)</div>
+        <div style="font-size: 1.4rem; font-weight: 300">#12</div>
+
+        <img width="200" height="200" [src]="'/assets/sprites/pokemon/13.png'">
+        <div style="font-size: 1.6rem">Marcel</div>
+        <div style="display: flex; flex-direction: row; font-size: 1.4rem; margin-bottom: 1rem"> Lvl: <div style="font-weight: 500; margin-left: .4rem">{{player1Pokemon.lvl}}</div> </div>
+        <div style="display: flex; flex-direction: row">
+          <app-type-label [type]="player1Pokedex.primary_type"></app-type-label>
+          <app-type-label *ngIf="player1Pokedex.secondary_type" [type]="player1Pokedex.secondary_type"></app-type-label>
+        </div>
+      </div>
+      <div style="width: 50%; display: flex; flex-direction: column; align-items: center">
+        <div style="width: 50%; display: flex; flex-direction: column; align-items: center">
+          <div style="color: #f00a; font-weight: 500; font-size: 1.6rem">Przegrana</div>
+
+          <div style="margin-top: 1rem; font-size: 2rem; font-weight: 400">Rocket Member</div>
+          <div style="font-size: 1.4rem; font-weight: 300">#14</div>
+
+          <img width="200" height="200" [src]="'/assets/sprites/pokemon/134.png'">
+          <div style="font-size: 1.6rem">Majonez</div>
+          <div style="display: flex; flex-direction: row; font-size: 1.4rem; margin-bottom: 1rem"> Lvl: <div style="font-weight: 500; margin-left: .4rem">{{player2Pokemon.lvl}}</div> </div>
+          <div style="display: flex; flex-direction: row">
+            <app-type-label [type]="player2Pokedex.primary_type"></app-type-label>
+            <app-type-label *ngIf="player2Pokedex.secondary_type" [type]="player2Pokedex.secondary_type"></app-type-label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

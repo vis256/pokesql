@@ -1,9 +1,9 @@
-CALL addRegionArena('Kanto', 'Grass', 'Kanto Gym');
-CALL addRegionArena('Johto', 'Fire', 'Johto Gym');
-CALL addRegionArena('Hoenn', 'Ground', 'Hoenn Arena');
-CALL addRegionArena('Sinnoh', 'Water', 'Sinnoh Gym');
-CALL addRegionArena('Unova', 'Normal', 'Unova Arena');
-CALL addRegionArena('Kalos', 'Dragon', 'Kalos Battlefield');
-CALL addRegionArena('Alola', 'Flying', 'Alola Gym');
-CALL addRegionArena('Galar', 'Ice', 'Galar Arena');
-CALL addRegionArena('Paldea', 'Dark', 'Paldea Colloseum');
+CALL addRegionArena('Kanto', 'Grass', 'kanto_gym');
+CALL addRegionArena('Johto', 'Fire', 'johto_gym');
+CALL addRegionArena('Hoenn', 'Ground', 'hoenn_arena');
+CALL addRegionArena('Sinnoh', 'Water', 'sinnoh_gym');
+CALL addRegionArena('Unova', 'Normal', 'unova_arena');
+CALL addRegionArena('Kalos', 'Dragon', 'kalos_battlefield');
+CALL addRegionArena('Alola', 'Flying', 'alola_gym');
+CALL addRegionArena('Galar', 'Ice', 'galar_arena');
+CALL addRegionArena('Paldea', 'Dark', 'paldea_colloseum');

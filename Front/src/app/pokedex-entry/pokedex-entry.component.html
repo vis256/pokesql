@@ -1,1 +1,62 @@
-<p>pokedex-entry works!</p>
+<img class="background" src="/assets/backgrounds/lab.jpg">
+
+<div class="main-container">
+  <div class="main">
+    <dx-scroll-view>
+      <h1 class="title">
+        {{pokedexId}}  -  Bulbasaur
+        <dx-button
+          *ngIf="user.isProfessor()"
+          (click)="router.navigate(['/pokedex/edit/' + pokedexId])"
+          class="modify-button"
+          text="Zmodyfikuj"
+          icon="edit"
+        >
+        </dx-button>
+      </h1>
+
+      <div class="content">
+        <div class="info-container">
+          <div class="entry">
+            <div class="label">Nazwa gatunku</div>
+            <div class="value">{{pokedexData.name}}</div>
+          </div>
+
+          <div class="entry">
+            <div class="label">Numer gatunku</div>
+            <div class="value">{{pokedexData.number}}</div>
+          </div>
+
+          <div class="entry">
+            <div class="label">Typy</div>
+            <div class="value">
+              <div style="display: flex; flex-direction: row">
+                <app-type-label [type]="pokedexData.primary_type"></app-type-label>
+                <app-type-label *ngIf="pokedexData.secondary_type" [type]="pokedexData.secondary_type"></app-type-label>
+              </div>
+            </div>
+          </div>
+
+          <div class="entry">
+            <div class="label">Region występowania</div>
+            <app-region-label [region]="pokedexData.region"></app-region-label>
+          </div>
+
+          <div class="entry">
+            <div class="label">Możliwe ataki do poznania</div>
+            <div class="value">
+              <ul>
+                <app-attack-label *ngFor="let attack of pokedexData.Attacks" [name]="attack"></app-attack-label>
+              </ul>
+            </div>
+          </div>
+
+        </div>
+
+        <img *ngIf="pokedexId !== -1" [src]="'/assets/sprites/pokemon/' + pokedexId + '.png'">
+      </div>
+    </dx-scroll-view>
+  </div>
+
+</div>
+

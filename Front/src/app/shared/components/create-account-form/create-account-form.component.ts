@@ -21,17 +21,17 @@ export class CreateAccountFormComponent {
 
   async onSubmit(e: Event) {
     e.preventDefault();
-    const { email, password } = this.formData;
+    const { login, password, username, is_professor } = this.formData;
     this.loading = true;
 
-    const result = await this.authService.createAccount(email, password);
-    this.loading = false;
-
-    if (result.isOk) {
-      this.router.navigate(['/login-form']);
-    } else {
-      notify(result.message, 'error', 2000);
-    }
+    await this.authService.createAccount(login, password, username, is_professor, (result : any) => {
+      this.loading = false;
+      if (result.isOk) {
+        this.router.navigate(['/login-form']);
+      } else {
+        notify(result.message, 'error', 2000);
+      }
+    });
   }
 
   confirmPassword = (e: ValidationCallbackData) => {

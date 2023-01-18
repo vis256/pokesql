@@ -1,0 +1,73 @@
+<img class="background" src="/assets/backgrounds/city.webp">
+
+<div class="main-container">
+  <div class="main">
+    <h1 class="title">Dodaj nowy region</h1>
+    <div class="form-container">
+      <form (submit)="onFormSubmit($event)">
+      <dx-form
+        id="newRegionArenaEntryForm"
+        [colCount]="2"
+        [formData]="formData"
+        style="width: 30rem;"
+        [showValidationSummary]="true"
+        validationGroup="regionData"
+        >
+      <dxi-item
+        [colSpan]="2"
+        dataField="region"
+        editorType="dxTextBox"
+        >
+        <dxi-validation-rule
+          type="required"
+          message="Podaj nazwe regionu"
+          >
+        </dxi-validation-rule>
+        <dxo-label text="Nazwa regionu"></dxo-label>
+      </dxi-item>
+
+      <dxi-item
+        [colSpan]="1"
+        dataField="type"
+        editorType="dxSelectBox"
+        [editorOptions]="{
+          dataSource: types,
+          searchEnabled: true
+        }"
+        >
+        <dxo-label text="Typ regionu"></dxo-label>
+        <dxi-validation-rule
+          type="required"
+          message="Podaj typ regionu"
+          >
+        </dxi-validation-rule>
+      </dxi-item>
+      
+      <dxi-item
+        [colSpan]="1"
+        dataField="arena"
+        editorType="dxTextBox"
+        >
+        <dxi-validation-rule
+          type="required"
+          message="Podaj nazwe areny dodawanego regionu"
+          >
+        </dxi-validation-rule>
+        <dxo-label text="Nazwa areny"></dxo-label>
+      </dxi-item>
+
+      <dxi-item
+        [colSpan]="2"
+        itemType="button"
+        [buttonOptions]="{
+          text: 'Dodaj nowy region',
+          useSubmitBehavior: true,
+          type: 'success'
+        }"
+        >
+      </dxi-item>
+      </dx-form>
+      </form>
+    </div>
+  </div>
+</div>

@@ -1,18 +1,38 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-
-export interface User {
-  name : string
-}
+import { Observable } from 'rxjs';
+import { UserInfo } from '../models/UserInfo';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-  constructor() { }
+  constructor(
+    private http : HttpClient
+  ) { }
 
-  public user? : User;
+  public user : UserInfo = {
+    login: '',
+    username: '',
+    is_professor: false
+  };
 
-  public setUserData(name : string) {
-    this.user = { name, };
+  public isProfessor() {
+    return this.user!.is_professor;
+  }
+
+  public loadCurrentUserData(login : string, callback : Function) : void {
+    this.http.get(`api/users/${login}`).subscribe((data : any) => {
+      this.user = data;
+      callback();
+    })
+  }
+
+  public getUserData(login : string) : Observable<UserInfo> {
+    return this.http.get(`/api/users/${login}`) as Observable<UserInfo>;
+  }
+
+  public getAllUsers() : Observable<UserInfo[]> {
+    return this.http.get('/api/users') as Observable<UserInfo[]>;
   }
 }

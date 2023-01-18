@@ -1,12 +1,13 @@
 import { Component, NgModule, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import {AuthService, User} from '../../services';
+import {AuthService, UserService} from '../../services';
 import { UserPanelModule } from '../user-panel/user-panel.component';
 import { DxButtonModule } from 'devextreme-angular/ui/button';
 import { DxToolbarModule } from 'devextreme-angular/ui/toolbar';
 
 import { Router } from '@angular/router';
+import { UserInfo } from '../../models/UserInfo';
 @Component({
   selector: 'app-header',
   templateUrl: 'header.component.html',
@@ -23,7 +24,7 @@ export class HeaderComponent implements OnInit {
   @Input()
   title!: string;
 
-  user: User | undefined | null = { name : '' };
+  user?: UserInfo;
 
   userMenuItems = [{
     text: 'Profile',
@@ -40,10 +41,14 @@ export class HeaderComponent implements OnInit {
     }
   }];
 
-  constructor(private authService: AuthService, private router: Router) { }
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private userService : UserService
+  ) { }
 
   ngOnInit() {
-    this.authService.getUser().then((e) => this.user = e.data);
+    this.user = this.userService.user;
   }
 
   toggleMenu = () => {

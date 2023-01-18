@@ -1,0 +1,132 @@
+<img class="background" src="/assets/backgrounds/lab.jpg">
+
+<div class="main-container">
+  <div class="main">
+    <h1 class="title">Dodaj nowy gatunek Pokemona</h1>
+    <div class="form-container">
+      <form (submit)="onFormSubmit($event)">
+      <dx-form
+        id="newPokedexEntryForm"
+        [colCount]="2"
+        [formData]="formData"
+        style="width: 30rem;"
+        validationGroup="pokedexData"
+        [showValidationSummary]="true"
+        >
+        <dxi-item
+          [colSpan]="2"
+          dataField="name"
+          editorType="dxTextBox"
+          >
+          <dxi-validation-rule
+            type="required"
+            message="Podaj nazwe gatunku dodawanego Pokemona"
+            >
+          </dxi-validation-rule>
+          <dxo-label text="Nazwa gatunku"></dxo-label>
+        </dxi-item>
+
+        <dxi-item
+          [colSpan]="1"
+          dataField="region"
+          editorType="dxSelectBox"
+          [editorOptions]="{
+            dataSource: arena.getAllRegions()
+          }"
+          >
+          <dxi-validation-rule
+            type="required"
+            message="Podaj region występowania tego gatunku"
+            >
+          </dxi-validation-rule>
+        </dxi-item>
+
+        <dxi-item
+          [colSpan]="1"
+          dataField="min_level"
+          editorType="dxNumberBox"
+          >
+          <dxo-label text="Minimalny poziom"></dxo-label>
+          <dxi-validation-rule
+            type="range"
+            [max]="100"
+            message="Poziom Pokemona musi być mniejszy niż 100"
+            >
+          </dxi-validation-rule>
+          <dxi-validation-rule
+            type="range"
+            [min]="1"
+            message="Poziom Pokemona musi być większy niż 0"
+            >
+          </dxi-validation-rule>
+          <dxi-validation-rule
+            type="required"
+            message="Podaj minimalny poziom tego gatunku Pokemona"
+            >
+          </dxi-validation-rule>
+        </dxi-item>
+
+        <dxi-item
+          dataField="pokeball"
+          editorType="dxSelectBox"
+          [editorOptions]="{
+            dataSource: pokeball.getAllPokeballs()
+          }"
+          >
+          <dxi-validation-rule
+            type="required"
+            message="Wybierz Pokeball w jaki może być złapany ten Pokemon"
+            >
+          </dxi-validation-rule>
+        </dxi-item>
+
+        <dxi-item
+          dataField="primary_type"
+          editorType="dxSelectBox"
+          [editorOptions]="{
+            dataSource: ['Normal', 'Fire', 'Grass'],
+            onValueChanged: setPrimary
+          }"    
+          >
+          <dxo-label text="Główny typ"></dxo-label>
+          <dxi-validation-rule
+            type="required"
+            message="Wybierz główny typ tego gatunku Pokemona"
+            >
+          </dxi-validation-rule>
+        </dxi-item>
+
+        <dxi-item
+          dataField="secondary_type"
+          editorType="dxSelectBox"
+          [editorOptions]="{
+            dataSource: ['Normal', 'Fire', 'Grass']
+          }"    
+          >
+          <dxo-label text="Podrzędny typ"></dxo-label>
+          <dxi-validation-rule
+            type="compare"
+            comparisonType="!="
+            [ignoreEmptyValue]="true"
+            message="Podrzędny typ musi być inny od głównego typu"
+            [comparisonTarget]="secondaryTypeComparison"
+            >
+          </dxi-validation-rule>
+        </dxi-item>
+
+        <dxi-item
+          [colSpan]="2"
+          itemType="button"
+          [buttonOptions]="{
+            text: 'Dodaj nowy gatunek',
+            useSubmitBehavior: true,
+            type: 'success'
+          }"
+        >
+        </dxi-item>
+      </dx-form>
+      </form>
+    </div>
+  </div>
+</div>
+

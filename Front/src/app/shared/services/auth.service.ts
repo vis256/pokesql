@@ -25,33 +25,35 @@ export class AuthService {
     this._lastAuthenticatedPath = value;
   }
 
-
-  async logIn(username: string, password: string, callback : Function) {
+  // login
+  async logIn(login: string, password: string, callback : Function) {
 
     try {
-      console.log(username, password);
 
       // Send request
-      this.http.post("api/login", {login : username, password}).subscribe((resp : any) => {
+      this.http.post("api/login", {login, password}).subscribe((resp : any) => {
         console.log({if_u_see_this_maybe_this_works: resp})
         this.token.setToken(resp.token);
-        this.router.navigate(['/']);
 
-        this.user.setUserData("Ash Ketchup");
-        callback && callback({
-          isOk : true,
-          data : this.user.user
+        // FIXME: get user data and set isProfessor correctly
+        // and i guess fit field naming to backend too
+        this.user.loadCurrentUserData(login, () => {
+          this.router.navigate(['/']);
+          
+          callback && callback({
+            isOk : true,
+            data : this.user.user
+          });
         });
-
-        this.router.navigate(['/']);
-      })
-
+      });
     }
-    catch {
-        callback && callback({
-          isOk : false,
-          message : "Authentication failed"
-        })
+    catch (err) {
+      console.log({err});
+      
+      callback && callback({
+        isOk : false,
+        message : "Authentication failed: " + err
+      })
     }
   }
 
@@ -72,21 +74,26 @@ export class AuthService {
     }
   }
 
-  async createAccount(email: string, password: string) {
+  async createAccount(login: string, password: string, username : string, is_professor : boolean, callback : Function) {
     try {
       // Send request
-      console.log(email, password);
+      console.log(login, password, username, is_professor);
 
-      this.router.navigate(['/create-account']);
-      return {
+      this.http.post('/api/register', {login, password, username, is_professor}).subscribe((data : any) => {
+        this.router.navigate(['/login']);
+      })
+
+      callback && callback({
         isOk: true
-      };
+      })
     }
-    catch {
-      return {
+    catch (err) {
+      console.log({err});
+      
+      callback && callback({
         isOk: false,
-        message: "Failed to create account"
-      };
+        message: "Failed to create account: " + err
+      })
     }
   }
 

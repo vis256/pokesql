@@ -1,0 +1,14 @@
+<div
+  [style]="{
+    borderColor: colors[attackData.type],
+    color : colors[attackData.type],
+    display: 'flex',
+    justifyContent: 'space-between'
+  }">
+  <div style="border: none; border-radius: 0; width: 8rem; min-width: 8rem; max-width: 8rem; text-overflow: ellipsis; border-right: 1px solid #fff5">
+    {{ attackData.name }}
+  </div>
+  <div style="border: none;font-weight: 500; padding-left: 1rem;">
+    {{ attackData.power }}
+  </div>
+</div>

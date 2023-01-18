@@ -1,0 +1,32 @@
+<img class="background" src="../../assets/backgrounds/city.webp">
+
+<div class="main-container">
+  <div class="main">
+    <dx-scroll-view>
+      <h1 class="title">
+        Ataki
+        <dx-button
+          *ngIf="user.isProfessor()"
+          (click)="router.navigate(['/pokedex/new'])"
+          class="modify-button"
+          text="Dodaj nowy atak"
+          icon="add"
+        >
+        </dx-button>
+      </h1>
+
+      <dx-list
+        [items]="attacks"
+        itemTemplate="item"
+        (onItemClick)="click($event)"
+        [searchEnabled]="true"
+        searchExpr="name"
+        searchMode="contains"
+      >
+        <div *dxTemplate="let item of 'item'">
+          <app-attack-label [name]="item.name"></app-attack-label>
+        </div>
+      </dx-list>
+    </dx-scroll-view>
+  </div>
+</div>
