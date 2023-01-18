@@ -9,7 +9,7 @@ use crate::user::AuthStatus;
 
 #[derive(Serialize, Deserialize)]
 pub struct Pokeball {
-    name: String,
+    pub name: String,
 }
 
 async fn get_all(pool: &Pool<Postgres>) -> Result<Vec<Pokeball>, Error> {

@@ -8,6 +8,7 @@ use super::PokedexEntry;
 use crate::user::AuthStatus;
 
 use crate::attacks::Attack;
+use crate::pokeballs::Pokeball;
 use crate::response::{ErrInfo, Response};
 
 pub async fn get_all(pool: &Pool<Postgres>) -> Result<Vec<PokedexEntry>, Error> {
@@ -22,6 +23,90 @@ pub async fn get_pokedex_entry(pool: &Pool<Postgres>, id: i32) -> Result<Pokedex
 pub struct AttackPokedex {
     attack: String,
     pokedex_num: i32
+}
+
+#[derive(Deserialize)]
+pub struct PokeballPokedex {
+    pokeball: String,
+    pokedex_num: i32
+}
+
+async fn pokeball_pokedex(
+    pool: &Pool<Postgres>,
+    pokeball: &str
+) -> Result<Vec<PokedexEntry>, Error> {
+    sqlx::query_as!(
+        PokedexEntry,
+        r#"SELECT p.number, p.name, p.min_level, p.primary_type, p.secondary_type, p.region
+            FROM PokeballsPokedex x JOIN Pokedex p ON x.pokedex = p.number WHERE x.pokeball = $1"#,
+        pokeball).fetch_all(pool).await
+}
+
+async fn pokedex_pokeballs(
+    pool: &Pool<Postgres>,
+    pokedex: i32
+) -> Result<Vec<Pokeball>, Error> {
+    sqlx::query_as!(
+        Pokeball,
+        r#"SELECT p.name FROM PokeballsPokedex x JOIN Pokedex p
+            ON x.pokedex = p.number WHERE x.pokedex = $1"#, pokedex
+    ).fetch_all(pool).await
+}
+
+async fn new_pokedex_pokeball(
+    pool: &Pool<Postgres>,
+    pp: &PokeballPokedex
+) -> Result<(), Error> {
+    let mut transaction = pool.begin().await?;
+    sqlx::query!(
+        r#"INSERT INTO PokeballsPokedex(pokeball, pokedex)
+            VALUES($1, $2)"#, pp.pokeball, pp.pokedex_num
+    ).execute(&mut transaction).await?;
+    transaction.commit().await
+}
+
+#[get("/pokedex/<num>/pokeballs")]
+pub async fn get_pokedex_pokeballs(
+    pool: &State<Pool<Postgres>>,
+    num: i32
+) -> Option<Json<Vec<Pokeball>>> {
+    match pokedex_pokeballs(pool, num).await {
+        Ok(x) => Some(Json(x)),
+        Err(_) => None
+    }
+}
+
+#[get("/pokeballs/<name>/pokedex")]
+pub async fn get_pokeball_pokedex(
+    pool: &State<Pool<Postgres>>,
+    name: &str
+) -> Option<Json<Vec<PokedexEntry>>> {
+    match pokeball_pokedex(pool, name).await {
+        Ok(x) => Some(Json(x)),
+        Err(_) => None
+    }
+}
+
+#[post("/pokedex/pokeballs/new", data = "<pp>")]
+pub async fn add_pokedex_pokeball(
+    pool: &State<Pool<Postgres>>,
+    auth: AuthStatus,
+    pp: Json<PokeballPokedex>
+) -> Response<()> {
+    match auth {
+        AuthStatus::Professor(_) => {
+            if let Err(e) = new_pokedex_pokeball(pool, &pp.into_inner()).await {
+                if let Error::RowNotFound = e {
+                    Response::NotFound(Some(Json(ErrInfo::from(e))))
+                } else {
+                    Response::BadRequest(Some(Json(ErrInfo::from(e))))
+                }
+            } else {
+                Response::Success(Some(()))
+            }
+        }
+        _ => Response::Unauthorized(())
+    }
 }
 
 async fn get_attacks(
