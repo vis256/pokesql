@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { Counter } from '../models/Counter';
 import { Type } from '../models/Type';
 import { TokenService } from './token.service';
@@ -32,5 +32,15 @@ export class TypesService {
 
   public addNewCounter(newCounter : Counter) {
     return this.http.post(`/api/counters/new`, newCounter, {headers : this.token.AuthHeaders});
+  }
+
+  public getAllTypesString() : Observable<string[]> {
+    return this.http.get(`/api/types`).pipe(map((data : any) => {
+      let r : string[] = [];
+      for (const type of data) {
+        r.push(type.name);
+      }
+      return r;
+    }));
   }
 }

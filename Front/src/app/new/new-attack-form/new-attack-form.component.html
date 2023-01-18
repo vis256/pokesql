@@ -31,7 +31,7 @@
           dataField="type"
           editorType="dxSelectBox"
           [editorOptions]="{
-            dataSource: type.getAllTypes()
+            dataSource: types
           }"
           >
           <dxo-label text="Typ ataku"></dxo-label>
@@ -47,7 +47,7 @@
           dataField="power"
           editorType="dxNumberBox"
           [editorOptions]="{
-            format: '#'
+            format: '0'
           }"
           >
           <dxo-label text="Moc ataku"></dxo-label>

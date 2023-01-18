@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {UserService} from "../shared/services";
 import {Router} from "@angular/router";
+import { TypesService } from '../shared/services/types.service';
+import { Type } from '../shared/models/Type';
 
 const colors : any = {
   Normal: '#A8A77A',
@@ -32,25 +34,25 @@ export class TypesListComponent implements OnInit {
 
   constructor(
     public user : UserService,
-    public router : Router
+    public router : Router,
+    public type : TypesService
   ) { }
 
-  types : Array<string> = [];
+  types : Type[]= [];
 
   colors = colors;
 
   ngOnInit(): void {
-    // TODO: Fetch data from backend
-    for (let type of Object.keys(colors)) {
-      this.types.push(type);
-    }
+    this.type.getAllTypes().subscribe(data => {
+      this.types = data;
+    })
   }
 
   currentType : string = ''
   popupVisible : boolean = false;
 
   click($event : any) {
-    this.currentType = $event.itemData;
+    this.currentType = $event.itemData.name;
     this.popupVisible = true;
   }
 

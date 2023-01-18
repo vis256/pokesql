@@ -20,10 +20,8 @@
         itemTemplate="item"
         (onItemClick)="click($event)"
       >
-        <div *dxTemplate="let item of 'item'" [style]="{
-          backgroundColor: colors[item]
-        }">
-          {{item}}
+        <div *dxTemplate="let item of 'item'">
+          <app-type-label [type]="item.name"></app-type-label>
         </div>
       </dx-list>
     </dx-scroll-view>

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Attack } from 'src/app/shared/models/Attack';
+import { Type } from 'src/app/shared/models/Type';
 import { AttackService } from 'src/app/shared/services/attack.service';
+import { ErrorService } from 'src/app/shared/services/error.service';
 import { TypesService } from 'src/app/shared/services/types.service';
 
 @Component({
@@ -12,7 +14,8 @@ export class NewAttackFormComponent implements OnInit {
 
   constructor(
     public type : TypesService,
-    private attack : AttackService
+    private attack : AttackService,
+    private error : ErrorService
   ) { }
 
   formData : Attack = {
@@ -22,7 +25,12 @@ export class NewAttackFormComponent implements OnInit {
     hit_chance: 0
   };
 
+  types : string[] = [];
+
   ngOnInit(): void {
+    this.type.getAllTypesString().subscribe(data => {
+      this.types = data;
+    })
   }
 
   onFormSubmit($event: any) {
@@ -37,8 +45,8 @@ export class NewAttackFormComponent implements OnInit {
         
       },
       err => {
-        console.log({err});
-        
+        console.error({err});
+        this.error.displayError(err.error);
       }
     )
   }
