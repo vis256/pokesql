@@ -1,1 +1,107 @@
-<p>new-attack-form works!</p>
+<img class="background" src="/assets/backgrounds/lab.jpg">
+
+<div class="main-container">
+  <div class="main">
+    <h1 class="title">Dodaj nowy atak</h1>
+    <div class="form-container">
+      <form (submit)="onFormSubmit($event)">
+      <dx-form
+        id="newPokedexEntryForm"
+        [colCount]="2"
+        [formData]="formData"
+        style="width: 30rem;"
+        validationGroup="pokedexData"
+        [showValidationSummary]="true"
+        >
+        <dxi-item
+          [colSpan]="1"
+          dataField="name"
+          editorType="dxTextBox"
+          >
+          <dxi-validation-rule
+            type="required"
+            message="Podaj nazwe dodawanego ataku"
+            >
+          </dxi-validation-rule>
+          <dxo-label text="Nazwa ataku"></dxo-label>
+        </dxi-item>
+
+        <dxi-item
+          [colSpan]="1"
+          dataField="type"
+          editorType="dxSelectBox"
+          [editorOptions]="{
+            dataSource: type.getAllTypes()
+          }"
+          >
+          <dxo-label text="Typ ataku"></dxo-label>
+          <dxi-validation-rule
+            type="required"
+            message="Podaj typ ataku"
+            >
+          </dxi-validation-rule>
+        </dxi-item>
+
+        <dxi-item
+          [colSpan]="1"
+          dataField="power"
+          editorType="dxNumberBox"
+          [editorOptions]="{
+            format: '#'
+          }"
+          >
+          <dxo-label text="Moc ataku"></dxo-label>
+          <dxi-validation-rule
+            type="range"
+            [min]="0"
+            message="Moc ataku musi być większa lub równa 0"
+            >
+          </dxi-validation-rule>
+          <dxi-validation-rule
+            type="required"
+            message="Podaj moc ataku"
+            >
+          </dxi-validation-rule>
+        </dxi-item>
+
+        <dxi-item
+        [colSpan]="1"
+        dataField="hit_chance"
+        editorType="dxNumberBox"
+        >
+        <dxo-label text="Szansa trafienia ataku"></dxo-label>
+        <dxi-validation-rule
+          type="range"
+          [min]="0"
+          message="Szansa ataku musi być większa lub równa 0"
+          >
+        </dxi-validation-rule>
+        <dxi-validation-rule
+            type="range"
+            [max]="1"
+            message="Szansa ataku musi być mniejsza lub równa 1"
+            >
+        </dxi-validation-rule>
+        <dxi-validation-rule
+          type="required"
+          message="Podaj szanse trafienia ataku"
+          >
+        </dxi-validation-rule>
+      </dxi-item>
+
+        <dxi-item
+          [colSpan]="2"
+          itemType="button"
+          [buttonOptions]="{
+            text: 'Dodaj nowy atak',
+            useSubmitBehavior: true,
+            type: 'success'
+          }"
+        >
+        </dxi-item>
+      </dx-form>
+      </form>
+    </div>
+  </div>
+</div>
+

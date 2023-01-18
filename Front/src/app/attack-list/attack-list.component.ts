@@ -17,12 +17,7 @@ export class AttackListComponent implements OnInit {
     private attack : AttackService
   ) { }
 
-  attacks : Attack[] = [{
-    name : 'XD',
-    type : 'Grass',
-    hit_chance: 0.9,
-    power: 110
-  }];
+  attacks : Attack[] = [];
 
   click($event : any) {
     this.router.navigate([`/pokedex/attacks/${$event.itemData.name}`])

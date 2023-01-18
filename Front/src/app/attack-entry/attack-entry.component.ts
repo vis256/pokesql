@@ -28,7 +28,9 @@ export class AttackEntryComponent implements OnInit {
       this.attackName = data.params.attackName;
     })
 
-    
+    this.attack.getAttackByName(this.attackName!).subscribe(data => {
+      this.attackData = data;
+    })
   }
 
 }

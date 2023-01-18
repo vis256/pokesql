@@ -24,4 +24,8 @@ export class PokedexService {
   public addNewPokedexEntry( newPokedexEntry : Pokedex ) {
     return this.http.post(`/api/pokedex/new`, newPokedexEntry, {headers : this.token.AuthHeaders})
   }
+
+  public updatePokedexEntry( pokedexEntry : Pokedex ) {
+    return this.http.post(`/api/pokedex/${pokedexEntry.number}/update`, pokedexEntry, {headers : this.token.AuthHeaders});
+  }
 }

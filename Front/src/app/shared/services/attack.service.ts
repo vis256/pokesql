@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { TokenService } from './token.service';
 import { Attack } from '../models/Attack';
+import { UserService } from './user.service';
 
 @Injectable({
   providedIn: 'root'
@@ -10,32 +11,35 @@ import { Attack } from '../models/Attack';
 export class AttackService {
   constructor(
     private http : HttpClient,
-    private token : TokenService
+    private token : TokenService,
+    private user : UserService
   ) { }
 
   public getAttacksForPokedex(pokedex_num : number) : Observable<Attack[]> {
-    return this.http.get(`/api/`) as Observable<Attack[]>;
+    return this.http.get(`/api/pokedex/${pokedex_num}/attacks`) as Observable<Attack[]>;
   }
 
-  public addAttack(attack : Attack) {
-    return this.http.post(``, attack, {headers : this.token.AuthHeaders});
+  public addNewAttack(attack : Attack) {
+    return this.http.post(`/api/attack/new`, attack, {headers : this.token.AuthHeaders});
   }
 
-  public addAttackToPokedex() {
-    return this.http.post(``, {})
+  public addAttackToPokedex(AttackPokedex : {attack : string, pokedex_num : number}) {
+    return this.http.post(`/api/pokedex/attacks/new`, AttackPokedex, {headers: this.token.AuthHeaders});
   }
 
   public getAttacksForPokemon(pokemon_id : number) : Observable<Attack[]> {
-    return this.http.get(``) as Observable<Attack[]>;
+    return this.http.get(`/api/pokemons/${pokemon_id}/attacks`) as Observable<Attack[]>;
   }
 
   public getAllAttacks() : Observable<Attack[]> {
-    return this.http.get('') as Observable<Attack[]>;
+    return this.http.get('/api/attacks') as Observable<Attack[]>;
   }
 
-  // public addAttacksToPokemon(attack)
+  public addAttacksToPokemon(PokemonAttack : {pokemon_id : number, attack : string}) {
+    return this.http.post(`/api/pokemons/${this.user.user.login}/attacks/new`, PokemonAttack, {headers : this.token.AuthHeaders});
+  }
 
   public getAttackByName(attackName : string) : Observable<Attack> {
-    return this.http.get('') as Observable<Attack>;
+    return this.http.get(`/api/attacks/${attackName}`) as Observable<Attack>;
   }
 }
