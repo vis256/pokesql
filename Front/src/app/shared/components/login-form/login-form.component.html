@@ -17,11 +17,7 @@
       <dxo-button-options width="100%" type="default" [useSubmitBehavior]="true" [template]="'signInTemplate'">
       </dxo-button-options>
     </dxi-item>
-
-    <dxi-item itemType="button">
-      <dxo-button-options text="Stwórz konto" width="100%" [onClick]="onCreateAccountClick"></dxo-button-options>
-    </dxi-item>
-
+    
     <ng-container *dxTemplate="let item of 'signInTemplate'">
       <div>
         <span class="dx-button-text">

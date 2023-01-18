@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Pokemon } from '../models/Pokemon';
+import { TokenService } from './token.service';
 import { UserService } from './user.service';
 
 @Injectable({
@@ -10,7 +11,8 @@ import { UserService } from './user.service';
 export class PokemonService {
   constructor(
     private http : HttpClient,
-    private user : UserService
+    private user : UserService,
+    private token : TokenService
   ) { }
 
   public getMyPokemon() : Observable<Pokemon[]> {
@@ -18,6 +20,6 @@ export class PokemonService {
   }
 
   public addNewPokemon(pokemon : Pokemon) : Observable<object> {
-    return this.http.post(`/api/pokemons/${this.user.user?.login}/new`, pokemon);
+    return this.http.post(`/api/pokemons/${this.user.user?.login}/new`, pokemon, {headers: this.token.AuthHeaders});
   }
 }

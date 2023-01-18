@@ -107,7 +107,7 @@ pub async fn update_pokemon(
     }
 }
 
-#[get("/pokemons/<id>")]
+#[get("/pokemon/<id>")]
 pub async fn get_pokemon(
     pool: &State<Pool<Postgres>>,
     id: i64

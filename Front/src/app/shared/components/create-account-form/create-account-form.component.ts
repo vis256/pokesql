@@ -15,7 +15,9 @@ import { AuthService } from '../../services';
 })
 export class CreateAccountFormComponent {
   loading = false;
-  formData: any = {};
+  formData: any = {
+    is_professor: false
+  };
 
   constructor(private authService: AuthService, private router: Router) { }
 

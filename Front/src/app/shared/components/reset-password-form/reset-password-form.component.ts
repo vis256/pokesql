@@ -1,12 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { Component, NgModule } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
+import { DxScrollViewModule } from 'devextreme-angular';
 import { DxFormModule } from 'devextreme-angular/ui/form';
 import { DxLoadIndicatorModule } from 'devextreme-angular/ui/load-indicator';
 import notify from 'devextreme/ui/notify';
 import { AuthService } from '../../services';
 
-const notificationText = 'We\'ve sent a link to reset your password. Check your inbox.';
+const notificationText = 'Zmiana hasła udana';
 
 @Component({
   selector: 'app-reset-password-form',
@@ -21,18 +22,21 @@ export class ResetPasswordFormComponent {
 
   async onSubmit(e: Event) {
     e.preventDefault();
-    const { email } = this.formData;
+    const { password } = this.formData;
     this.loading = true;
 
-    const result = await this.authService.resetPassword(email);
-    this.loading = false;
+    this.authService.resetPassword(password, (result : any) => {
+      this.loading = false;
 
-    if (result.isOk) {
-      this.router.navigate(['/login-form']);
-      notify(notificationText, 'success', 2500);
-    } else {
-      notify(result.message, 'error', 2000);
-    }
+      if (result.isOk) {
+        this.router.navigate(['/login-form']);
+        notify(notificationText, 'success', 2500);
+      } else {
+        notify(result.message, 'error', 2000);
+      }
+    });
+
+
   }
 }
 @NgModule({
@@ -40,7 +44,8 @@ export class ResetPasswordFormComponent {
     CommonModule,
     RouterModule,
     DxFormModule,
-    DxLoadIndicatorModule
+    DxLoadIndicatorModule,
+    DxScrollViewModule
   ],
   declarations: [ResetPasswordFormComponent],
   exports: [ResetPasswordFormComponent]

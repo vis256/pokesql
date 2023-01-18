@@ -21,7 +21,7 @@ pub async fn register(
     ).execute(&mut transaction).await {
         Ok(_) => {
             transaction.commit().await.unwrap();
-            Response::Success(None)
+            Response::Success(Some(()))
         },
         Err(e) => {
             transaction.rollback().await.unwrap();

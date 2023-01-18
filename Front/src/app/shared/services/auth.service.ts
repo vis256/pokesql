@@ -3,6 +3,7 @@ import { CanActivate, Router, ActivatedRouteSnapshot } from '@angular/router';
 import {HttpClient} from "@angular/common/http";
 import {TokenService} from "./token.service";
 import {UserService} from "./user.service";
+import { catchError, throwError } from 'rxjs';
 
 const defaultPath = '/';
 
@@ -27,25 +28,40 @@ export class AuthService {
 
   // login
   async logIn(login: string, password: string, callback : Function) {
+    this.user.user.login = login;
 
     try {
-
       // Send request
-      this.http.post("api/login", {login, password}).subscribe((resp : any) => {
-        console.log({if_u_see_this_maybe_this_works: resp})
-        this.token.setToken(resp.token);
-
-        // FIXME: get user data and set isProfessor correctly
-        // and i guess fit field naming to backend too
-        this.user.loadCurrentUserData(login, () => {
-          this.router.navigate(['/']);
+      this.http.post("api/login", {login, password})
+      .pipe(
+        catchError((err : any) => {
+          console.log({err});
+          callback && callback({
+            isOk : false,
+            message: 'Złe dane logowania'
+          });
+          return throwError(err);
+        })
+      )
+      .subscribe(
+        (resp : any) => {
+          console.log({if_u_see_this_maybe_this_works: resp})
+          this.token.setToken(resp.token);
+          this.user.loadCurrentUserData(login, () => {
+            callback && callback({
+              isOk : true,
+              data : this.user.user
+            });
+          });
+        }),
+        (err : any) => {
+          console.log({err});
           
           callback && callback({
-            isOk : true,
-            data : this.user.user
+            isOk : false,
+            message: ''
           });
-        });
-      });
+        }
     }
     catch (err) {
       console.log({err});
@@ -79,7 +95,7 @@ export class AuthService {
       // Send request
       console.log(login, password, username, is_professor);
 
-      this.http.post('/api/register', {login, password, username, is_professor}).subscribe((data : any) => {
+      this.http.post('api/register', {login, password, username, is_professor}).subscribe((data : any) => {
         this.router.navigate(['/login']);
       })
 
@@ -114,20 +130,49 @@ export class AuthService {
     };
   }
 
-  async resetPassword(email: string) {
+  async resetPassword(password: string, callback : Function) {
     try {
       // Send request
-      console.log(email);
-
-      return {
-        isOk: true
+      const ud = {
+        login : this.user.user.login,
+        password,
+        username : this.user.user.username,
+        is_professor : this.user.user.is_professor
       };
+      this.http.post(`api/users/${this.user.user.login}/update`, ud, {headers: this.token.AuthHeaders})
+      .pipe(
+        catchError((err : any) => {
+          console.log({err});
+          callback && callback({
+            isOk : false,
+            message: 'Zmiana hasła nie powiodła się'
+          });
+          return throwError(err);
+        })
+      )
+      .subscribe(
+        (resp : any) => {
+          callback && callback({
+            isOk : true
+            
+          });
+        }),
+        (err : any) => {
+          console.log({err});
+          
+          callback && callback({
+            isOk : false,
+            message: 'Zmiana hasła nie powiodła się'
+          });
+        }
     }
-    catch {
-      return {
-        isOk: false,
-        message: "Failed to reset password"
-      };
+    catch (err) {
+      console.log({err});
+      
+      callback && callback({
+        isOk : false,
+        message : "Authentication failed: " + err
+      })
     }
   }
 
@@ -145,7 +190,6 @@ export class AuthGuardService implements CanActivate {
     const isLoggedIn = this.authService.loggedIn;
     const isAuthForm = [
       'login-form',
-      'reset-password',
       'create-account',
       'change-password/:recoveryCode'
     ].includes(route.routeConfig?.path || defaultPath);

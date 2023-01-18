@@ -24,31 +24,30 @@ export class HeaderComponent implements OnInit {
   @Input()
   title!: string;
 
-  user?: UserInfo;
-
-  userMenuItems = [{
-    text: 'Profile',
-    icon: 'user',
-    onClick: () => {
-      this.router.navigate(['/profile']);
+  userMenuItems = [
+  {
+    text: 'Zmień hasło',
+    icon: 'edit',
+    onClick : () => {
+      this.router.navigate(['reset-password'])
     }
   },
   {
-    text: 'Logout',
+    text: 'Wyloguj się',
     icon: 'runner',
     onClick: () => {
       this.authService.logOut();
     }
-  }];
+  }
+];
 
   constructor(
     private authService: AuthService,
     private router: Router,
-    private userService : UserService
+    public userService : UserService
   ) { }
 
   ngOnInit() {
-    this.user = this.userService.user;
   }
 
   toggleMenu = () => {

@@ -20,13 +20,15 @@ export class LoginFormComponent {
 
   async onSubmit(e: Event) {
     e.preventDefault();
-    const { email, password } = this.formData;
+    const { login, password } = this.formData;
     this.loading = true;
 
-    await this.authService.logIn(email, password, (result : any) => {
+    await this.authService.logIn(login, password, (result : any) => {
       if (!result.isOk) {
         this.loading = false;
         notify(result.message, 'error', 2000);
+      } else {
+        this.router.navigate(['/']);
       }
     });
   }

@@ -9,11 +9,16 @@ import { UserInfo } from '../models/UserInfo';
 export class UserService {
   constructor(
     private http : HttpClient
-  ) { }
+  ) {
+    const ud = window.localStorage.getItem("POKESQL_USERDATA");
+    if (ud !== null) {
+      this.user = JSON.parse(ud);
+    }
+  }
 
   public user : UserInfo = {
-    login: '',
-    username: '',
+    login: 'Not loaded',
+    username: 'Not loaded',
     is_professor: false
   };
 
@@ -24,15 +29,19 @@ export class UserService {
   public loadCurrentUserData(login : string, callback : Function) : void {
     this.http.get(`api/users/${login}`).subscribe((data : any) => {
       this.user = data;
+      this.user.login = login;
+      window.localStorage.setItem("POKESQL_USERDATA", JSON.stringify(this.user));
+      console.log("XD", this.user);
+      
       callback();
     })
   }
 
   public getUserData(login : string) : Observable<UserInfo> {
-    return this.http.get(`/api/users/${login}`) as Observable<UserInfo>;
+    return this.http.get(`api/users/${login}`) as Observable<UserInfo>;
   }
 
   public getAllUsers() : Observable<UserInfo[]> {
-    return this.http.get('/api/users') as Observable<UserInfo[]>;
+    return this.http.get('api/users') as Observable<UserInfo[]>;
   }
 }

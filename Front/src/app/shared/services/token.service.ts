@@ -11,10 +11,17 @@ export class TokenService {
 
   }
 
-  public AuthHeaders : HttpHeaders = new HttpHeaders();
-
   get isLoggedIn() {
   	return this.getToken() !== null;
+  }
+
+  public get AuthHeaders() : HttpHeaders {
+    const t = this.getToken();
+    if (t == null) return new HttpHeaders();
+
+    return new HttpHeaders({
+      'Authorization': t
+    });
   }
 
   public getToken() {

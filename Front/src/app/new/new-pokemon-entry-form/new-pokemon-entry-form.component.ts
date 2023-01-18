@@ -6,6 +6,7 @@ import {Pokedex} from "../../shared/models/Pokedex";
 import {Pokemon} from "../../shared/models/Pokemon";
 import { UserService } from 'src/app/shared/services';
 import { Pokeball } from 'src/app/shared/models/Pokeball';
+import { PokemonService } from 'src/app/shared/services/pokemon.service';
 
 @Component({
   selector: 'app-new-pokemon-entry-form',
@@ -17,7 +18,8 @@ export class NewPokemonEntryFormComponent implements OnInit {
     private http: HttpClient,
     private route : ActivatedRoute,
     private pokedex : PokedexService,
-    private user : UserService
+    private user : UserService,
+    private pokemon : PokemonService
   ) {
     this.checkMinLevel = this.checkMinLevel.bind(this);
     this.updateCurrentPokedex = this.updateCurrentPokedex.bind(this);
@@ -47,24 +49,9 @@ export class NewPokemonEntryFormComponent implements OnInit {
   ];
 
   ngOnInit(): void {
-    // this.pokedex.getPokedexList().subscribe((data : any) => {
-    //   this.currentPokedexList = data;
-    // })
-    this.currentPokedexList = [    {
-      number: 1,
-      name: "XD",
-      min_level: 11,
-      region: 'Unova',
-      primary_type: 'Grass',
-      secondary_type: 'Fire'
-    },
-    {
-      number: 2,
-      name: "XD2",
-      min_level: 15,
-      region: 'Kanto',
-      primary_type: 'Normal'
-    },]
+    this.pokedex.getPokedexList().subscribe((data : any) => {
+      this.currentPokedexList = data;
+    })
   }
 
   updateCurrentPokedex($event : any) {
@@ -95,8 +82,18 @@ export class NewPokemonEntryFormComponent implements OnInit {
 
     $event.preventDefault();
 
-    this.http.post("http://localhost:5000/newPokedexEntry", this.formData, {}).subscribe(resp => {
-      console.log({resp})
-    })
+    console.log({pd : this.currentPokedexData});
+    
+
+    this.pokemon.addNewPokemon(this.formData).subscribe(
+      data => {
+        console.log(data);
+        
+      },
+      err => {
+        console.log(err);
+        
+      }
+    );
   }
 }

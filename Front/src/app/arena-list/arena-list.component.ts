@@ -42,23 +42,22 @@ export class ArenaListComponent implements OnInit {
   }
 
   getArenaMemberId(arena : string) : number {
-    return this.membershipArenas.find(elem => elem.arena == arena)!.id;
+    return this.membershipArenas.find(elem => elem.arena == arena)!.id!;
   }
 
   items : Arena[] = [
-    {
-      name : 'Kanto Gym',
-      region : 'Kanto',
-      leader: 1
-    },
-    {
-      name : 'Unova Arena',
-      region : 'Unova',
-      leader: 2
-    },
+
   ]
 
   joinArena(arena : string) {
-    // TODO: Join arena
+    this.arena.joinArena(arena).subscribe(data => {
+      console.log({data});
+      this.arena.getMemberships().subscribe(arenaData => {
+        const a = arenaData.find(e => e.arena === arena);
+        if (a) 
+          this.router.navigate([`/arena/${a.id!}`]);
+        
+      })
+    })
   }
 }

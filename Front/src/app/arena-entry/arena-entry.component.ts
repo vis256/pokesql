@@ -16,20 +16,20 @@ export class ArenaEntryComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    // this.route.paramMap.subscribe((data : any) => {
-    //   console.log({xd: data.params});
-    //   if (data.params.arenaMemberID) {
-    //     const arenaMemberID = parseInt(data.params.arenaMemberID);
+    this.route.paramMap.subscribe((data : any) => {
+      console.log({xd: data.params});
+      if (data.params.arenaMemberID) {
+        const arenaMemberID = parseInt(data.params.arenaMemberID);
 
-    //     this.arena.getArenaMember(arenaMemberID).subscribe(data => {
-    //       this.arenaData = data;
+        this.arena.getArenaMember(arenaMemberID).subscribe(data => {
+          this.arenaData = data;
 
-    //       this.arena.getArenaMembers(this.arenaData!.arena).subscribe(data => {
-    //         this.arenaMembers = data;
-    //       })
-    //     })
-    //   }
-    // })
+          this.arena.getArenaMembers(this.arenaData!.arena).subscribe(data => {
+            this.arenaMembers = data;
+          })
+        })
+      }
+    })
   }
 
   arenaData? : ArenaMember;

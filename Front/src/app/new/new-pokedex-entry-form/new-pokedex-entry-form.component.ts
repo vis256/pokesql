@@ -55,8 +55,15 @@ export class NewPokedexEntryFormComponent implements OnInit {
     
     $event.preventDefault();
 
-    this.http.post("http://localhost:5000/newPokedexEntry", this.formData, {}).subscribe(resp => {
-      console.log({resp})
-    })
+    this.pokedex.addNewPokedexEntry(this.formData).subscribe(
+      data => {
+        console.log({data});
+        
+      },
+      err => {
+        console.log({err});
+        
+      }
+    )
   }
 }
