@@ -75,7 +75,11 @@ async fn rocket() -> _ {
                 attacks::get_attacks,
                 types::counters::get_counters_worse,
                 types::counters::get_counters_better,
-                types::counters::add_counter
+                types::counters::add_counter,
+                arenas::duels::get_user_duels,
+                arenas::duels::get_pokemon_duels,
+                arenas::duels::new_duel
+
             ])
         .mount("/api/login", routes![login::login])
         .manage(pool)
