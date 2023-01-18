@@ -66,7 +66,9 @@ impl<'r> FromRequest<'r> for AuthStatus {
                     Outcome::Success(Self::Trainer(claims.login))
                 }
             }
-            None => Outcome::Failure((Status::BadRequest, ApiKeyError::Missing)),
+            None => {
+                Outcome::Failure((Status::BadRequest, ApiKeyError::Missing))
+            }
         }
     }
 }
