@@ -6,8 +6,8 @@ mod pokemon;
 mod response;
 mod pokeballs;
 mod arenas;
-mod types;
 mod attacks;
+mod types;
 
 use user::{
     login,
@@ -36,6 +36,12 @@ async fn rocket() -> _ {
                 pokedex::pokedex_id_get,
                 pokedex::pokedex_set,
                 pokedex::pokedex_update,
+                pokedex::get_pokedex_attacks,
+                pokedex::attack_pokedex,
+                pokedex::new_pokedex_attack,
+                pokedex::get_pokedex_pokeballs,
+                pokedex::get_pokeball_pokedex,
+                pokedex::add_pokedex_pokeball,
                 pokemon::user_new_pokemon,
                 pokemon::user_pokemons_get,
                 pokemon::pokemon_attacks,
@@ -66,7 +72,10 @@ async fn rocket() -> _ {
                 types::update_type,
                 attacks::new_attack,
                 attacks::get_attack,
-                attacks::get_attacks
+                attacks::get_attacks,
+                types::counters::get_counters_worse,
+                types::counters::get_counters_better,
+                types::counters::add_counter
             ])
         .mount("/api/login", routes![login::login])
         .manage(pool)

@@ -1,3 +1,5 @@
+pub mod counters;
+
 use rocket::State;
 use rocket::serde::{Serialize, Deserialize};
 use rocket::serde::json::Json;
