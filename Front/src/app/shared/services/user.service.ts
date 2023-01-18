@@ -3,12 +3,6 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { UserInfo } from '../models/UserInfo';
 
-export interface User {
-  name : string;
-  login : string;
-  isProfessor : boolean;
-}
-
 @Injectable({
   providedIn: 'root'
 })
@@ -17,14 +11,21 @@ export class UserService {
     private http : HttpClient
   ) { }
 
-  public user? : User = {
-    name : 'Not loaded',
-    login: 'Not loaded',
-    isProfessor : true
+  public user : UserInfo = {
+    login: '',
+    username: '',
+    is_professor: false
   };
 
   public isProfessor() {
-    return this.user!.isProfessor;
+    return this.user!.is_professor;
+  }
+
+  public loadCurrentUserData(login : string, callback : Function) : void {
+    this.http.get(`api/users/${login}`).subscribe((data : any) => {
+      this.user = data;
+      callback();
+    })
   }
 
   public getUserData(login : string) : Observable<UserInfo> {

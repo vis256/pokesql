@@ -34,23 +34,18 @@ export class AuthService {
       this.http.post("api/login", {login, password}).subscribe((resp : any) => {
         console.log({if_u_see_this_maybe_this_works: resp})
         this.token.setToken(resp.token);
-        this.router.navigate(['/']);
 
         // FIXME: get user data and set isProfessor correctly
         // and i guess fit field naming to backend too
-        this.user.user = {
-          name : 'Ash Ketchup',
-          login,
-          isProfessor : true
-        }
-        callback && callback({
-          isOk : true,
-          data : this.user.user
+        this.user.loadCurrentUserData(login, () => {
+          this.router.navigate(['/']);
+          
+          callback && callback({
+            isOk : true,
+            data : this.user.user
+          });
         });
-
-        this.router.navigate(['/']);
-      })
-
+      });
     }
     catch (err) {
       console.log({err});

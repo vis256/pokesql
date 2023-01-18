@@ -1,7 +1,7 @@
 <div class="user-panel">
   <div class="user-info">
-    <img *ngIf="user?.isProfessor" style="filter: invert()" width="24" height="24" src="../assets/lab.png">
-    <div class="user-name">{{user?.name}}</div>
+    <img *ngIf="user?.is_professor" style="filter: invert()" width="24" height="24" src="../assets/lab.png">
+    <div class="user-name">{{user?.username}}</div>
   </div>
   <dx-context-menu
     *ngIf="menuMode === 'context'"
