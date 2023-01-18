@@ -1,4 +1,4 @@
-INSERT INTO Pokeballs(name) VALUES('Poké Ball');
-INSERT INTO Pokeballs(name) VALUES('Great Ball');
-INSERT INTO Pokeballs(name) VALUES('Ultra Ball');
-INSERT INTO Pokeballs(name) VALUES('Master Ball');
+INSERT INTO Pokeballs(name) VALUES('poke_ball');
+INSERT INTO Pokeballs(name) VALUES('great_ball');
+INSERT INTO Pokeballs(name) VALUES('ultra_ball');
+INSERT INTO Pokeballs(name) VALUES('master_ball');
