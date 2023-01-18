@@ -1,0 +1,186 @@
+-- CALL addRegionArena('New Region', 'Bug', 'New Gym');
+-- 
+-- SELECT * FROM Arenas;
+-- SELECT * FROM Regions;
+-- 
+-- -- CHECK IF POKEMON CAN BE CAUGHT IN X POKEBALLS
+-- INSERT INTO PokeballsPokedex(pokeball, pokedex) VALUES('Great Ball', 1);
+-- INSERT INTO PokeballsPokedex(pokeball, pokedex) VALUES('Great Ball', 5);
+-- 
+-- SELECT * FROM Pokedex WHERE number = 1;
+-- 
+-- INSERT INTO Pokemons(id, name, owner, level, sex, pokedex_num, pokeball) VALUES(
+	-- 1,
+	-- 'Marcel',
+	-- 'pokemaster69',
+	-- 13,
+	-- true,
+	-- 1,
+	-- 'Great Ball'
+-- );
+-- 
+-- DELETE FROM Pokemons;
+-- 
+-- -- THIS FAILS - good
+-- -- INSERT INTO Pokemons(id, name, owner, level, sex, pokedex_num, pokeball) VALUES(
+	-- -- 2,
+	-- -- 'Marcel 2',
+	-- -- 'pokemaster69',
+	-- -- 13,
+	-- -- true,
+	-- -- 1,
+	-- -- 'Master Ball'
+-- -- );
+-- 
+-- -- TEST DEFAULT NAME
+-- INSERT INTO Pokemons(id, name, owner, level, sex, pokedex_num, pokeball) VALUES(
+	-- 1,
+	-- NULL,
+	-- 'pokemaster69',
+	-- 13,
+	-- true,
+	-- 1,
+	-- 'Great Ball'
+-- );
+-- 
+-- SELECT * FROM Pokemons;
+-- 
+-- -- VerifyPokemonLevel
+-- SELECT * FROM Pokedex WHERE number = 5;
+-- INSERT INTO Pokemons(id, name, owner, level, sex, pokedex_num, pokeball) VALUES(
+	-- 2,
+	-- NULL,
+	-- 'pokemaster69',
+	-- 10, -- IF LOWER THAN 5 IT FAILS
+	-- true,
+	-- 5,
+	-- 'Great Ball'
+-- );
+-- 
+-- 
+-- -- TEST ARENA SHIT
+-- DELETE FROM Pokemons;
+-- 
+-- -- 1. Add two fucks
+-- INSERT INTO Users(login, password, username, is_professor) VALUES(
+	-- 'player1', 'password', 'Player 1', FALSE
+-- );
+-- 
+-- INSERT INTO Users(login, password, username, is_professor) VALUES(
+	-- 'player2', 'password', 'Player 2', FALSE
+-- );
+-- 
+-- INSERT INTO Users(login, password, username, is_professor) VALUES(
+	-- 'player3', 'password', 'Player 3', FALSE
+-- );
+-- 
+-- SELECT * FROM Users;
+-- 
+-- -- 2. Add their shitty Pokemon
+-- INSERT INTO PokeballsPokedex(pokeball, pokedex) VALUES('Great Ball', 34);
+-- INSERT INTO PokeballsPokedex(pokeball, pokedex) VALUES('Great Ball', 35);
+-- 
+-- INSERT INTO Pokemons(id, name, owner, level, sex, pokedex_num, pokeball) VALUES(
+	-- 11,
+	-- NULL,
+	-- 'player1',
+	-- 98, -- IF LOWER THAN 5 IT FAILS
+	-- true,
+	-- 34,
+	-- 'Great Ball'
+-- );
+-- INSERT INTO Pokemons(id, name, owner, level, sex, pokedex_num, pokeball) VALUES(
+	-- 12,
+	-- NULL,
+	-- 'player2',
+	-- 99, -- IF LOWER THAN 5 IT FAILS
+	-- true,
+	-- 35,
+	-- 'Great Ball'
+-- );
+-- 
+-- SELECT * FROM Pokemons;
+-- 
+-- -- 3. Make players members of Galar Arena
+-- INSERT INTO ArenaMembers(id, usr, arena) VALUES(1, 'player1', 'Galar Arena');
+-- INSERT INTO ArenaMembers(id, usr, arena) VALUES(2, 'player2', 'Galar Arena');
+-- INSERT INTO ArenaMembers(id, usr, arena) VALUES(3, 'player3', 'Galar Arena');
+-- 
+-- SELECT * FROM ArenaMembers;
+-- 
+-- -- 4. Fight
+-- INSERT INTO Duels(id, duel_date, winner, user1, user2, pokemon1, pokemon2, arena) VALUES(
+	-- 1, date('2000-01-01'), true, 1, 2, 11, 12, 'Galar Arena'
+-- );
+-- 
+-- SELECT * FROM Duels;
+-- SELECT * FROM ArenaMembers;
+-- SELECT * FROM Arenas;
+-- 
+-- INSERT INTO Duels(id, duel_date, winner, user1, user2, pokemon1, pokemon2, arena) VALUES(
+	-- 2, date('2000-01-02'), false, 1, 2, 11, 12, 'Galar Arena'
+-- );
+-- 
+-- INSERT INTO Duels(id, duel_date, winner, user1, user2, pokemon1, pokemon2, arena) VALUES(
+	-- 3, date('2000-01-03'), false, 1, 2, 11, 12, 'Galar Arena'
+-- );
+-- 
+-- SELECT * FROM ArenaMembers;
+-- SELECT * FROM Arenas;
+-- 
+-- 
+-- -- ==========================
+-- -- VerifyDuelTrainers()
+-- -- ==========================
+-- 
+-- INSERT INTO ArenaMembers(id, usr, arena) VALUES(4, 'player3', 'Hoenn Arena');
+-- 
+-- -- 'User1 in a member of a wrong arena';
+-- -- INSERT INTO Duels(id, duel_date, winner, user1, user2, pokemon1, pokemon2, arena) VALUES(
+	-- -- 4, date('2000-01-04'), false, 4, 1, 11, 12, 'Galar Arena'
+-- -- );
+-- 
+-- -- 'User2 in a member of a wrong arena';
+-- -- INSERT INTO Duels(id, duel_date, winner, user1, user2, pokemon1, pokemon2, arena) VALUES(
+	-- -- 4, date('2000-01-04'), false, 1, 4, 11, 12, 'Galar Arena'
+-- -- );
+-- 
+-- -- ==========================
+-- -- VerifyDuelPokemons()
+-- -- ==========================
+-- 
+-- -- 'Pokemon1 does not belong to User1'
+-- -- INSERT INTO Duels(id, duel_date, winner, user1, user2, pokemon1, pokemon2, arena) VALUES(
+	-- -- 2, date('2000-01-02'), false, 3, 1, 11, 12, 'Galar Arena'
+-- -- );
+-- 
+-- -- 'Pokemon2 does not belong to User2'
+-- -- INSERT INTO Duels(id, duel_date, winner, user1, user2, pokemon1, pokemon2, arena) VALUES(
+	-- -- 2, date('2000-01-02'), false, 1, 3, 11, 12, 'Galar Arena'
+-- -- );
+-- 
+-- -- 'Trainer cannot duel himself'
+-- -- INSERT INTO Duels(id, duel_date, winner, user1, user2, pokemon1, pokemon2, arena) VALUES(
+	-- -- 2, date('2000-01-02'), false, 1, 1, 11, 12, 'Galar Arena'
+-- -- );
+-- 
+-- -- Check attacks whatever
+-- 
+-- INSERT INTO Attacks(name, power, hit_chance, type) VALUES(
+	-- 'Quick Attack', 90, 0.9, 'Normal'
+-- );
+-- 
+-- INSERT INTO AttacksPokedex(attack, pokedex_num) VALUES(
+	-- 'Quick Attack',
+	-- 35
+-- );
+-- 
+-- -- This fails
+-- INSERT INTO AttacksPokemons(pokemon_id, attack) VALUES(
+	-- 11, 'Quick Attack'
+-- );
+-- 
+-- -- This doesnt
+-- INSERT INTO AttacksPokemons(pokemon_id, attack) VALUES(
+	-- 12, 'Quick Attack'
+-- );

@@ -7,4 +7,3 @@ CALL addRegionArena('Kalos', 'Dragon', 'Kalos Battlefield');
 CALL addRegionArena('Alola', 'Flying', 'Alola Gym');
 CALL addRegionArena('Galar', 'Ice', 'Galar Arena');
 CALL addRegionArena('Paldea', 'Dark', 'Paldea Colloseum');
-

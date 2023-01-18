@@ -1,7 +1,6 @@
 use std::env;
 
 use rocket::State;
-use rocket::response::status;
 use rocket::serde::Deserialize;
 use rocket::serde::json::{Json, json, Value};
 
@@ -15,6 +14,8 @@ use sha2::Sha256;
 
 use super::{DEFAULT_TOKEN_KEY, TokenClaims};
 
+use crate::response::Response;
+
 #[derive(Deserialize)]
 pub struct LoginCredentials {
     login: String,
@@ -25,7 +26,7 @@ pub struct LoginCredentials {
 pub async fn login(
     pool: &State<Pool<Postgres>>,
     credentials: Json<LoginCredentials>
-) -> Result<Value, status::Unauthorized<&'static str>> {
+) -> Response<Value> {
     let cred = credentials.into_inner();
     if let Ok(r) = sqlx::query!(
         "SELECT is_professor AS prof FROM Users WHERE login = $1 AND password = $2",
@@ -43,8 +44,9 @@ pub async fn login(
                 .as_bytes()
         ).unwrap();
         let signed_token = unsigned_token.sign_with_key(&key).unwrap();
-        Ok(json!({ "token": String::from(signed_token) }))
+        Response::Success(
+            Some(json!({ "token": String::from(signed_token) })))
     } else {
-        Err(status::Unauthorized(None))
+        Response::Unauthorized(())
     }
 }

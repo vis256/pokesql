@@ -1,17 +1,29 @@
 CREATE FUNCTION updateArenaLeader() RETURNS TRIGGER LANGUAGE PLPGSQL
 AS $$
 DECLARE
-    vLeaderScoreOld ArenaMembers.score%TYPE;
+    vWinner ArenaMembers.id%TYPE;
+    vWinnerScore ArenaMembers.score%TYPE;
+
     vLeaderIdOld Arenas.leader%TYPE;
+	vLeaderScoreOld ArenaMembers.score%TYPE;
 BEGIN
-    SELECT id INTO vLeaderIdOld
-    FROM Arenas WHERE name = NEW.name;
+    IF NEW.winner THEN
+        vWinner = NEW.user1;
+    ELSE
+        vWinner = NEW.user2;
+    END IF;
+
+    SELECT score INTO vWinnerScore
+    FROM ArenaMembers WHERE id = vWinner;
+    
+    SELECT leader INTO vLeaderIdOld
+    FROM Arenas;
 
     SELECT score INTO vLeaderScoreOld
     FROM ArenaMembers WHERE id = vLeaderIdOld;
 
-    IF vLeaderScoreOld == NULL OR vLeaderScoreOld < NEW.score THEN
-        UPDATE Arenas SET leader = NEW.id WHERE name == NEW.arena;
+    IF vLeaderScoreOld IS NULL OR vLeaderScoreOld < vWinnerScore THEN
+        UPDATE Arenas SET leader = vWinner WHERE name = NEW.arena;
     END IF;
 
     RETURN NEW;
@@ -21,24 +33,6 @@ $$;
 CREATE TRIGGER UpdateArenaLeader
 AFTER INSERT ON Duels
 FOR EACH ROW EXECUTE PROCEDURE updateArenaLeader();
-
-CREATE PROCEDURE addRegionArena(
-    pRegionName Regions.name%TYPE,
-    pRegionType Regions.type%TYPE,
-    pArenaName Arenas.name%TYPE
-) LANGUAGE PLPGSQL AS $$
-BEGIN
-    ALTER TABLE Arenas DISABLE TRIGGER ALL;
-
-    INSERT INTO Arenas (name, region)
-    VALUES (pArenaName, pRegionName);
-
-    ALTER TABLE Arenas ENABLE TRIGGER ALL;
-
-    INSERT INTO Regions (name, type, arena)
-    VALUES(pRegionName, pRegionType, pArenaName);
-END
-$$;
 
 CREATE FUNCTION updateArenaScore() RETURNS TRIGGER LANGUAGE PLPGSQL
 AS $$
@@ -55,17 +49,17 @@ BEGIN
     SELECT score
     INTO vScore
     FROM ArenaMembers
-    WHERE name == NEW.arena AND id == vWinner;
+    WHERE arena = NEW.arena AND id = vWinner;
 
     vScore := vScore + 1;
 
-    UPDATE ArenaMembers SET score = vScore WHERE name = vWinner;
+    UPDATE ArenaMembers SET score = vScore WHERE id = vWinner;
     
     RETURN NEW;
 END
 $$;
 
-CREATE TRIGGER UpdateArenaScore
+CREATE TRIGGER c_UpdateArenaScore
 BEFORE INSERT ON Duels
 FOR EACH ROW EXECUTE PROCEDURE updateArenaScore();
 
@@ -74,11 +68,11 @@ AS $$
 DECLARE
     vPokedexName Pokedex.name%TYPE;
 BEGIN
-    IF NEW.name == NULL THEN
+    IF NEW.name IS NULL THEN
         SELECT name
         INTO vPokedexName
         FROM Pokedex
-        WHERE number == NEW.pokedex_num;
+        WHERE number = NEW.pokedex_num;
 
         NEW.name = vPokedexName;
     END IF;
@@ -95,15 +89,17 @@ BEGIN
     SELECT min_level
     INTO vMinLevel
     FROM Pokedex
-    WHERE number == NEW.pokedex_num;
+    WHERE number = NEW.pokedex_num;
 
-    IF NEW.level == NULL THEN
+    IF NEW.level IS NULL THEN
         NEW.level = vMinLevel;
     END IF;
 
     IF NEW.level < vMinLevel THEN
         RAISE EXCEPTION 'Invalid Pokemon level';
     END IF;
+
+    RETURN NEW;
 END
 $$;
 
@@ -114,3 +110,129 @@ FOR EACH ROW EXECUTE PROCEDURE verifyPokemonLevel();
 CREATE TRIGGER DefaultPokemonName
 BEFORE INSERT ON Pokemons
 FOR EACH ROW EXECUTE PROCEDURE defaultPokemonName();
+
+CREATE FUNCTION verifyDuelTrainers() RETURNS TRIGGER LANGUAGE PLPGSQL
+AS $$
+DECLARE
+    vArenaMemberArena Arenas.name%TYPE;
+BEGIN
+    SELECT arena
+    INTO vArenaMemberArena
+    FROM ArenaMembers
+    WHERE id = NEW.user1;
+
+    IF vArenaMemberArena != NEW.arena THEN
+        RAISE EXCEPTION 'User1 in a member of a wrong arena';
+    END IF;
+
+    SELECT arena
+    INTO vArenaMemberArena
+    FROM ArenaMembers
+    WHERE id = NEW.user2;
+
+    IF vArenaMemberArena != NEW.arena THEN
+        RAISE EXCEPTION 'User2 in a member of a wrong arena';
+    END IF;
+
+    RETURN NEW;
+END
+$$;
+
+CREATE TRIGGER a_VerifyDuelTrainers
+BEFORE INSERT ON Duels
+FOR EACH ROW EXECUTE PROCEDURE verifyDuelTrainers();
+
+CREATE FUNCTION verifyDuelPokemons() RETURNS TRIGGER LANGUAGE PLPGSQL
+AS $$
+DECLARE
+    vUserLogin1 Users.login%TYPE;
+    vUserLogin2 Users.login%TYPE;
+BEGIN
+    SELECT owner
+    INTO vUserLogin1
+    FROM Pokemons
+    WHERE id = NEW.pokemon1;
+    
+    SELECT usr
+    INTO vUserLogin2
+    FROM ArenaMembers
+    WHERE id = NEW.user1;
+
+    IF vUserLogin1 != vUserLogin2 THEN
+        RAISE EXCEPTION 'Pokemon1 does not belong to User1';
+    END IF;
+
+    SELECT usr
+    INTO vUserLogin1
+    FROM ArenaMembers
+    WHERE id = NEW.user2;
+    
+    IF vUserLogin1 = vUserLogin2 THEN
+        RAISE EXCEPTION 'Trainer cannot duel himself';
+    END IF;
+
+    SELECT owner
+    INTO vUserLogin2
+    FROM Pokemons
+    WHERE id = NEW.pokemon2;
+
+    IF vUserLogin1 != vUserLogin2 THEN
+        RAISE EXCEPTION 'Pokemon2 does not belong to User2';
+    END IF;
+
+    RETURN NEW;
+END
+$$;
+
+CREATE TRIGGER b_VerifyDuelPokemons
+BEFORE INSERT ON Duels
+FOR EACH ROW EXECUTE PROCEDURE verifyDuelPokemons();
+
+CREATE FUNCTION verifyPokeball() RETURNS TRIGGER LANGUAGE PLPGSQL
+AS $$
+BEGIN
+    PERFORM *
+    FROM PokeballsPokedex
+    WHERE pokeball = NEW.pokeball AND pokedex = NEW.pokedex_num;
+
+    IF NOT FOUND THEN
+        RAISE EXCEPTION 'This pokemon cannot be caught in this pokeball';
+    END IF;
+
+    RETURN NEW;
+END
+$$;
+
+CREATE TRIGGER VerifyPokeball
+BEFORE INSERT ON Pokemons
+FOR EACH ROW EXECUTE PROCEDURE verifyPokeball();
+
+CREATE FUNCTION verifyPokemonAttacks() RETURNS TRIGGER LANGUAGE PLPGSQL
+AS $$
+DECLARE
+    vPokedexNum Pokedex.number%TYPE;
+BEGIN
+    SELECT pokedex_num
+    INTO vPokedexNum
+    FROM Pokemons
+    WHERE id = NEW.pokemon_id;
+
+    IF NOT FOUND THEN
+        RAISE EXCEPTION 'This pokemon is incapable of learning this attack';
+    END IF;
+    
+    PERFORM *
+    FROM AttacksPokedex
+    WHERE attack = NEW.attack AND pokedex_num = vPokedexNum;
+
+    IF NOT FOUND THEN
+        RAISE EXCEPTION 'This pokemon is incapable of learning this attack';
+    END IF;
+
+    RETURN NEW;
+END
+$$;
+
+CREATE TRIGGER VerifyPokemonAttack
+BEFORE INSERT ON AttacksPokemons
+FOR EACH ROW EXECUTE PROCEDURE verifyPokemonAttacks();

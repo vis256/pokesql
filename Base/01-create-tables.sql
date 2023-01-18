@@ -30,7 +30,7 @@ CREATE TABLE Arenas(
 CREATE TABLE ArenaMembers(
     id BIGSERIAL PRIMARY KEY,
     join_date DATE NOT NULL DEFAULT CURRENT_DATE,
-    usr VARCHAR(32) NOT NULL REFERENCES Users(login), -- FIXME: change to login
+    usr VARCHAR(32) NOT NULL REFERENCES Users(login),
     score INTEGER NOT NULL DEFAULT 0,
     arena VARCHAR(32) NOT NULL REFERENCES Arenas(name),
     UNIQUE(usr, arena)
@@ -55,8 +55,9 @@ CREATE TABLE Pokedex(
 
 CREATE TABLE Pokemons(
     id BIGSERIAL PRIMARY KEY,
-    name VARCHAR(32) NOT NULL, -- TODO: Add a default value of a pokemon name in pokedex
-    level SMALLINT NOT NULL, -- TODO: Add a default value of the min level for that pokemon in pokedex
+    name VARCHAR(32) NOT NULL,
+    owner VARCHAR(32) NOT NULL REFERENCES Users(login),
+    level SMALLINT NOT NULL,
     sex BOOLEAN NOT NULL, -- 0 for male, 1 for female
 
     pokedex_num INTEGER NOT NULL REFERENCES Pokedex(number),
@@ -68,7 +69,7 @@ CREATE TABLE Duels(
     id BIGSERIAL PRIMARY KEY,
     duel_date DATE NOT NULL DEFAULT CURRENT_DATE,
     winner BOOLEAN NOT NULL,
-    user1 BIGINT NOT NULL REFERENCES ArenaMembers(id), -- TODO: check if ArenaMembers are in the right arena
+    user1 BIGINT NOT NULL REFERENCES ArenaMembers(id),
     user2 BIGINT NOT NULL REFERENCES ArenaMembers(id),
     pokemon1 BIGINT NOT NULL REFERENCES Pokemons(id),
     pokemon2 BIGINT NOT NULL REFERENCES Pokemons(id),
@@ -77,15 +78,15 @@ CREATE TABLE Duels(
 );
  
 CREATE TABLE Counters(
-    type1 VARCHAR(32) NOT NULL REFERENCES Types(name), -- maybe more verbose names, ie type & countered_type
-    type2 VARCHAR(32) NOT NULL REFERENCES Types(name),
-    PRIMARY KEY(type1, type2)
+    better_type VARCHAR(32) NOT NULL REFERENCES Types(name),
+    worse_type VARCHAR(32) NOT NULL REFERENCES Types(name),
+    PRIMARY KEY(better_type, worse_type)
 );
 
 CREATE TABLE Attacks(
     name VARCHAR(32) NOT NULL PRIMARY KEY,
     power INTEGER NOT NULL, CHECK (power >= 0),
-    hit_chance NUMERIC CHECK (hit_chance > 0 AND hit_chance <= 1),
+    hit_chance NUMERIC NOT NULL CHECK (hit_chance > 0 AND hit_chance <= 1),
     type VARCHAR(32) NOT NULL REFERENCES Types(name)
 );
 
@@ -99,4 +100,10 @@ CREATE TABLE AttacksPokemons(
     pokemon_id BIGINT NOT NULL REFERENCES Pokemons(id),
     attack VARCHAR(32) NOT NULL REFERENCES Attacks(name),
     PRIMARY KEY(attack, pokemon_id)
+);
+
+CREATE TABLE PokeballsPokedex(
+    pokeball VARCHAR(32) NOT NULL REFERENCES Pokeballs(name),
+    pokedex INTEGER NOT NULL REFERENCES Pokedex(number),
+    PRIMARY KEY(pokeball, pokedex)
 );

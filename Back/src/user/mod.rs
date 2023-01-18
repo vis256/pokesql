@@ -1,11 +1,11 @@
 pub mod login;
 pub mod register;
+pub mod users;
 
 use std::env;
 
 use rocket::Request;
 use rocket::request::{FromRequest, Outcome};
-use rocket::form::FromForm;
 use rocket::serde::{Deserialize, Serialize};
 use rocket::http::Status;
 
@@ -15,11 +15,17 @@ use hmac::{Mac, Hmac};
 
 use sha2::Sha256;
 
-#[derive(FromForm)]
-#[derive(Serialize)]
+#[derive(Serialize, Deserialize)]
 pub struct User {
     login: String,
     password: String,
+    username: String,
+    is_professor: bool
+}
+
+#[derive(Serialize, Deserialize)]
+pub struct UserInfo {
+    login: String,
     username: String,
     is_professor: bool
 }
@@ -60,7 +66,9 @@ impl<'r> FromRequest<'r> for AuthStatus {
                     Outcome::Success(Self::Trainer(claims.login))
                 }
             }
-            None => Outcome::Failure((Status::BadRequest, ApiKeyError::Missing)),
+            None => {
+                Outcome::Failure((Status::BadRequest, ApiKeyError::Missing))
+            }
         }
     }
 }
