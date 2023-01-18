@@ -5,6 +5,8 @@ import {PokedexService} from "../shared/services/pokedex.service";
 import {Pokemon} from "../shared/models/Pokemon";
 import {Pokedex} from "../shared/models/Pokedex";
 import { PokemonService } from '../shared/services/pokemon.service';
+import { Attack } from '../shared/models/Attack';
+import { AttackService } from '../shared/services/attack.service';
 
 @Component({
   selector: 'app-owned-pokemon-entry',
@@ -17,11 +19,13 @@ export class OwnedPokemonEntryComponent implements OnInit {
     public user : UserService,
     public router : Router,
     public pokedex : PokedexService,
-    public pokemon : PokemonService
+    public pokemon : PokemonService,
+    private attack : AttackService
   ) { }
 
   pokemonData? : Pokemon;
   pokedexData? : Pokedex;
+  pokemonAttacks : Attack[] = [];
 
   pokemonID? : number;
 
@@ -37,6 +41,10 @@ export class OwnedPokemonEntryComponent implements OnInit {
     // // fetch data from backend
     this.pokedex.getPokedexEntry(this.pokemonData!.pokedex_num!).subscribe((data : any) => {
       this.pokedexData = data;
+    });
+
+    this.attack.getAttacksForPokemon(this.pokemonID!).subscribe(data => {
+      this.pokemonAttacks = data;
     });
   }
 }

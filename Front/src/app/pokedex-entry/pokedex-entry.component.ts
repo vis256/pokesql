@@ -3,6 +3,8 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {UserService} from "../shared/services";
 import {PokedexService} from "../shared/services/pokedex.service";
 import {Pokedex} from "../shared/models/Pokedex";
+import { Attack } from '../shared/models/Attack';
+import { AttackService } from '../shared/services/attack.service';
 
 @Component({
   selector: 'app-pokedex-entry',
@@ -14,13 +16,13 @@ export class PokedexEntryComponent implements OnInit {
     private route : ActivatedRoute,
     public user : UserService,
     public router : Router,
-    public pokedex : PokedexService
+    public pokedex : PokedexService,
+    private attack : AttackService
   ) { }
 
   pokedexId : number | null = null;
 
   pokedexData : Pokedex = {
-    Attacks: [],
     min_level: 0,
     name: "",
     number: 0,
@@ -30,6 +32,8 @@ export class PokedexEntryComponent implements OnInit {
     secondary_type: ""
   };
 
+  pokedexAttacks : Attack[] = [];
+
   ngOnInit(): void {
     this.route.paramMap.subscribe((data : any) => {
       this.pokedexId = parseInt(data.params.pokedexid);
@@ -38,8 +42,11 @@ export class PokedexEntryComponent implements OnInit {
     // fetch data from backend
     this.pokedex.getPokedexEntry(this.pokedexId!).subscribe((data : any) => {
       this.pokedexData = data;
-      this.pokedexData.Attacks = ['Aqua Tail', 'Quick Attack', 'Aqua Jet'];
     });
+
+    this.attack.getAttacksForPokedex(this.pokedexId!).subscribe(data => {
+      this.pokedexAttacks = data;
+    })
   }
 
 }

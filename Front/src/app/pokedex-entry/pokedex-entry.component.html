@@ -46,7 +46,7 @@
             <div class="label">Możliwe ataki do poznania</div>
             <div class="value">
               <ul>
-                <app-attack-label *ngFor="let attack of pokedexData.Attacks" [name]="attack"></app-attack-label>
+                <app-attack-label *ngFor="let attack of pokedexAttacks" [attack]="attack"></app-attack-label>
               </ul>
             </div>
           </div>

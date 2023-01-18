@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {UserService} from "../shared/services";
 import {Router} from "@angular/router";
 import {Attack} from "../shared/models/Attack";
+import { AttackService } from '../shared/services/attack.service';
 
 @Component({
   selector: 'app-attack-list',
@@ -12,73 +13,24 @@ export class AttackListComponent implements OnInit {
 
   constructor(
     public user : UserService,
-    public router : Router
+    public router : Router,
+    private attack : AttackService
   ) { }
 
-  attacks : Array<Attack> = [];
+  attacks : Attack[] = [{
+    name : 'XD',
+    type : 'Grass',
+    hit_chance: 0.9,
+    power: 110
+  }];
 
   click($event : any) {
     this.router.navigate([`/pokedex/attacks/${$event.itemData.name}`])
   }
 
   ngOnInit(): void {
-    // TODO: Fetch data from backend
-    this.attacks = [
-      {
-        name : 'Absorb',
-        power : 20,
-        type : 'Grass',
-        hit_chance : 1
-      },
-      {
-        name : 'Leaf Blade',
-        power : 120,
-        type : 'Grass',
-        hit_chance : 0.9
-      },
-      {
-        name : 'Harden',
-        power : 0,
-        type : 'Normal',
-        hit_chance : 1
-      },
-      {
-        name : 'Quick Attack',
-        power : 80,
-        type : 'Normal',
-        hit_chance : 0.95
-      },
-      {
-        name : 'Acid',
-        power : 40,
-        type : 'Poison',
-        hit_chance : 1
-      },
-      {
-        name : 'Aqua Cutter',
-        power : 70,
-        type : 'Water',
-        hit_chance : 1
-      },
-            {
-        name : 'Aqua Jet',
-        power : 40,
-        type : 'Water',
-        hit_chance : 1
-      },
-            {
-        name : 'Aqua Ring',
-        power : 0,
-        type : 'Water',
-        hit_chance : 1
-      },
-            {
-        name : 'Aqua Tail',
-        power : 90,
-        type : 'Water',
-        hit_chance : 0.9
-      },
-
-    ]
+    this.attack.getAllAttacks().subscribe(data => {
+      this.attacks = data;
+    })
   }
 }

@@ -41,6 +41,7 @@ import { NewPokeballEntryFormComponent } from './new/new-pokeball-entry-form/new
 import { MyArenaListComponent } from './my-arena-list/my-arena-list.component';
 import { DxiValidationRuleModule } from 'devextreme-angular/ui/nested';
 import { NewRegionArenaFormComponent } from './new/new-region-arena-form/new-region-arena-form.component';
+import { NewAttackFormComponent } from './new/new-attack-form/new-attack-form.component';
 
 
 @NgModule({
@@ -69,6 +70,7 @@ import { NewRegionArenaFormComponent } from './new/new-region-arena-form/new-reg
     NewPokeballEntryFormComponent,
     MyArenaListComponent,
     NewRegionArenaFormComponent,
+    NewAttackFormComponent,
   ],
   imports: [
     BrowserModule,

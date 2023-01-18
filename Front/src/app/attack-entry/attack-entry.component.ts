@@ -3,6 +3,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {UserService} from "../shared/services";
 import {PokedexService} from "../shared/services/pokedex.service";
 import {Attack} from "../shared/models/Attack";
+import { AttackService } from '../shared/services/attack.service';
 
 @Component({
   selector: 'app-attack-entry',
@@ -14,7 +15,8 @@ export class AttackEntryComponent implements OnInit {
     private route : ActivatedRoute,
     public user : UserService,
     public router : Router,
-    public pokedex : PokedexService
+    public pokedex : PokedexService,
+    private attack : AttackService
   ) { }
 
   attackData? : Attack;
@@ -26,13 +28,7 @@ export class AttackEntryComponent implements OnInit {
       this.attackName = data.params.attackName;
     })
 
-    // TODO: Fetch attack data
-    this.attackData = {
-      name : 'Leaf Blade',
-      power : 120,
-      type : 'Grass',
-      hit_chance : 0.9
-    }
+    
   }
 
 }
