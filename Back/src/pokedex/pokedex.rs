@@ -48,7 +48,7 @@ async fn pokedex_pokeballs(
 ) -> Result<Vec<Pokeball>, Error> {
     sqlx::query_as!(
         Pokeball,
-        r#"SELECT p.name FROM PokeballsPokedex x JOIN Pokedex p
+        r#"SELECT x.pokeball as name FROM PokeballsPokedex x JOIN Pokedex p
             ON x.pokedex = p.number WHERE x.pokedex = $1"#, pokedex
     ).fetch_all(pool).await
 }
@@ -279,7 +279,7 @@ pub async fn pokedex_set(
     match auth {
         AuthStatus::Professor(_) => {
             match set_pokedex_entry(pool, &entry.into_inner()).await {
-                Ok(()) => Response::Success(None),
+                Ok(()) => Response::Success(Some(())),
                 Err(err) => Response::BadRequest(
                     Some(Json(ErrInfo::from(err))))
             }
