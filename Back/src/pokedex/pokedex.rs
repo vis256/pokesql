@@ -48,7 +48,7 @@ async fn pokedex_pokeballs(
 ) -> Result<Vec<Pokeball>, Error> {
     sqlx::query_as!(
         Pokeball,
-        r#"SELECT p.name FROM PokeballsPokedex x JOIN Pokedex p
+        r#"SELECT x.pokeball as name FROM PokeballsPokedex x JOIN Pokedex p
             ON x.pokedex = p.number WHERE x.pokedex = $1"#, pokedex
     ).fetch_all(pool).await
 }

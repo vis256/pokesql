@@ -28,17 +28,18 @@ pub async fn get_one(
 pub async fn add_one(
     pool: &Pool<Postgres>,
     pokemon: &Pokemon
-) -> Result<(), Error> {
+) -> Result<i64, Error> {
     let mut transaction = pool.begin().await?;
-    sqlx::query!(
+    let id = sqlx::query!(
         "INSERT INTO Pokemons(\
-            id, name, level, sex, \
+            name, level, sex, \
             pokedex_num, pokeball, owner) \
-         VALUES ($1, $2, $3, $4, $5, $6, $7)",
-         pokemon.id, pokemon.name, pokemon.level, pokemon.sex,
+         VALUES ($1, $2, $3, $4, $5, $6) RETURNING id",
+         pokemon.name, pokemon.level, pokemon.sex,
          pokemon.pokedex_num, pokemon.pokeball, pokemon.owner
-    ).execute(&mut transaction).await?;
-    transaction.commit().await
+    ).fetch_one(&mut transaction).await?.id;
+    transaction.commit().await?;
+    Ok(id)
 }
 
 async fn get_attacks(pool: &Pool<Postgres>, id: i64) -> Result<Vec<Attack>, Error> {
@@ -173,7 +174,7 @@ pub async fn user_new_pokemon(
     auth: AuthStatus,
     entry: Json<Pokemon>,
     login: String
-) -> Response<()> {
+) -> Response<String> {
     match auth {
         AuthStatus::Professor(name) |
         AuthStatus::Trainer(name) => {
@@ -181,7 +182,7 @@ pub async fn user_new_pokemon(
                 return Response::Unauthorized(());
             }
             match add_one(pool, &entry.into_inner()).await {
-                Ok(()) => Response::Success(None),
+                Ok(id) => Response::Success(Some(format!("{}", id))),
                 Err(e) => Response::BadRequest(
                     Some(Json(ErrInfo::from(e))))
             }
