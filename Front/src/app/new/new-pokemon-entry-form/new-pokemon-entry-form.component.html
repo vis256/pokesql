@@ -79,7 +79,43 @@
             message="Podaj poziom dodawanego Pokemona"
             >
           </dxi-validation-rule>
-          </dxi-item>
+        </dxi-item>
+
+        <dxi-item
+          dataField="pokeball"
+          [colSpan]="1"
+          editorType="dxSelectBox"
+          [editorOptions]="{
+            dataSource: allPossiblePokeballs,
+            displayExpr : 'name',
+            valueExpr : 'name'
+          }"
+          >
+          <dxo-label text="Pokeball w jaki był złapany"></dxo-label>
+          <dxi-validation-rule
+            type="required"
+            message="Podaj Pokeball w jaki był złapany ten Pokemon"
+            >
+          </dxi-validation-rule>
+        </dxi-item>
+
+        <dxi-item
+          dataField="attacks"
+          [colSpan]="1"
+          editorType="dxTagBox"
+          [editorOptions]="{
+            dataSource: allPossibleAttacks,
+            displayExpr : 'name',
+            valueExpr : 'name'
+          }"
+          >
+          <dxo-label text="Ataki jakie zna"></dxo-label>
+          <dxi-validation-rule
+            type="required"
+            message="Podaj jakie ataki zna ten Pokemon"
+            >
+          </dxi-validation-rule>
+        </dxi-item>
 
         <dxi-item
           [colSpan]="1"

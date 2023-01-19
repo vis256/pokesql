@@ -28,6 +28,8 @@ import { NewPokeballEntryFormComponent } from './new/new-pokeball-entry-form/new
 import { MyArenaListComponent } from './my-arena-list/my-arena-list.component';
 import { NewRegionArenaFormComponent } from './new/new-region-arena-form/new-region-arena-form.component';
 import { NewAttackFormComponent } from './new/new-attack-form/new-attack-form.component';
+import { NewTypeFormComponent } from './new/new-type-form/new-type-form.component';
+import { EditTypeFormComponent } from './edit/edit-type-form/edit-type-form.component';
 
 const routes: Routes = [
   {
@@ -128,6 +130,16 @@ const routes: Routes = [
   {
     path : 'pokedex/types/list',
     component : TypesListComponent,
+    canActivate : [ AuthGuardService ]
+  },
+  {
+    path : 'pokedex/types/new',
+    component : NewTypeFormComponent,
+    canActivate : [ AuthGuardService ]
+  },
+  {
+    path : 'pokedex/types/edit/:typeName',
+    component : EditTypeFormComponent,
     canActivate : [ AuthGuardService ]
   },
   {

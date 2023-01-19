@@ -1,0 +1,89 @@
+<img class="background" src="/assets/backgrounds/city.webp">
+
+<div class="main-container">
+  <div class="main">
+    <h1 class="title">Dodaj nowy typ</h1>
+    <div class="form-container">
+
+      <form (submit)="onFormSubmit($event)">
+      <dx-form
+        id="newTypeEntryForm"
+        [colCount]="3"
+        [formData]="formData"
+        style="width: 30rem;"
+        [showValidationSummary]="true"
+        validationGroup="typeData"
+      >
+        <dxi-item
+            dataField="name"
+            editorType="dxTextBox"
+            [colSpan]="3"
+            >
+            <dxo-label text="Nazwa typu"></dxo-label>
+            <dxi-validation-rule
+                type="required"
+                message="Podaj nazwe dodawanego typu"
+                >
+            </dxi-validation-rule>
+        </dxi-item>
+
+        <dxi-item itemType="group" [colSpan]="3" [colCount]="3">
+            <dxi-item 
+                [colSpan]="1"
+                dataField="worse"
+                editorType="dxTagBox"
+                [editorOptions]="{
+                    dataSource: allTypes,
+                    displayExpr: 'name',
+                    valueExpr: 'name'
+                }"
+                >
+                <dxo-label text="Typy kontrowane"></dxo-label>
+            </dxi-item>
+            <dxi-item [colSpan]="1" itemType="simple" style="font-size: 1.6rem; display: flex; flex-direction: row; justify-content: space-between; align-items: center;">
+                <div>
+                    <
+                </div>
+                <div>
+                    {{formData.name}} 
+                </div>
+                <div>
+                    <
+                </div>
+            </dxi-item>
+            <dxi-item 
+                [colSpan]="1"
+                dataField="better"
+                editorType="dxTagBox"
+                [editorOptions]="{
+                    dataSource: allTypes,
+                    displayExpr: 'name',
+                    valueExpr: 'name'
+                }"
+                >
+                <dxo-label text="Typy kontrujące"></dxo-label>
+                <dxi-validation-rule
+                    type="custom"
+                    [ignoreEmptyValue]="true"
+                    message="Typ nie może być kontrowanym i kontrować nowy typ jednocześnie"
+                    [validationCallback]="checkTypesOverlapping"
+                >
+              </dxi-validation-rule>
+            </dxi-item>
+        </dxi-item>
+        
+        <dxi-item
+          [colSpan]="2"
+          itemType="button"
+          [buttonOptions]="{
+            text: 'Dodaj nowy typ',
+            useSubmitBehavior: true,
+            type: 'success'
+          }"
+        >
+        </dxi-item>
+      </dx-form>
+      </form>
+    </div>
+  </div>
+</div>

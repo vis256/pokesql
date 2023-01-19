@@ -4,7 +4,7 @@ import notify from 'devextreme/ui/notify';
 const constraint_map : any = {
   "users_pkey": "Użytkownik o takim loginie już istnieje",
   "users_username_key": "Użytkownik o takim imieniu już istnieje",
-  "types_pkey" : "TODO: Dodać komunikat",
+  "types_pkey" : "Typ o takiej nazwie już istnieje",
   "regions_pkey" : "TODO: Dodać komunikat",
   "regions_arena_key" : "TODO: Dodać komunikat",
   "regions_type_fkey" : "TODO: Dodać komunikat",
@@ -23,8 +23,8 @@ const constraint_map : any = {
   "attackspokedex_pokedex_num_fkey" : "TODO: Dodać komunikat",
   "attackspokedex_pkey" : "TODO: Dodać komunikat",
   "pokedex_min_level_check" : "TODO: Dodać komunikat",
-  "pokedex_pkey" : "TODO: Dodać komunikat",
-  "pokedex_name_key" : "TODO: Dodać komunikat",
+  "pokedex_pkey" : "Gatunek o takim numerze już istnieje",
+  "pokedex_name_key" : "Gatunek o takiej nazwie już istnieje",
   "pokedex_primary_type_fkey" : "TODO: Dodać komunikat",
   "pokedex_secondary_type_fkey" : "TODO: Dodać komunikat",
   "pokedex_region_fkey" : "TODO: Dodać komunikat",
@@ -66,7 +66,7 @@ export class ErrorService {
 
     if (err.constraint) {
       msg = constraint_map[err.constraint]
-      console.log("contraint pulled: ", msg);
+      console.log("contraint pulled: ", err.constraint, " -> ", msg);
       
     }
      else if (err.message) msg = err.message;

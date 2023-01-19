@@ -34,18 +34,14 @@
 
     <div style="margin-top: 2rem; font-size: 1.6rem">Twoje ostatnie 5 walk:</div>
     <dx-data-grid
-      [dataSource]="recentFights"
+      [dataSource]="myFights"
       [columnAutoWidth]="true"
       [columnWidth]="'auto'"
       [width]="'100%'"
     >
+      <!-- <dxi-column dataField="winner" name="Czy wygrałeś"></dxi-column>
+       -->
     </dx-data-grid>
-
-    <div style="margin-top: 2rem;">
-      <dx-button *ngIf="askAgain" [width]="250" icon="close" text="Opuść arene" (click)="askAgain = false;"></dx-button>
-      <dx-button *ngIf="!askAgain" [width]="250" icon="check" text="Napewno opuścić?" (click)="leaveArena()"></dx-button>
-    </div>
-    
     </dx-scroll-view>
   </div>
 </div>

@@ -23,8 +23,24 @@ export class OwnedPokemonEntryComponent implements OnInit {
     private attack : AttackService
   ) { }
 
-  pokemonData? : Pokemon;
-  pokedexData? : Pokedex;
+  pokemonData : Pokemon = {
+    id: 0,
+    name: '',
+    level: 0,
+    sex: false,
+    pokedex_num: null,
+    pokeball: '',
+    owner: ''
+  };
+
+  pokedexData : Pokedex = {
+    number: 0,
+    name: '',
+    min_level: 0,
+    region: '',
+    primary_type: ''
+  };
+  
   pokemonAttacks : Attack[] = [];
 
   pokemonID? : number;
@@ -35,7 +51,7 @@ export class OwnedPokemonEntryComponent implements OnInit {
     })
 
     this.pokemon.getMyPokemon().subscribe(data => {
-      this.pokemonData = data.find(e => e.id === this.pokemonID)
+      this.pokemonData = data.find(e => e.id === this.pokemonID)!
     })
 
     // // fetch data from backend

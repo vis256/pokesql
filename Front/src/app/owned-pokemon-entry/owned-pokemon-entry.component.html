@@ -4,7 +4,7 @@
   <div class="main">
     <dx-scroll-view>
       <h1 class="title">
-        Mój Pokemon - {{ pokemonData?.name }}
+        Mój Pokemon - {{ pokemonData.name }}
         <dx-button
           *ngIf="user.isProfessor()"
           (click)="router.navigate(['/mypokemon/' + pokemonID])"
@@ -19,31 +19,31 @@
         <div class="info-container">
           <div class="entry">
             <div class="label">Gatunek Pokémona</div>
-            <div class="value">{{pokemonData?.pokedex_num}} - {{pokedexData?.name}}</div>
+            <div class="value">{{pokemonData.pokedex_num}} - {{pokedexData?.name}}</div>
           </div>
 
           <div class="entry">
             <div class="label">Poziom</div>
-            <div class="value">{{pokemonData?.level}}</div>
+            <div class="value">{{pokemonData.level}}</div>
           </div>
 
           <div class="entry">
             <div class="label">Typy</div>
             <div class="value">
               <div style="display: flex; flex-direction: row">
-                <app-type-label [type]="pokedexData!.primary_type"></app-type-label>
-                <app-type-label *ngIf="pokedexData?.secondary_type" [type]="pokedexData?.secondary_type!"></app-type-label>
+                <app-type-label [type]="pokedexData.primary_type"></app-type-label>
+                <app-type-label *ngIf="pokedexData.secondary_type" [type]="pokedexData.secondary_type!"></app-type-label>
               </div>
             </div>
           </div>
 
           <div class="entry">
             <div class="label">Region występowania</div>
-            <app-region-label [region]="pokedexData!.region"></app-region-label>
+            <app-region-label [region]="pokedexData.region"></app-region-label>
           </div>
 
           <div class="entry">
-            <div class="label">Płeć - <app-sex-label [sex]="pokemonData?.sex!"></app-sex-label> </div>
+            <div class="label">Płeć - <app-sex-label [sex]="pokemonData.sex"></app-sex-label> </div>
           </div>
 
           <div class="entry">
@@ -57,7 +57,7 @@
 
         </div>
 
-        <img *ngIf="pokedexData!.number !== -1" [src]="'/assets/sprites/pokemon/' + pokedexData!.number + '.png'">
+        <img [src]="'/assets/sprites/pokemon/' + pokedexData.number + '.png'">
       </div>
     </dx-scroll-view>
   </div>

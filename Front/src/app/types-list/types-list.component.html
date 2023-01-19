@@ -7,7 +7,7 @@
         Typy
         <dx-button
           *ngIf="user.isProfessor()"
-          (click)="router.navigate(['/pokedex/new'])"
+          (click)="router.navigate(['/pokedex/types/new'])"
           class="modify-button"
           text="Dodaj nowy typ"
           icon="add"
@@ -20,26 +20,12 @@
         itemTemplate="item"
         (onItemClick)="click($event)"
       >
-        <div *dxTemplate="let item of 'item'">
+        <div *dxTemplate="let item of 'item'" style="width: 100%; display: flex; flex-direction: row; align-items: center;">
           <app-type-label [type]="item.name"></app-type-label>
+          <div style="font-weight: 600; font-size: 1.4rem; margin: 0 1rem;">></div>
+          <app-type-label *ngFor="let counteredType of countered[item.name]" [type]="counteredType.name"></app-type-label>
         </div>
       </dx-list>
     </dx-scroll-view>
   </div>
 </div>
-
-<dx-popup
-  [(visible)]="popupVisible"
-  [closeOnOutsideClick]="true"
-  [title]="currentType"
-  [width]="'20rem'"
-  [height]="'min-content'"
-  >
-  <div
-    style="display: flex; align-items: center; justify-content: center; flex-direction: column"
-  >
-    <dx-button style="margin: 1rem" text="Znajdź Pokemony tego typu"></dx-button>
-    <dx-button style="margin: 1rem" text="Idź do regionu tego typu"></dx-button>
-    <dx-button style="margin: 1rem" text="Idź do areny tego typu"></dx-button>
-  </div>
-</dx-popup>

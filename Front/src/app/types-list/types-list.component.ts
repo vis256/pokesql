@@ -40,11 +40,21 @@ export class TypesListComponent implements OnInit {
 
   types : Type[]= [];
 
+  countered : any = {
+
+  };
+
   colors = colors;
 
   ngOnInit(): void {
     this.type.getAllTypes().subscribe(data => {
       this.types = data;
+
+      for (const type of this.types) {
+        this.type.getCountersWorse(type.name).subscribe(data => {
+          this.countered[type.name] = data;
+        })
+      }
     })
   }
 
@@ -52,8 +62,7 @@ export class TypesListComponent implements OnInit {
   popupVisible : boolean = false;
 
   click($event : any) {
-    this.currentType = $event.itemData.name;
-    this.popupVisible = true;
+    this.router.navigate([`/pokedex/types/edit/${$event.itemData.name}`])
   }
 
 }

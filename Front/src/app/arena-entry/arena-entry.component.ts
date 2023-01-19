@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ArenaMember } from '../shared/models/ArenaMember';
+import { Duel } from '../shared/models/Duel';
 import { ArenaService } from '../shared/services/arena.service';
+import { DuelService } from '../shared/services/duel.service';
 
 @Component({
   selector: 'app-arena-entry',
@@ -12,7 +14,8 @@ export class ArenaEntryComponent implements OnInit {
 
   constructor(
     private arena : ArenaService,
-    private route : ActivatedRoute
+    private route : ActivatedRoute,
+    private duels : DuelService
   ) { }
 
   ngOnInit(): void {
@@ -27,162 +30,25 @@ export class ArenaEntryComponent implements OnInit {
           this.arena.getArenaMembers(this.arenaData!.arena).subscribe(data => {
             this.arenaMembers = data;
           })
+
+          this.duels.getDuels(this.arenaData).subscribe(data => {
+            this.myFights = data;
+          })
         })
       }
     })
   }
 
-  arenaData? : ArenaMember;
+  arenaData : ArenaMember = {
+    usr: '',
+    arena: '',
+    score: 0,
+    id: 0,
+    join_date: new Date()
+  };
 
-  arenaMembers : ArenaMember[] = [
-    {
-      id : 1,
-      join_date: new Date(2020, 12, 23),
-      usr : 'xd234',
-      score : 12,
-      arena : 'xd'
-    },    
-    {
-      id : 2,
-      join_date: new Date(2020, 1, 22),
-      usr : 'jasiu2345',
-      score : 3,
-      arena : 'xd'
-    },
-    {
-      id : 3,
-      join_date: new Date(2020, 11, 21),
-      usr : 'chujadefrgt',
-      score : 1,
-      arena : 'xd'
-    },    {
-      id : 3,
-      join_date: new Date(2020, 11, 21),
-      usr : 'chujadefrgt',
-      score : 1,
-      arena : 'xd'
-    },    {
-      id : 3,
-      join_date: new Date(2020, 11, 21),
-      usr : 'chujadefrgt',
-      score : 1,
-      arena : 'xd'
-    },    {
-      id : 3,
-      join_date: new Date(2020, 11, 21),
-      usr : 'chujadefrgt',
-      score : 1,
-      arena : 'xd'
-    },    {
-      id : 3,
-      join_date: new Date(2020, 11, 21),
-      usr : 'chujadefrgt',
-      score : 1,
-      arena : 'xd'
-    },    {
-      id : 3,
-      join_date: new Date(2020, 11, 21),
-      usr : 'chujadefrgt',
-      score : 1,
-      arena : 'xd'
-    },    {
-      id : 3,
-      join_date: new Date(2020, 11, 21),
-      usr : 'chujadefrgt',
-      score : 1,
-      arena : 'xd'
-    },    {
-      id : 3,
-      join_date: new Date(2020, 11, 21),
-      usr : 'chujadefrgt',
-      score : 1,
-      arena : 'xd'
-    },    {
-      id : 3,
-      join_date: new Date(2020, 11, 21),
-      usr : 'chujadefrgt',
-      score : 1,
-      arena : 'xd'
-    },    {
-      id : 3,
-      join_date: new Date(2020, 11, 21),
-      usr : 'chujadefrgt',
-      score : 1,
-      arena : 'xd'
-    },    {
-      id : 3,
-      join_date: new Date(2020, 11, 21),
-      usr : 'chujadefrgt',
-      score : 1,
-      arena : 'xd'
-    },    {
-      id : 3,
-      join_date: new Date(2020, 11, 21),
-      usr : 'chujadefrgt',
-      score : 1,
-      arena : 'xd'
-    },    {
-      id : 3,
-      join_date: new Date(2020, 11, 21),
-      usr : 'chujadefrgt',
-      score : 1,
-      arena : 'xd'
-    },    {
-      id : 3,
-      join_date: new Date(2020, 11, 21),
-      usr : 'chujadefrgt',
-      score : 1,
-      arena : 'xd'
-    },    {
-      id : 3,
-      join_date: new Date(2020, 11, 21),
-      usr : 'chujadefrgt',
-      score : 1,
-      arena : 'xd'
-    },
+  arenaMembers : ArenaMember[] = [];
 
-  ];
-
-  recentFights = [
-    {
-      Rezultat : 'W',
-      'Data walki' : new Date("2022-12-23T03:24:00"),
-      Przeciwnik : 'Rocket Member',
-      'Twój Pokemon' : 'Marcel'
-    },
-    {
-      Rezultat : 'W',
-      'Data walki' : new Date("2022-12-22T12:27:00"),
-      Przeciwnik : 'Rocket Member',
-      'Twój Pokemon' : 'Marcel'
-    },
-    {
-      Rezultat : 'W',
-      'Data walki' : new Date("2022-12-21T16:45:00"),
-      Przeciwnik : 'Rocket Member',
-      'Twój Pokemon' : 'Marcel'
-    },
-    {
-      Rezultat : 'L',
-      'Data walki' : new Date("2022-12-19T23:24:00"),
-      Przeciwnik : 'Rocket Member',
-      'Twój Pokemon' : 'Mścisław'
-    },
-    {
-      Rezultat : 'W',
-      'Data walki' : new Date("2022-12-17T01:28:00"),
-      Przeciwnik : 'Emily',
-      'Twój Pokemon' : 'Bulbasaur'
-    },
-
-  ]
-
-  askAgain : boolean = true;
-
-  leaveArena() {
-    // TODO: Leave arena
-    console.log("Leaving arena");
-    
-  }
+  myFights : Duel[] = []
 
 }
