@@ -33,6 +33,17 @@ async fn add_one(pool: &Pool<Postgres>, attack: &Attack) -> Result<(), Error> {
     transaction.commit().await
 }
 
+async fn delete_one(
+    pool: &Pool<Postgres>,
+    name: &str
+) -> Result<(), Error> {
+    let mut transaction = pool.begin().await?;
+    sqlx::query!(
+        "DELETE FROM Attacks WHERE name = $1", name
+    ).execute(&mut transaction).await?;
+    transaction.commit().await
+}
+
 #[get("/attacks")]
 pub async fn get_attacks(pool: &State<Pool<Postgres>>) -> Json<Vec<Attack>> {
     Json(get_all(pool).await.unwrap())
@@ -43,6 +54,28 @@ pub async fn get_attack(pool: &State<Pool<Postgres>>, name: &str) -> Option<Json
     match get_one(pool, name).await {
         Ok(attack) => Some(Json(attack)),
         Err(_) => None
+    }
+}
+
+#[get("/attack/<name>/delete")]
+pub async fn del_attack(
+    pool: &State<Pool<Postgres>>,
+    auth: AuthStatus,
+    name: &str
+) -> Response<()> {
+    match auth {
+        AuthStatus::Professor(_) => {
+            if let Err(e) = delete_one(pool, name).await {
+                if let Error::RowNotFound = e {
+                    Response::NotFound(Some(Json(ErrInfo::from(e))))
+                } else {
+                    Response::BadRequest(Some(Json(ErrInfo::from(e))))
+                }
+            } else {
+                Response::Success(Some(()))
+            }
+        }
+        _ => Response::Unauthorized(())
     }
 }
 

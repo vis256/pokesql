@@ -73,6 +73,7 @@ async fn rocket() -> _ {
                 attacks::new_attack,
                 attacks::get_attack,
                 attacks::get_attacks,
+                attacks::del_attack,
                 types::counters::get_counters_worse,
                 types::counters::get_counters_better,
                 types::counters::add_counter,
