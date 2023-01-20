@@ -42,6 +42,7 @@ async fn rocket() -> _ {
                 pokedex::get_pokedex_pokeballs,
                 pokedex::get_pokeball_pokedex,
                 pokedex::add_pokedex_pokeball,
+                pokedex::del_pokedex_entry,
                 pokemon::user_new_pokemon,
                 pokemon::user_pokemons_get,
                 pokemon::pokemon_attacks,

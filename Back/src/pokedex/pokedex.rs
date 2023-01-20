@@ -11,14 +11,6 @@ use crate::attacks::Attack;
 use crate::pokeballs::Pokeball;
 use crate::response::{ErrInfo, Response};
 
-pub async fn get_all(pool: &Pool<Postgres>) -> Result<Vec<PokedexEntry>, Error> {
-    sqlx::query_as!(PokedexEntry, "SELECT * FROM Pokedex").fetch_all(&*pool).await
-}
-
-pub async fn get_pokedex_entry(pool: &Pool<Postgres>, id: i32) -> Result<PokedexEntry, Error> {
-    sqlx::query_as!(PokedexEntry, "SELECT * FROM Pokedex WHERE number = $1", id).fetch_one(&*pool).await
-}
-
 #[derive(Deserialize)]
 pub struct AttackPokedex {
     attack: String,
@@ -29,6 +21,42 @@ pub struct AttackPokedex {
 pub struct PokeballPokedex {
     pokeball: String,
     pokedex_num: i32
+}
+
+pub async fn get_all(pool: &Pool<Postgres>) -> Result<Vec<PokedexEntry>, Error> {
+    sqlx::query_as!(PokedexEntry, "SELECT * FROM Pokedex").fetch_all(&*pool).await
+}
+
+pub async fn get_pokedex_entry(pool: &Pool<Postgres>, id: i32) -> Result<PokedexEntry, Error> {
+    sqlx::query_as!(PokedexEntry, "SELECT * FROM Pokedex WHERE number = $1", id).fetch_one(&*pool).await
+}
+
+pub async fn delete_one(
+    pool: &Pool<Postgres>,
+    number: i32
+) -> Result<(), Error> {
+    let mut transaction = pool.begin().await?;
+    sqlx::query!(
+        "DELETE FROM Pokedex WHERE number = $1", number
+    ).execute(&mut transaction).await?;
+    transaction.commit().await
+}
+
+#[get("/pokedex/<number>/delete")]
+pub async fn del_pokedex_entry(
+    pool: &State<Pool<Postgres>>,
+    auth: AuthStatus,
+    number: i32
+) -> Response<()> {
+    match auth {
+        AuthStatus::Professor(_) => {
+            match delete_one(pool, number).await {
+                Ok(()) => Response::Success(Some(())),
+                Err(e) => Response::BadRequest(Some(Json(ErrInfo::from(e))))
+            }
+        }
+        _ => Response::Unauthorized(())
+    }
 }
 
 async fn pokeball_pokedex(
