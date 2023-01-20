@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {PokedexService} from "../../shared/services/pokedex.service";
 import {Pokedex} from "../../shared/models/Pokedex";
 import {Pokemon} from "../../shared/models/Pokemon";
@@ -26,7 +26,8 @@ export class NewPokemonEntryFormComponent implements OnInit {
     private pokemon : PokemonService,
     private error : ErrorService,
     private pokeball : PokeballsService,
-    private attack : AttackService
+    private attack : AttackService,
+    private router : Router
   ) {
     this.checkMinLevel = this.checkMinLevel.bind(this);
     this.updateCurrentPokedex = this.updateCurrentPokedex.bind(this);
@@ -117,7 +118,9 @@ export class NewPokemonEntryFormComponent implements OnInit {
         console.log(data);
         for (const attack of this.formData.attacks) {
           this.attack.addAttacksToPokemon({pokemon_id: data, attack }).subscribe(
-            data => {},
+            data => {
+              this.router.navigate(['/mypokemon'])
+            },
             err => {this.error.displayError(err.error)}
           )
           

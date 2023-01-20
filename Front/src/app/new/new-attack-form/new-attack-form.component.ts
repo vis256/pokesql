@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Attack } from 'src/app/shared/models/Attack';
 import { Type } from 'src/app/shared/models/Type';
 import { AttackService } from 'src/app/shared/services/attack.service';
@@ -15,7 +16,8 @@ export class NewAttackFormComponent implements OnInit {
   constructor(
     public type : TypesService,
     private attack : AttackService,
-    private error : ErrorService
+    private error : ErrorService,
+    private router : Router
   ) { }
 
   formData : Attack = {
@@ -42,7 +44,7 @@ export class NewAttackFormComponent implements OnInit {
     this.attack.addNewAttack(this.formData).subscribe(
       data => {
         console.log({data});
-        
+        this.router.navigate(['pokedex/attacks/list']);
       },
       err => {
         console.error({err});

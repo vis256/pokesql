@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {Pokedex} from "../../shared/models/Pokedex";
 import {PokedexService} from "../../shared/services/pokedex.service";
 import { Region } from 'src/app/shared/models/Region';
@@ -26,7 +26,8 @@ export class NewPokedexEntryFormComponent implements OnInit {
     public pokeball : PokeballsService,
     private error : ErrorService,
     private types : TypesService,
-    private attack : AttackService
+    private attack : AttackService,
+    private router : Router
   ) {
     this.secondaryTypeComparison = this.secondaryTypeComparison.bind(this);
   }
@@ -115,7 +116,9 @@ export class NewPokedexEntryFormComponent implements OnInit {
         for (const attack of this.formData.attacks) {
           this.attack.addAttackToPokedex({attack, pokedex_num : this.formData.number}).subscribe(
             data => {
-
+              setTimeout(() => {
+                this.router.navigate(['/pokedex/list'])
+              }, 1000);
             },
             err => {
               console.error({err});
