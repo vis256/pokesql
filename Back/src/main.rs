@@ -42,6 +42,7 @@ async fn rocket() -> _ {
                 pokedex::get_pokedex_pokeballs,
                 pokedex::get_pokeball_pokedex,
                 pokedex::add_pokedex_pokeball,
+                pokedex::del_pokedex_entry,
                 pokemon::user_new_pokemon,
                 pokemon::user_pokemons_get,
                 pokemon::pokemon_attacks,
@@ -79,6 +80,7 @@ async fn rocket() -> _ {
                 types::counters::get_counters_worse,
                 types::counters::get_counters_better,
                 types::counters::add_counter,
+                types::counters::delete_counter,
                 arenas::duels::get_user_duels,
                 arenas::duels::get_pokemon_duels,
                 arenas::duels::new_duel

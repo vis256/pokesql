@@ -46,6 +46,17 @@ async fn add_one(
     transaction.commit().await
 }
 
+async fn delete_one(
+    pool: &Pool<Postgres>,
+    c: &Counter
+) -> Result<(), Error> {
+    let mut transaction = pool.begin().await?;
+    sqlx::query!(
+        "DELETE FROM Counters WHERE better_type = $1 AND worse_type = $2",
+        c.better_type, c.worse_type).execute(&mut transaction).await?;
+    transaction.commit().await
+}
+
 #[get("/counters/worse/<type_>")]
 pub async fn get_counters_worse(
     pool: &State<Pool<Postgres>>,
@@ -84,6 +95,23 @@ pub async fn add_counter(
                 }
             } else {
                 Response::Success(Some(()))
+            }
+        }
+        _ => Response::Unauthorized(())
+    }
+}
+
+#[post("/counters/delete", data = "<cntr>")]
+pub async fn delete_counter(
+    pool: &State<Pool<Postgres>>,
+    auth: AuthStatus,
+    cntr: Json<Counter>
+) -> Response<()> {
+    match auth {
+        AuthStatus::Professor(_) => {
+            match delete_one(pool, &cntr.into_inner()).await {
+                Ok(()) => Response::Success(Some(())),
+                Err(e) => Response::BadRequest(Some(Json(ErrInfo::from(e))))
             }
         }
         _ => Response::Unauthorized(())
