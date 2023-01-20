@@ -117,7 +117,14 @@ export class EditPokedexEntryFormComponent implements OnInit {
       data => {
         console.log({data});
 
-        // FIXME: delete original data for pokeballs and attacks
+        for (const attack of this.originalAttacks) {
+          this.attack.deleteAttackFromPokedex({attack : attack.name, pokedex_num : this.formData.number}).subscribe(
+            data => {},
+            err => {this.error.displayError(err.error)}
+          )
+        }
+
+        // FIXME: delete original pokeballs
 
         for (const pokeball of this.formData.pokeballs) {
           console.log(pokeball);
@@ -138,7 +145,7 @@ export class EditPokedexEntryFormComponent implements OnInit {
             data => {
               setTimeout(() => {
                 this.router.navigate(['/pokedex/list'])
-              }, 1000);
+              }, 2000);
             },
             err => {
               console.error({err});

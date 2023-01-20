@@ -5,7 +5,7 @@ export class AppInfoService {
   constructor() {}
 
   public get title() {
-    return 'Front';
+    return 'pokesql.io🚀';
   }
 
   public get currentYear() {

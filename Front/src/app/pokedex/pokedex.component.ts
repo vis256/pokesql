@@ -41,7 +41,7 @@ export class PokedexComponent implements OnInit {
     },
     {
       text : 'Ataki',
-      background : "../assets/background/arena.jpg",
+      background : "../assets/backgrounds/arena.jpg",
       route : 'pokedex/attacks/list'
     }
   ]

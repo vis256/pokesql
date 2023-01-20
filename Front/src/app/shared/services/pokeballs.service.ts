@@ -39,4 +39,8 @@ export class PokeballsService {
   getAllPokedexesUsedByPokeball(pokeball_name : string) : Observable<Pokedex[]> {
     return this.http.get(`/api/pokeballs/${pokeball_name}/pokedex`) as Observable<Pokedex[]>;
   }
+
+  deletePokeball(pokeball_name : string) {
+    return this.http.get(`/api/pokeballs/${pokeball_name}/delete`, {headers : this.token.AuthHeaders});
+  }
 }

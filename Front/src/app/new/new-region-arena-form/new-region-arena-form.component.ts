@@ -18,6 +18,8 @@ export class NewRegionArenaFormComponent implements OnInit {
     type: ''
   }
 
+  // FIXME: Implement this actually
+
   types = ['Normal', 'Fire']
   
   ngOnInit(): void {

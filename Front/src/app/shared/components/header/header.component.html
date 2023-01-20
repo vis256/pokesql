@@ -1,22 +1,50 @@
 <header>
   <dx-toolbar class="header-toolbar">
     <dxi-item
-      *ngIf="menuToggleEnabled"
       location="before"
-      widget="dxButton"
-      cssClass="menu-button"
-      [options]="{
-        icon: 'menu',
-        stylingMode: 'text',
-        onClick: toggleMenu
-      }">
+      cssClass="header-title home"
+      *ngIf="title"
+      [text]="title"
+      (click)="router.navigate(['/home'])"
+      >
+      <button (click)="router.navigate(['/home'])" *dxTemplate>
+        {{title}}
+      </button>
     </dxi-item>
+
+    <dxi-item
+      widget="dxButton"
+      location="before"
+      cssClass="header-title entry"
+      text="Pokedex"
+      [options]="{
+        onClick: goToPokedex
+      }"
+      (onClick)="router.navigate(['/pokedex'])"
+      >
+      <button (click)="router.navigate(['/pokedex'])" *dxTemplate>
+        Pokedex
+      </button>
+    </dxi-item>
+
     <dxi-item
       location="before"
-      cssClass="header-title"
-      *ngIf="title"
-      [text]="title">
+      cssClass="header-title entry"
+      text="Moje Pokemony">
+      <button (click)="router.navigate(['/mypokemon'])" *dxTemplate>
+        Moje Pokemony
+      </button>
     </dxi-item>
+
+    <dxi-item
+      location="before"
+      cssClass="header-title entry"
+      text="Moje areny">
+      <button (click)="router.navigate(['/myarena'])" *dxTemplate>
+        Moje areny
+      </button>
+    </dxi-item>
+
     <dxi-item
       location="after"
       locateInMenu="auto"

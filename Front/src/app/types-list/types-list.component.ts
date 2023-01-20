@@ -78,7 +78,6 @@ export class TypesListComponent implements OnInit {
   }
 
   clickCounter(better : string, worse : string) {
-    // FIXME: implement this
     console.log({better, worse});
     const c : Counter = {better_type : better, worse_type : worse}
     this.type.deleteCounter(c).subscribe(

@@ -55,4 +55,8 @@ export class AttackService {
   public updateAttack() {
     // FIXME: Implement this
   }
+
+  public deleteAttackFromPokedex(ap : {attack : string, pokedex_num : number}) {
+    return this.http.post(`/api/pokedex/attacks/delete`, ap, {headers : this.token.AuthHeaders});
+  }
 }

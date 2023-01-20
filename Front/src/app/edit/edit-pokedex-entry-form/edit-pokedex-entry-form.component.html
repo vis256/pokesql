@@ -20,7 +20,8 @@
           editorType="dxNumberBox"
           [editorOptions]="{
             min: 0,
-            format: '#'
+            format: '#',
+            disabled : true
           }"
           >
           <dxi-validation-rule
@@ -160,7 +161,7 @@
           [colSpan]="2"
           itemType="button"
           [buttonOptions]="{
-            text: 'Dodaj nowy gatunek',
+            text: 'Edytuj gatunek',
             useSubmitBehavior: true,
             type: 'success'
           }"

@@ -41,23 +41,21 @@ export class PokedexEntryComponent implements OnInit {
   ngOnInit(): void {
     this.route.paramMap.subscribe((data : any) => {
       this.pokedexId = parseInt(data.params.pokedexid);
-    })
 
-    // fetch data from backend
-    this.pokedex.getPokedexEntry(this.pokedexId!).subscribe((data : any) => {
-      this.pokedexData = data;
-    });
-
-    this.attack.getAttacksForPokedex(this.pokedexId!).subscribe(data => {
-      console.log(data);
-      
-      this.pokedexAttacks = data;
-    })
-
-    this.pokeball.getPokeballsUsedForPokedex(this.pokedexId!).subscribe(data => {
-      this.pokeballs = data;
-      console.log(data);
-      
+      this.pokedex.getPokedexEntry(this.pokedexId!).subscribe((data : any) => {
+        this.pokedexData = data;
+      });
+  
+      this.attack.getAttacksForPokedex(this.pokedexId!).subscribe(data => {
+        console.log(data);
+        
+        this.pokedexAttacks = data;
+      })
+  
+      this.pokeball.getPokeballsUsedForPokedex(this.pokedexId!).subscribe(data => {
+        this.pokeballs = data;
+        console.log(data);
+      })
     })
   }
 

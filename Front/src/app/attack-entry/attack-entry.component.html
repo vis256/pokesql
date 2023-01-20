@@ -50,7 +50,7 @@
               nextButtonText="Załaduj więcej"
               style="width: 70%;"
               >
-              <div *dxTemplate="let item of 'item'" style="display : flex; flex-direction: column;">
+              <div *dxTemplate="let item of 'item'" style="display : flex; flex-direction: column;" (click)="router.navigate(['pokedex/entry/' + item.number])">
                 <div style="display: flex;">
                   <div style="color: #fff8; margin-right: .2rem"> {{item.number}} </div>
                   {{item.name}}

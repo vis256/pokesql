@@ -15,8 +15,6 @@ export class ArenaListComponent implements OnInit {
     private arena : ArenaService
   ) { }
 
-  // FIXME: Remove garbage starting data
-
   ngOnInit(): void {
     this.arena.getAllArenas().subscribe(data => {
       this.items = data;
@@ -27,15 +25,7 @@ export class ArenaListComponent implements OnInit {
     })
   }
 
-  membershipArenas : ArenaMember[] = [
-    {
-      id : 1,
-      join_date: '',
-      usr : 'xd',
-      score : 1,
-      arena : 'Kanto Gym'
-    }
-  ]
+  membershipArenas : ArenaMember[] = []
 
   isMemberOf(arena : string) : boolean {
     return this.membershipArenas.find(elem => elem.arena == arena) !== undefined;

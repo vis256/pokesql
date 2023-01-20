@@ -43,7 +43,7 @@ export class HeaderComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
-    private router: Router,
+    public router: Router,
     public userService : UserService
   ) { }
 
@@ -52,6 +52,10 @@ export class HeaderComponent implements OnInit {
 
   toggleMenu = () => {
     this.menuToggle.emit();
+  }
+
+  goToPokedex() {
+    this.router.navigate(['/pokedex'])
   }
 }
 
