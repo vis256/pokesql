@@ -77,9 +77,14 @@ export class TypesListComponent implements OnInit {
     this.router.navigate([`/pokedex/types/edit/${$event}`])
   }
 
-  clickCounter($event : any) {
+  clickCounter(better : string, worse : string) {
     // FIXME: implement this
-    // this.type.deleteCounter()
+    console.log({better, worse});
+    const c : Counter = {better_type : better, worse_type : worse}
+    this.type.deleteCounter(c).subscribe(
+      data => {this.ngOnInit()},
+      err => {this.error.displayError(err.error)}
+    )
   }
 
   validate($event : any) {

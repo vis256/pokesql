@@ -49,7 +49,7 @@ export class AttackService {
   }
 
   public deleteAttack(attackName : string) {
-    return this.http.get(`/api/attack/${attackName}/delete`);
+    return this.http.get(`/api/attack/${attackName}/delete`, {headers : this.token.AuthHeaders});
   }
 
   public updateAttack() {

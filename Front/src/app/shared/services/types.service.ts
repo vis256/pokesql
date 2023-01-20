@@ -51,4 +51,8 @@ export class TypesService {
   public updateType(old_type_name : string, new_type : Type) {
     return this.http.post(`/api/types/${old_type_name}/update`, new_type, {headers : this.token.AuthHeaders})
   }
+
+  public deleteCounter(counter : Counter) {
+    return this.http.post(`/api/counters/delete`, counter, {headers : this.token.AuthHeaders})
+  }
 }
