@@ -24,7 +24,7 @@ pub struct PokeballPokedex {
 }
 
 pub async fn get_all(pool: &Pool<Postgres>) -> Result<Vec<PokedexEntry>, Error> {
-    sqlx::query_as!(PokedexEntry, "SELECT * FROM Pokedex").fetch_all(&*pool).await
+    sqlx::query_as!(PokedexEntry, "SELECT * FROM Pokedex ORDER BY number").fetch_all(&*pool).await
 }
 
 pub async fn get_pokedex_entry(pool: &Pool<Postgres>, id: i32) -> Result<PokedexEntry, Error> {
@@ -66,7 +66,8 @@ async fn pokeball_pokedex(
     sqlx::query_as!(
         PokedexEntry,
         r#"SELECT p.number, p.name, p.min_level, p.primary_type, p.secondary_type, p.region
-            FROM PokeballsPokedex x JOIN Pokedex p ON x.pokedex = p.number WHERE x.pokeball = $1"#,
+            FROM PokeballsPokedex x JOIN Pokedex p ON x.pokedex = p.number WHERE x.pokeball = $1
+            ORDER BY p.number"#,
         pokeball).fetch_all(pool).await
 }
 
