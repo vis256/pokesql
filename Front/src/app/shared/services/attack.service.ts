@@ -47,4 +47,12 @@ export class AttackService {
   public getAllPokedexesWithAttack(attackName : string) : Observable<Pokedex[]> {
     return this.http.get(`/api/attacks/pokedex/${attackName}`) as Observable<Pokedex[]>;
   }
+
+  public deleteAttack(attackName : string) {
+    return this.http.get(`/api/attack/${attackName}/delete`);
+  }
+
+  public updateAttack() {
+    // FIXME: Implement this
+  }
 }

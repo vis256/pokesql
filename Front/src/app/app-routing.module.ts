@@ -30,6 +30,8 @@ import { NewRegionArenaFormComponent } from './new/new-region-arena-form/new-reg
 import { NewAttackFormComponent } from './new/new-attack-form/new-attack-form.component';
 import { NewTypeFormComponent } from './new/new-type-form/new-type-form.component';
 import { EditTypeFormComponent } from './edit/edit-type-form/edit-type-form.component';
+import { EditPokedexEntryFormComponent } from './edit/edit-pokedex-entry-form/edit-pokedex-entry-form.component';
+import { EditAttackFormComponent } from './edit/edit-attack-form/edit-attack-form.component';
 
 const routes: Routes = [
   {
@@ -84,7 +86,7 @@ const routes: Routes = [
   },
   {
     path: 'pokedex/edit/:pokedexid',
-    component: NewPokedexEntryFormComponent,
+    component: EditPokedexEntryFormComponent,
     canActivate: [ AuthGuardService ]
   },
   {
@@ -155,6 +157,11 @@ const routes: Routes = [
   {
     path : 'pokedex/attacks/:attackName',
     component : AttackEntryComponent,
+    canActivate : [ AuthGuardService ]
+  },
+  {
+    path : 'pokedex/attacks/:attackName/edit',
+    component : EditAttackFormComponent,
     canActivate : [ AuthGuardService ]
   },
   {

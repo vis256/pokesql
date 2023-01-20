@@ -22,7 +22,7 @@
         <div *dxTemplate="let item of 'item'" style="width: 100%; display: flex; flex-direction: row; align-items: center;">
           <app-type-label (click)="click(item.name)" [type]="item.name"></app-type-label>
           <div style="font-weight: 600; font-size: 1.4rem; margin: 0 1rem;">></div>
-          <app-type-label *ngFor="let counteredType of countered[item.name]" [type]="counteredType.name"></app-type-label>
+          <app-type-label (click)="clickCounter(item.name)" *ngFor="let counteredType of countered[item.name]" [type]="counteredType.name"></app-type-label>
           <dx-button *ngIf="user.isProfessor()" icon="add" text="Nowa kontra" (onClick)="showNewCounterPopup = true; betterType=item.name"></dx-button>
         </div>
       </dx-list>

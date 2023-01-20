@@ -7,7 +7,7 @@
         Atak - {{ attackData.name }}
         <dx-button
           *ngIf="user.isProfessor()"
-          (click)="router.navigate(['/pokedex/attack/edit' + attackName])"
+          (click)="router.navigate(['/pokedex/attacks/' + attackName + '/edit'])"
           class="modify-button"
           text="Zmodyfikuj"
           icon="edit"
