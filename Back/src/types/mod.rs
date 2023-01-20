@@ -37,6 +37,17 @@ async fn update_one(
     transaction.commit().await
 }
 
+async fn delete_one(
+    pool: &Pool<Postgres>,
+    name: &str
+) -> Result<(), Error> {
+    let mut transaction = pool.begin().await?;
+    sqlx::query!(
+        "DELETE FROM Types WHERE name = $1", name
+    ).execute(&mut transaction).await?;
+    transaction.commit().await
+}
+
 #[post("/types/<name>/update", data = "<type_>")]
 pub async fn update_type(
     pool: &State<Pool<Postgres>>,
@@ -74,6 +85,23 @@ pub async fn new_type(
     match auth {
         AuthStatus::Professor(_) => {
             match add_one(pool, &type_.into_inner()).await {
+                Ok(()) => Response::Success(Some(())),
+                Err(e) => Response::BadRequest(Some(Json(ErrInfo::from(e))))
+            }
+        }
+        _ => Response::Unauthorized(())
+    }
+}
+
+#[get("/types/<name>/delete")]
+pub async fn del_type(
+    pool: &State<Pool<Postgres>>,
+    auth: AuthStatus,
+    name: &str,
+) -> Response<()> {
+    match auth {
+        AuthStatus::Professor(_) => {
+            match delete_one(pool, name).await {
                 Ok(()) => Response::Success(Some(())),
                 Err(e) => Response::BadRequest(Some(Json(ErrInfo::from(e))))
             }

@@ -71,6 +71,7 @@ async fn rocket() -> _ {
                 types::new_type,
                 types::get_types,
                 types::update_type,
+                types::del_type,
                 attacks::new_attack,
                 attacks::get_attack,
                 attacks::get_attacks,
