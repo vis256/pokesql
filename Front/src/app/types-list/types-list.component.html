@@ -18,14 +18,79 @@
       <dx-list
         [items]="types"
         itemTemplate="item"
-        (onItemClick)="click($event)"
       >
         <div *dxTemplate="let item of 'item'" style="width: 100%; display: flex; flex-direction: row; align-items: center;">
-          <app-type-label [type]="item.name"></app-type-label>
+          <app-type-label (click)="click(item.name)" [type]="item.name"></app-type-label>
           <div style="font-weight: 600; font-size: 1.4rem; margin: 0 1rem;">></div>
           <app-type-label *ngFor="let counteredType of countered[item.name]" [type]="counteredType.name"></app-type-label>
+          <dx-button *ngIf="user.isProfessor()" icon="add" text="Nowa kontra" (onClick)="showNewCounterPopup = true; betterType=item.name"></dx-button>
         </div>
       </dx-list>
     </dx-scroll-view>
   </div>
 </div>
+
+<dx-popup
+  [(visible)]="showNewCounterPopup"
+  [closeOnOutsideClick]="true"
+  [width]="600"
+  [height]="500"
+  >
+  <form (submit)="onFormSubmit($event)">
+    <dx-form
+      id="newCounterEntryForm"
+      [colCount]="1"
+      [formData]="formData"
+      [showValidationSummary]="true"
+      validationGroup="typeData"
+      >
+      <dxi-item 
+        [colSpan]="1"
+        dataField="counter"
+        editorType="dxSelectBox"
+        [editorOptions]="{
+          dataSource: types,
+          displayExpr: 'name',
+          valueExpr: 'name'
+        }"
+        >
+          <dxi-validation-rule
+                type="required"
+                message="Podaj typ kontrowany"
+                >
+            </dxi-validation-rule>
+            <dxi-validation-rule
+              type="required"
+              message="Podaj nazwe dodawanego typu"
+              >
+            </dxi-validation-rule>
+            <dxi-validation-rule
+              type="compare"
+              comparisonType="!="
+              [ignoreEmptyValue]="true"
+              message="Typ nie może kontrować samego siebie"
+              [comparisonTarget]="comp"
+              >
+            </dxi-validation-rule>
+            <dxi-validation-rule
+              type="custom"
+              [validationCallback]="validate"
+              message="Istnieje sprzeczna kontra"
+              >
+            </dxi-validation-rule>
+          <dxo-label text="Typ kontrowany"></dxo-label>
+        </dxi-item>
+      
+      <dxi-item
+        [colSpan]="1"
+        itemType="button"
+        [buttonOptions]="{
+          text: 'Dodaj nową kontre',
+          useSubmitBehavior: true,
+          type: 'success'
+        }"
+      >
+      </dxi-item>
+    </dx-form>
+    </form>
+</dx-popup>

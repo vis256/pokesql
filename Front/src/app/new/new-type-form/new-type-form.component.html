@@ -26,51 +26,6 @@
                 >
             </dxi-validation-rule>
         </dxi-item>
-
-        <dxi-item itemType="group" [colSpan]="3" [colCount]="3">
-            <dxi-item 
-                [colSpan]="1"
-                dataField="worse"
-                editorType="dxTagBox"
-                [editorOptions]="{
-                    dataSource: allTypes,
-                    displayExpr: 'name',
-                    valueExpr: 'name'
-                }"
-                >
-                <dxo-label text="Typy kontrowane"></dxo-label>
-            </dxi-item>
-            <dxi-item [colSpan]="1" itemType="simple" style="font-size: 1.6rem; display: flex; flex-direction: row; justify-content: space-between; align-items: center;">
-                <div>
-                    <
-                </div>
-                <div>
-                    {{formData.name}} 
-                </div>
-                <div>
-                    <
-                </div>
-            </dxi-item>
-            <dxi-item 
-                [colSpan]="1"
-                dataField="better"
-                editorType="dxTagBox"
-                [editorOptions]="{
-                    dataSource: allTypes,
-                    displayExpr: 'name',
-                    valueExpr: 'name'
-                }"
-                >
-                <dxo-label text="Typy kontrujące"></dxo-label>
-                <dxi-validation-rule
-                    type="custom"
-                    [ignoreEmptyValue]="true"
-                    message="Typ nie może być kontrowanym i kontrować nowy typ jednocześnie"
-                    [validationCallback]="checkTypesOverlapping"
-                >
-              </dxi-validation-rule>
-            </dxi-item>
-        </dxi-item>
         
         <dxi-item
           [colSpan]="2"

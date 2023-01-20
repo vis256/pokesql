@@ -21,8 +21,6 @@ export class NewTypeFormComponent implements OnInit {
 
   formData : any = {
     name : '',
-    worse : [],
-    better : []
   }
 
   allTypes : Type[] = []
@@ -48,30 +46,6 @@ export class NewTypeFormComponent implements OnInit {
 
     this.types.createNewType(newType).subscribe(
       data => {
-        // Add counters
-        for (const worse of this.formData.worse) {
-          const c : Counter = {
-            better_type: newType.name,
-            worse_type: worse
-          }
-          this.types.addNewCounter(c).subscribe(
-            data => {},
-            err => {this.error.displayError(err.error)}
-          )
-        }
-
-        for (const better of this.formData.better) {
-          const c : Counter = {
-            better_type : better,
-            worse_type : newType.name
-          }
-  
-          this.types.addNewCounter(c).subscribe(
-            data => {},
-            err => {this.error.displayError(err.error)}
-          )
-        }
-
         this.router.navigate(['/pokedex/types/list']);
       },
       err => {

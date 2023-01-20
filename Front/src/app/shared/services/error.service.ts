@@ -39,7 +39,7 @@ const constraint_map : any = {
   "duels_pokemon1_fkey" : "TODO: Dodać komunikat",
   "duels_pokemon2_fkey" : "TODO: Dodać komunikat",
   "duels_arena_fkey" : "TODO: Dodać komunikat",
-  "counters_pkey" : "TODO: Dodać komunikat",
+  "counters_pkey" : "Ta kontra już istnieje",
   "counters_better_type_fkey" : "TODO: Dodać komunikat",
   "counters_worse_type_fkey" : "TODO: Dodać komunikat",
   "attacks_pkey": "Atak o takiej nazwie już istnieje",
