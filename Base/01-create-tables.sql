@@ -77,8 +77,8 @@ CREATE TABLE Duels(
 );
  
 CREATE TABLE Counters(
-    better_type VARCHAR(32) NOT NULL REFERENCES Types(name),
-    worse_type VARCHAR(32) NOT NULL REFERENCES Types(name),
+    better_type VARCHAR(32) NOT NULL REFERENCES Types(name) ON DELETE CASCADE,
+    worse_type VARCHAR(32) NOT NULL REFERENCES Types(name) ON DELETE CASCADE,
     PRIMARY KEY(better_type, worse_type)
 );
 
@@ -90,19 +90,19 @@ CREATE TABLE Attacks(
 );
 
 CREATE TABLE AttacksPokedex(
-    attack VARCHAR(32) NOT NULL REFERENCES Attacks(name),
-    pokedex_num INTEGER NOT NULL REFERENCES Pokedex(number),
+    attack VARCHAR(32) NOT NULL REFERENCES Attacks(name) ON DELETE CASCADE,
+    pokedex_num INTEGER NOT NULL REFERENCES Pokedex(number) ON DELETE CASCADE,
     PRIMARY KEY(attack, pokedex_num)
 );
 
 CREATE TABLE AttacksPokemons(
-    pokemon_id BIGINT NOT NULL REFERENCES Pokemons(id),
-    attack VARCHAR(32) NOT NULL REFERENCES Attacks(name),
+    pokemon_id BIGINT NOT NULL REFERENCES Pokemons(id) ON DELETE CASCADE,
+    attack VARCHAR(32) NOT NULL REFERENCES Attacks(name) ON DELETE CASCADE,
     PRIMARY KEY(attack, pokemon_id)
 );
 
 CREATE TABLE PokeballsPokedex(
-    pokeball VARCHAR(32) NOT NULL REFERENCES Pokeballs(name),
-    pokedex INTEGER NOT NULL REFERENCES Pokedex(number),
+    pokeball VARCHAR(32) NOT NULL REFERENCES Pokeballs(name) ON DELETE CASCADE,
+    pokedex INTEGER NOT NULL REFERENCES Pokedex(number) ON DELETE CASCADE,
     PRIMARY KEY(pokeball, pokedex)
 );
