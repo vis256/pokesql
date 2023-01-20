@@ -4,7 +4,7 @@ use serde::{Deserialize, Serialize};
 
 pub use pokemon::*;
 
-#[derive(Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize)]
 pub struct Pokemon {
     #[serde(skip_serializing_if = "Option::is_none")]
     id: Option<i64>,

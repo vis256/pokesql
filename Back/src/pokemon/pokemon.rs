@@ -29,6 +29,7 @@ pub async fn add_one(
     pool: &Pool<Postgres>,
     pokemon: &Pokemon
 ) -> Result<i64, Error> {
+	println!("{:?}", pokemon);
     let mut transaction = pool.begin().await?;
     let id = sqlx::query!(
         "INSERT INTO Pokemons(\

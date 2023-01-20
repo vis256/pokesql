@@ -113,10 +113,15 @@ export class NewPokemonEntryFormComponent implements OnInit {
     
 
     this.pokemon.addNewPokemon(newPokemon).subscribe(
-      data => {
+      (data : any) => {
         console.log(data);
-        // TODO: Add attacks to pokemon
-        // this.attack.addAttacksToPokemon()
+        for (const attack of this.formData.attacks) {
+          this.attack.addAttacksToPokemon({pokemon_id: data, attack }).subscribe(
+            data => {},
+            err => {this.error.displayError(err.error)}
+          )
+          
+        }
         
       },
       err => {

@@ -41,6 +41,7 @@
         [rowAlternationEnabled]="true"
         [showBorders]="true"
         [columnAutoWidth]="true"
+        (onRowClick)="itemClick($event)"
         >
         <dxo-filter-row [visible]="true"></dxo-filter-row>
 
@@ -48,6 +49,9 @@
         </dxi-column>
 
         <dxi-column dataField="level" caption="Poziom" dataType="number">
+        </dxi-column>
+
+        <dxi-column dataField="pokedex_name" caption="Nazwa gatunku" dataType="string">
         </dxi-column>
         
         <dxi-column caption="Typ" dataField="types" dataType="string" cellTemplate="typeTemplate" >
