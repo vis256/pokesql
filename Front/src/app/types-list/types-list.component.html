@@ -23,7 +23,7 @@
           <app-type-label (click)="click(item.name)" [type]="item.name"></app-type-label>
           <div style="font-weight: 600; font-size: 1.4rem; margin: 0 1rem;">></div>
           <app-type-label (click)="clickCounter(item.name, counteredType.name)" *ngFor="let counteredType of countered[item.name]" [type]="counteredType.name"></app-type-label>
-          <dx-button *ngIf="user.isProfessor()" icon="add" text="Nowa kontra" (onClick)="showNewCounterPopup = true; betterType=item.name"></dx-button>
+          <dx-button *ngIf="user.isProfessor()" icon="add" text="Nowa kontra" (onClick)="showNewCounterPopup = true; betterType=item.name; formData.counter = ''"></dx-button>
         </div>
       </dx-list>
     </dx-scroll-view>

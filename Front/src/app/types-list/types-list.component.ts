@@ -71,6 +71,11 @@ export class TypesListComponent implements OnInit {
   currentType : string = ''
   popupVisible : boolean = false;
 
+  closePopup() {
+    this.showNewCounterPopup = false;
+    this.formData.counter = '';
+  }
+
   betterType : string = ''
 
   click($event : any) {
@@ -116,6 +121,7 @@ export class TypesListComponent implements OnInit {
       data => {
         this.ngOnInit();
         this.showNewCounterPopup = false;
+        this.formData.counter = '';
       },
       err => {this.error.displayError(err.error)}
     );
