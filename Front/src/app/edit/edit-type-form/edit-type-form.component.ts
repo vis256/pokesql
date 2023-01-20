@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Counter } from 'src/app/shared/models/Counter';
 import { Type } from 'src/app/shared/models/Type';
 import { TokenService } from 'src/app/shared/services';
@@ -16,14 +16,17 @@ export class EditTypeFormComponent implements OnInit {
     private router : Router,
     private token : TokenService,
     private types : TypesService,
-    private error : ErrorService
-  ) { }
+    private error : ErrorService,
+    private route : ActivatedRoute
+  ) {
+    this.deleteType = this.deleteType.bind(this)
+  }
 
   formData : any = {
-    name : '',
-    worse : [],
-    better : []
+    name : ''
   }
+
+  oldtypename : string = ''
 
   allTypes : Type[] = []
 
@@ -31,12 +34,21 @@ export class EditTypeFormComponent implements OnInit {
     this.types.getAllTypes().subscribe(data => {
       this.allTypes = data;
     })
+
+    this.route.paramMap.subscribe((data : any) => {
+      this.oldtypename = data.params.typeName;
+      this.formData.name = this.oldtypename
+    })
   }
 
-  checkTypesOverlapping = () => {
-    return this.formData.worse;
-  }
 
+  deleteType() {
+    console.log("deleting");
+    this.types.deleteType(this.formData.name).subscribe(
+      data => {this.router.navigate(['/pokedex/types/list'])},
+      err => {this.error.displayError(err.error)}
+    )
+  }
 
   onFormSubmit($event: any) {
     console.log({$event});
@@ -46,37 +58,9 @@ export class EditTypeFormComponent implements OnInit {
 
     const newType : Type = {name : this.formData.name};
 
-    this.types.createNewType(newType).subscribe(
-      data => {
-        // Add counters
-        for (const worse of this.formData.worse) {
-          const c : Counter = {
-            better_type: newType.name,
-            worse_type: worse
-          }
-          this.types.addNewCounter(c).subscribe(
-            data => {},
-            err => {this.error.displayError(err.error)}
-          )
-        }
-
-        for (const better of this.formData.better) {
-          const c : Counter = {
-            better_type : better,
-            worse_type : newType.name
-          }
-  
-          this.types.addNewCounter(c).subscribe(
-            data => {},
-            err => {this.error.displayError(err.error)}
-          )
-        }
-
-        this.router.navigate(['/pokedex/types/list']);
-      },
-      err => {
-        this.error.displayError(err.error);
-      }
+    this.types.updateType(this.oldtypename, newType).subscribe(
+      data => {this.router.navigate(['/pokedex/types/list'])},
+      err => {this.error.displayError(err.error)}
     )
   }
 }

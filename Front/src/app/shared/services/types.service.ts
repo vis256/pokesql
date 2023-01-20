@@ -43,4 +43,12 @@ export class TypesService {
       return r;
     }));
   }
+
+  public deleteType(type_name : string) {
+    return this.http.get(`/api/types/${type_name}/delete`, {headers : this.token.AuthHeaders});
+  }
+
+  public updateType(old_type_name : string, new_type : Type) {
+    return this.http.post(`/api/types/${old_type_name}/update`, new_type, {headers : this.token.AuthHeaders})
+  }
 }
