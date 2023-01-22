@@ -56,6 +56,36 @@ async fn add_attack(pool: &Pool<Postgres>, pa: &PokemonAttack) -> Result<(), Err
     transaction.commit().await
 }
 
+async fn delete_attack(pool: &Pool<Postgres>, pa: &PokemonAttack) -> Result<(), Error> {
+    let mut transaction = pool.begin().await?;
+    sqlx::query!(
+        "DELETE FROM AttacksPokemons WHERE attack = $1 AND pokemon_id = $2",
+        pa.attack, pa.pokemon_id).execute(&mut transaction).await?;
+    transaction.commit().await
+}
+
+#[post("/pokemons/attacks/delete", data = "<pa>")]
+pub async fn del_attack(
+    pool: &State<Pool<Postgres>>,
+    auth: AuthStatus,
+    pa: Json<PokemonAttack>
+) -> Response<()> {
+    match auth {
+        AuthStatus::Professor(_) => {
+            if let Err(e) = delete_attack(pool, &pa.into_inner()).await {
+                if let Error::RowNotFound = e {
+                    Response::NotFound(Some(Json(ErrInfo::from(e))))
+                } else {
+                    Response::BadRequest(Some(Json(ErrInfo::from(e))))
+                }
+            } else {
+                Response::Success(Some(()))
+            }
+        }
+        _ => Response::Unauthorized(())
+    }
+}
+
 async fn update_one(
     pool: &Pool<Postgres>,
     id: i64,

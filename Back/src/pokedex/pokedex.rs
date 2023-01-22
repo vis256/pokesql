@@ -42,6 +42,62 @@ pub async fn delete_one(
     transaction.commit().await
 }
 
+pub async fn delete_attack(
+    pool: &Pool<Postgres>,
+    ap: &AttackPokedex
+) -> Result<(), Error> {
+    let mut transaction = pool.begin().await?;
+    sqlx::query!(
+        "DELETE FROM AttacksPokedex WHERE attack = $1 AND pokedex_num = $2",
+        ap.attack, ap.pokedex_num).execute(&mut transaction).await?;
+    transaction.commit().await
+}
+
+pub async fn delete_pokeball(
+    pool: &Pool<Postgres>,
+    ap: &PokeballPokedex
+) -> Result<(), Error> {
+    let mut transaction = pool.begin().await?;
+    sqlx::query!(
+        "DELETE FROM PokeballsPokedex WHERE pokeball = $1 AND pokedex = $2",
+        ap.pokeball, ap.pokedex_num).execute(&mut transaction).await?;
+    transaction.commit().await
+}
+
+#[post("/pokedex/attacks/delete", data = "<ap>")]
+pub async fn del_attack(
+    pool: &State<Pool<Postgres>>,
+    auth: AuthStatus,
+    ap: Json<AttackPokedex>
+) -> Response<()> {
+    match auth {
+        AuthStatus::Professor(_) => {
+            match delete_attack(pool, &ap.into_inner()).await {
+                Ok(()) => Response::Success(Some(())),
+                Err(e) => Response::BadRequest(Some(Json(ErrInfo::from(e))))
+            }
+        }
+        _ => Response::Unauthorized(())
+    }
+}
+
+#[post("/pokedex/pokeballs/delete", data = "<ap>")]
+pub async fn del_pokeball(
+    pool: &State<Pool<Postgres>>,
+    auth: AuthStatus,
+    ap: Json<PokeballPokedex>
+) -> Response<()> {
+    match auth {
+        AuthStatus::Professor(_) => {
+            match delete_pokeball(pool, &ap.into_inner()).await {
+                Ok(()) => Response::Success(Some(())),
+                Err(e) => Response::BadRequest(Some(Json(ErrInfo::from(e))))
+            }
+        }
+        _ => Response::Unauthorized(())
+    }
+}
+
 #[get("/pokedex/<number>/delete")]
 pub async fn del_pokedex_entry(
     pool: &State<Pool<Postgres>>,
