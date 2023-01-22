@@ -80,6 +80,7 @@ async fn rocket() -> _ {
                 attacks::get_attack,
                 attacks::get_attacks,
                 attacks::del_attack,
+                attacks::update_attack,
                 types::counters::get_counters_worse,
                 types::counters::get_counters_better,
                 types::counters::add_counter,
