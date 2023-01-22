@@ -45,6 +45,9 @@
         >
         <dxo-filter-row [visible]="true"></dxo-filter-row>
 
+        <dxi-column dataField="pokedex_num" caption="" dataType="number" cellTemplate="imgTemplate" [allowFiltering]="false" [allowSorting]="false" [width]="100">
+        </dxi-column>
+
         <dxi-column dataField="name" caption="Imie" dataType="string">
         </dxi-column>
 
@@ -70,6 +73,10 @@
         
         <div *dxTemplate="let s of 'sexTemplate'">
           <app-sex-label [sex]="s.value"></app-sex-label>
+        </div>
+
+        <div *dxTemplate="let i of 'imgTemplate'">
+          <img width="100" height="100" [src]="'/assets/sprites/pokemon/' + i.value + '.png'">
         </div>
 
         <div *dxTemplate="let s of 'typeTemplate'" style="display: flex; flex-direction: row;">
