@@ -32,7 +32,7 @@ export class PokedexComponent implements OnInit {
     {
       text : 'Regiony',
       background : "../assets/backgrounds/unova.jpeg",
-      route : 'pokedex/regions'
+      route : 'pokedex/regions/list'
     },
     {
       text : 'Areny',

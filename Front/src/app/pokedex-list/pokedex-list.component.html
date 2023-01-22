@@ -16,7 +16,7 @@
       </h1>
 
 
-      <dx-list
+      <!-- <dx-list
         [dataSource]="dataSource"
         (onItemClick)="itemClick($event)"
         [searchEnabled]="true"
@@ -35,7 +35,49 @@
 	          <app-type-label *ngIf="item.secondary_type" [type]="item.secondary_type"></app-type-label>
           </div>
         </div>
-      </dx-list>
+      </dx-list> -->
+      <dx-data-grid
+        [dataSource]="dataSource"
+        [rowAlternationEnabled]="true"
+        [showBorders]="true"
+        [columnAutoWidth]="true"
+        (onRowClick)="itemClick($event)"
+        >
+        <dxo-filter-row [visible]="true"></dxo-filter-row>
+
+        <dxi-column dataField="number" caption="Numer" dataType="number" cellTemplate="imgTemplate" [width]="180">
+        </dxi-column>
+
+        <dxi-column dataField="name" caption="Gatunek" dataType="string">
+        </dxi-column>
+
+        <dxi-column dataField="min_level" caption="Min. poziom" dataType="number" [width]="100">
+        </dxi-column>
+
+        <dxi-column dataField="region" caption="Region wyst." dataType="string" cellTemplate="regionTemplate">
+        </dxi-column>
+        
+        <dxi-column caption="Typ" dataField="types" dataType="string" cellTemplate="typeTemplate" >
+        </dxi-column>
+
+        
+        <div *dxTemplate="let s of 'sexTemplate'">
+          <app-sex-label [sex]="s.value"></app-sex-label>
+        </div>
+
+        <div *dxTemplate="let r of 'regionTemplate'">
+          <app-region-label [region]="r.value"></app-region-label>
+        </div>
+
+        <div *dxTemplate="let i of 'imgTemplate'" style="display: flex; flex-direction: row; align-items: center;">
+          <b style="margin-right: .2rem;">#{{i.value}}</b>
+          <img width="100" height="100" [src]="'/assets/sprites/pokemon/' + i.value + '.png'">
+        </div>
+
+        <div *dxTemplate="let s of 'typeTemplate'" style="display: flex; flex-direction: row;">
+          <app-type-label *ngFor="let type of s.value" [type]="type"></app-type-label>
+        </div>
+      </dx-data-grid>
     </dx-scroll-view>
   </div>
 
