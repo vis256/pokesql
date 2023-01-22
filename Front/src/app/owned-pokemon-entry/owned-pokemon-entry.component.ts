@@ -48,19 +48,18 @@ export class OwnedPokemonEntryComponent implements OnInit {
   ngOnInit(): void {
     this.route.paramMap.subscribe((data : any) => {
       this.pokemonID = parseInt(data.params.pokemonID);
+
+      this.pokemon.getMyPokemon().subscribe(data => {
+        this.pokemonData = data.find(e => e.id === this.pokemonID)!
+
+        this.pokedex.getPokedexEntry(this.pokemonData.pokedex_num!).subscribe((data : any) => {
+          this.pokedexData = data;
+        });
+      })
+  
+      this.attack.getAttacksForPokemon(this.pokemonID!).subscribe(data => {
+        this.pokemonAttacks = data;
+      });
     })
-
-    this.pokemon.getMyPokemon().subscribe(data => {
-      this.pokemonData = data.find(e => e.id === this.pokemonID)!
-    })
-
-    // // fetch data from backend
-    this.pokedex.getPokedexEntry(this.pokemonData!.pokedex_num!).subscribe((data : any) => {
-      this.pokedexData = data;
-    });
-
-    this.attack.getAttacksForPokemon(this.pokemonID!).subscribe(data => {
-      this.pokemonAttacks = data;
-    });
   }
 }
