@@ -132,12 +132,15 @@ export class EditPokedexEntryFormComponent implements OnInit {
           )
         }
 
-        // FIXME: delete original pokeballs
+        for (const pokeball_e of this.originalPokeballs) {
+          this.pokeball.deletePokedexPokeball({pokeball : pokeball_e.name, pokedex_num : this.formData.number}).subscribe(
+            data => {},
+            err => {this.error.displayError(err.error)}
+          )
+        }
 
-        for (const pokeball of this.formData.pokeballs) {
-          console.log(pokeball);
-          
-          this.pokeball.addPokedexPokeballEntry(pokeball, this.formData.number).subscribe(
+        for (const pokeball_e of this.formData.pokeballs) {
+          this.pokeball.addPokedexPokeballEntry(pokeball_e.name, this.formData.number).subscribe(
             data => {
 
             },

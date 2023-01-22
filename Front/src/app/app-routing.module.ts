@@ -33,6 +33,7 @@ import { EditTypeFormComponent } from './edit/edit-type-form/edit-type-form.comp
 import { EditPokedexEntryFormComponent } from './edit/edit-pokedex-entry-form/edit-pokedex-entry-form.component';
 import { EditAttackFormComponent } from './edit/edit-attack-form/edit-attack-form.component';
 import { RegionListComponent } from './region-list/region-list.component';
+import { NewFightFormComponent } from './new/new-fight-form/new-fight-form.component';
 
 const routes: Routes = [
   {
@@ -178,6 +179,11 @@ const routes: Routes = [
   {
     path : 'arena/:arenaMemberID',
     component : ArenaEntryComponent,
+    canActivate : [ AuthGuardService ]
+  },
+  {
+    path : 'arena/:arenaMemberID/newfight',
+    component : NewFightFormComponent,
     canActivate : [ AuthGuardService ]
   },
   {

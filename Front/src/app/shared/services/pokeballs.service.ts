@@ -43,4 +43,8 @@ export class PokeballsService {
   deletePokeball(pokeball_name : string) {
     return this.http.get(`/api/pokeballs/${pokeball_name}/delete`, {headers : this.token.AuthHeaders});
   }
+
+  deletePokedexPokeball(PokedexPokeball : {pokeball : string, pokedex_num : number}) {
+    return this.http.post(`/api/pokedex/pokeballs/delete`, PokedexPokeball, {headers : this.token.AuthHeaders});
+  }
 }

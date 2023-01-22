@@ -17,7 +17,7 @@
         [items]="myMemberships"
         itemTemplate="item"
       >
-        <div *dxTemplate="let item of 'item'" (click)="router.navigate(['/arena/' + item.arena])">
+        <div *dxTemplate="let item of 'item'" (click)="router.navigate(['/arena/' + item.id])">
           <div style="position: absolute; width: 100%; height: 100%; z-index: 1; filter: blur(4px); background-size: cover; background-position: center;" [style.background-image]="'linear-gradient(#0004, #0004), url(\'../assets/backgrounds/arena.jpg\')'"></div>
           <h5 style="position: absolute; text-align: center; z-index : 2; width: 100%; top: 50px; font-weight: 600; ">{{item.arena}}</h5>
           <h6 style="position: absolute; text-align: center; z-index : 2; width: 100%; top: 70px; font-weight: 400; ">Punkty: {{item.score}}</h6>

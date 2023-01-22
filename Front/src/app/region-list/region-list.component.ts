@@ -26,8 +26,4 @@ export class RegionListComponent implements OnInit {
       this.items = data;
     })
   }
-
-  deleteRegion(regionName : string) {
-    // FIXME: implement this
-  }
 }

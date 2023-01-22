@@ -1,0 +1,114 @@
+<img class="background" src="/assets/backgrounds/city.webp">
+
+<div class="main-container">
+  <div class="main">
+    <h1 class="title">Dodaj nową walkę</h1>
+    <div class="form-container">
+      <form (submit)="onFormSubmit($event)">
+      <dx-form
+        id="newDuelEntryForm"
+        [colCount]="2"
+        [formData]="formData"
+        style="width: 30rem;"
+        [showValidationSummary]="true"
+        validationGroup="duelData"
+      >
+        <dxi-item
+            editorType="dxSelectBox"
+            [colSpan]="1"
+            [editorOptions]="{
+                disabled: true,
+                placeholder: 'Ja'             
+            }"
+            >
+            <dxo-label text="Kto brał udział w walce"></dxo-label>
+        </dxi-item>
+
+        <dxi-item
+            editorType="dxSelectBox"
+            dataField="user2"
+            [colSpan]="1"
+            [editorOptions]="{
+                dataSource: allArenaMembers,
+                valueExpr: 'id',
+                displayExpr: getname,
+                onSelectionChanged: loadPokemons
+            }"
+            >
+            <dxo-label text="Twój przeciwnik"></dxo-label>
+            <dxi-validation-rule
+                type="required"
+                message="Podaj swojego przeciwnika"
+                >
+            </dxi-validation-rule>
+            <dxi-validation-rule
+                type="compare"
+                [comparisonTarget]="getMyUsr"
+                comparisonType="!="
+                message="Nie możesz stoczyć walki z samym sobą"
+                >
+            </dxi-validation-rule>
+        </dxi-item>
+
+        <dxi-item
+            dataField="pokemon1"
+            editorType="dxSelectBox"
+            [colSpan]="1"
+            [editorOptions]="{
+                dataSource : myPokemons,
+                displayExpr: 'name',
+                valueExpr: 'id'
+            }"
+            >
+            <dxo-label text="Mój Pokemon"></dxo-label>
+            <dxi-validation-rule
+                type="required"
+                message="Podaj który twój Pokemon brał udział w walce"
+                >
+            </dxi-validation-rule>
+        </dxi-item>
+
+        <dxi-item
+            dataField="pokemon2"
+            editorType="dxSelectBox"
+            [colSpan]="1"
+            [editorOptions]="{
+                dataSource : opponentPokemons,
+                displayExpr: 'name',
+                valueExpr: 'id'
+            }"
+            >
+            <dxo-label text="Pokemon przeciwnika"></dxo-label>
+            <dxi-validation-rule
+                type="required"
+                message="Podaj który Pokemon przeciwnika brał udział w walce"
+                >
+            </dxi-validation-rule>
+        </dxi-item>
+
+        <dxi-item
+            editorType="dxCheckBox"
+            [colSpan]="1"
+            dataField="winner"
+            [editorOptions]="{
+
+            }"       
+            >
+            <dxo-label text="Czy wygrałes"></dxo-label>
+        </dxi-item>
+        
+        <dxi-item
+          [colSpan]="2"
+          itemType="button"
+          [buttonOptions]="{
+            text: 'Dodaj nowy Pokeball',
+            useSubmitBehavior: true,
+            type: 'success'
+          }"
+        >
+        </dxi-item>
+      </dx-form>
+      </form>
+    </div>
+  </div>
+</div>

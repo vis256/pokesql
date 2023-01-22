@@ -22,4 +22,12 @@ export class PokemonService {
   public addNewPokemon(pokemon : Pokemon) : Observable<object> {
     return this.http.post(`/api/pokemons/${this.user.user?.login}/new`, pokemon, {headers: this.token.AuthHeaders});
   }
+
+  public getUserPokemon(login : string) : Observable<Pokemon[]> {
+    return this.http.get(`/api/pokemons/${login}`) as Observable<Pokemon[]>;
+  }
+
+  public getPokemonData(pokemon_id : number) : Observable<Pokemon> {
+    return this.http.get(`/api/pokemon/${pokemon_id}`) as Observable<Pokemon>;
+  }
 }

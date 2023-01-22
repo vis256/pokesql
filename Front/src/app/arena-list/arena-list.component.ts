@@ -18,6 +18,9 @@ export class ArenaListComponent implements OnInit {
   ngOnInit(): void {
     this.arena.getAllArenas().subscribe(data => {
       this.items = data;
+
+      console.log({ALL_ARENAS : this.items});
+      
     });
 
     this.arena.getMemberships().subscribe(data => {
