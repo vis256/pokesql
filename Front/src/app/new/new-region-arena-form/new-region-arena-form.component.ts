@@ -38,7 +38,7 @@ export class NewRegionArenaFormComponent implements OnInit {
     $event.preventDefault();
     
     this.arena.addNewArena(this.formData).subscribe(
-      data => {},
+      data => {this.router.navigate(['/pokedex/regions/list'])},
       err => {this.error.displayError(err.error)}
     );
   }

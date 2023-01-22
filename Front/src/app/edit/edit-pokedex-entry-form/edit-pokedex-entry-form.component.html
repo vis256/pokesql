@@ -161,6 +161,17 @@
           [colSpan]="2"
           itemType="button"
           [buttonOptions]="{
+            text: 'Usuń gatunek',
+            onClick: deletePokedex,
+            type: 'danger'
+          }"
+        >
+        </dxi-item>
+
+        <dxi-item
+          [colSpan]="2"
+          itemType="button"
+          [buttonOptions]="{
             text: 'Edytuj gatunek',
             useSubmitBehavior: true,
             type: 'success'

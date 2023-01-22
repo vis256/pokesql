@@ -30,6 +30,7 @@ export class EditPokedexEntryFormComponent implements OnInit {
     private router : Router
   ) {
     this.secondaryTypeComparison = this.secondaryTypeComparison.bind(this);
+    this.deletePokedex = this.deletePokedex.bind(this);
   }
 
   formData : any = {
@@ -105,6 +106,13 @@ export class EditPokedexEntryFormComponent implements OnInit {
 
   secondaryTypeComparison = () => {
     return this.formData.primary_type;
+  }
+
+  deletePokedex() {
+    this.pokedex.deletePokedexEntry(this.formData.number).subscribe(
+      data => {this.router.navigate(['/pokedex/list'])},
+      err => {this.error.displayError(err.error)}
+    )
   }
 
   onFormSubmit($event: any) {

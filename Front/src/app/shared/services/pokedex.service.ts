@@ -36,4 +36,8 @@ export class PokedexService {
   public updatePokedexEntry( pokedexEntry : Pokedex ) {
     return this.http.post(`/api/pokedex/${pokedexEntry.number}/update`, pokedexEntry, {headers : this.token.AuthHeaders});
   }
+
+  public deletePokedexEntry(pokedex_num : number) {
+    return this.http.get(`/api/pokedex/${pokedex_num}/delete`, {headers : this.token.AuthHeaders});
+  }
 }
