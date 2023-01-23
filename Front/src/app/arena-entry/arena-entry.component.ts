@@ -23,7 +23,6 @@ export class ArenaEntryComponent implements OnInit {
     private user : UserService,
     private pokemon : PokemonService
   ) { 
-    this.getMyScoreDiff = this.getMyScoreDiff.bind(this);
   }
 
   ngOnInit(): void {
@@ -47,7 +46,9 @@ export class ArenaEntryComponent implements OnInit {
           })
 
           this.arena.getRelativeArenaMembers(data.arena).subscribe(data => {
-            this.relativeArenaMembers = data;
+            console.log({data});
+            
+            this.myScoreDiff = data.find(e => e.id === arenaMemberID)!.score!;
           })
 
           this.duels.getMyDuels(this.arenaData).subscribe(duelData => {
@@ -91,13 +92,9 @@ export class ArenaEntryComponent implements OnInit {
     join_date: new Date()
   };
 
+  myScoreDiff = 0;
+
   arenaMembers : ArenaMember[] = [];
-
-  relativeArenaMembers : ArenaMember[] = [];
-
-  public getMyScoreDiff() {
-    return this.relativeArenaMembers.find(e => e.id === this.arenaData.id)?.score
-  }
 
   myFights : any[] = []
 

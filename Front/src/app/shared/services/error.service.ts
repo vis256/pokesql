@@ -33,7 +33,7 @@ const constraint_map : any = {
   "pokemons_pokedex_num_fkey" : "Istnieje Pokemon z takim numerem gatunku",
   "pokemons_pokeball_fkey" : "Istnieje Pokemon z takim Pokeballem",
   "duels_pkey" : "TODO: Dodać komunikat",
-  "duels_duel_date_user1_user2_key" : "TODO: Dodać komunikat",
+  "duels_duel_date_user1_user2_key" : "Istnieje już walka z twoim przeciwnikiem dzisiaj",
   "duels_user1_fkey" : "TODO: Dodać komunikat",
   "duels_user2_fkey" : "TODO: Dodać komunikat",
   "duels_pokemon1_fkey" : "TODO: Dodać komunikat",

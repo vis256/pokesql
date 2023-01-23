@@ -116,10 +116,8 @@ export class NewFightFormComponent implements OnInit {
 
     $event.preventDefault();
 
-    this.formData.winner = !this.formData.winner;
-    // FIXME: Add a new battle
     this.duels.addDuel(this.formData).subscribe(
-      data => {},
+      data => { this.router.navigate([`/arena/${this.myArenaMember.id!}`]) },
       err => {this.error.displayError(err.error)}
     )
   }

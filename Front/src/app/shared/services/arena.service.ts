@@ -59,6 +59,6 @@ export class ArenaService {
   }
 
   public getRelativeArenaMembers(arena : string) : Observable<ArenaMember[]> {
-    return this.http.get(`/arenas/${arena}/members_relative`) as Observable<ArenaMember[]>
+    return this.http.get(`api/arenas/${arena}/members_relative`) as Observable<ArenaMember[]>
   }
 }
