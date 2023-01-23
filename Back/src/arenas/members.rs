@@ -31,7 +31,7 @@ async fn get_all_arena(pool: &Pool<Postgres>, arena: &str) -> Result<Vec<ArenaMe
 async fn get_relative_arena(pool: &Pool<Postgres>, arena: &str) -> Result<Vec<ArenaMember>, Error> {
     sqlx::query_as!(ArenaMember,
         r#"SELECT id as "id?", join_date as "join_date?", usr, diff_leader(score, $1) as "score?", arena
-        FROM ArenaMembers WHERE usr = $1 ORDER BY score DESC"#, arena
+        FROM ArenaMembers WHERE arena = $1 ORDER BY score DESC"#, arena
     ).fetch_all(pool).await
 }
 
