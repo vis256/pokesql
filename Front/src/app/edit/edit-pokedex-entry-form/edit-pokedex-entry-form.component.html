@@ -126,9 +126,11 @@
           editorType="dxTagBox"
           dataField="pokeballs"
           [editorOptions]="{
-            dataSource: allPokeballs,
+            items: allPokeballs,
             displayExpr: 'name',
-            valueExpr: 'name'
+            valueExpr: 'name',
+            showSelectionControls : true,
+            applyValueMode: 'useButtons'
           }"
           >
           <dxo-label text="Pokeballe w jakie może być złapany"></dxo-label>
@@ -144,9 +146,11 @@
           editorType="dxTagBox"
           dataField="attacks"
           [editorOptions]="{
-            dataSource: allAttacks,
+            items: allAttacks,
             displayExpr: 'name',
-            valueExpr: 'name'
+            valueExpr: 'name',
+            showSelectionControls : true,
+            applyValueMode: 'useButtons'
           }"
           >
           <dxo-label text="Ataki jakie może się nauczyć"></dxo-label>

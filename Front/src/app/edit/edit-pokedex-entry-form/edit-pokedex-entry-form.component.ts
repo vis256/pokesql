@@ -121,7 +121,18 @@ export class EditPokedexEntryFormComponent implements OnInit {
     
     $event.preventDefault();
 
-    this.pokedex.updatePokedexEntry(this.formData).subscribe(
+    const pkdx : Pokedex = {
+      number: this.formData.number,
+      name: this.formData.name,
+      min_level: this.formData.min_level,
+      region: this.formData.region,
+      primary_type: this.formData.primary_type,
+      secondary_type : this.formData.secondary_type
+    };
+
+    console.log({pkdx});
+    
+    this.pokedex.updatePokedexEntry(pkdx).subscribe(
       data => {
         console.log({data});
 
@@ -140,7 +151,7 @@ export class EditPokedexEntryFormComponent implements OnInit {
         }
 
         for (const pokeball_e of this.formData.pokeballs) {
-          this.pokeball.addPokedexPokeballEntry(pokeball_e.name, this.formData.number).subscribe(
+          this.pokeball.addPokedexPokeballEntry(pokeball_e, this.formData.number).subscribe(
             data => {
 
             },
