@@ -103,8 +103,9 @@ async fn update_one(
         r#"UPDATE Pokemons SET
             name = $1,
             sex = $2,
-            pokeball = $3 WHERE id = $4"#,
-        p.name, p.sex, p.pokeball, id).execute(&mut transaction).await?;
+            level = $3,
+            pokeball = $4 WHERE id = $5"#,
+        p.name, p.sex, p.level, p.pokeball, id).execute(&mut transaction).await?;
     transaction.commit().await
 }
 
