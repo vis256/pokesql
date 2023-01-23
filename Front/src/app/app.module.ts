@@ -49,6 +49,7 @@ import { EditPokedexEntryFormComponent } from './edit/edit-pokedex-entry-form/ed
 import { EditAttackFormComponent } from './edit/edit-attack-form/edit-attack-form.component';
 import { RegionListComponent } from './region-list/region-list.component';
 import { NewFightFormComponent } from './new/new-fight-form/new-fight-form.component';
+import { EditPokemonEntryFormComponent } from './edit/edit-pokemon-entry-form/edit-pokemon-entry-form.component';
 
 
 @NgModule({
@@ -83,7 +84,8 @@ import { NewFightFormComponent } from './new/new-fight-form/new-fight-form.compo
     EditPokedexEntryFormComponent,
     EditAttackFormComponent,
     RegionListComponent,
-    NewFightFormComponent
+    NewFightFormComponent,
+    EditPokemonEntryFormComponent
   ],
   imports: [
     BrowserModule,

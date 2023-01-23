@@ -30,4 +30,8 @@ export class PokemonService {
   public getPokemonData(pokemon_id : number) : Observable<Pokemon> {
     return this.http.get(`/api/pokemon/${pokemon_id}`) as Observable<Pokemon>;
   }
+
+  public updatePokemon(pokemon : Pokemon) {
+    return this.http.post(`/api/pokemons/${pokemon.id}/update`, pokemon, {headers : this.token.AuthHeaders});
+  }
 }

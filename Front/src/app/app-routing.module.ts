@@ -34,6 +34,7 @@ import { EditPokedexEntryFormComponent } from './edit/edit-pokedex-entry-form/ed
 import { EditAttackFormComponent } from './edit/edit-attack-form/edit-attack-form.component';
 import { RegionListComponent } from './region-list/region-list.component';
 import { NewFightFormComponent } from './new/new-fight-form/new-fight-form.component';
+import { EditPokemonEntryFormComponent } from './edit/edit-pokemon-entry-form/edit-pokemon-entry-form.component';
 
 const routes: Routes = [
   {
@@ -114,6 +115,11 @@ const routes: Routes = [
   {
     path : 'mypokemon/entry/:pokemonID',
     component : OwnedPokemonEntryComponent,
+    canActivate : [ AuthGuardService ]
+  },
+  {
+    path : 'mypokemon/entry/:pokemonID/edit',
+    component : EditPokemonEntryFormComponent,
     canActivate : [ AuthGuardService ]
   },
   {

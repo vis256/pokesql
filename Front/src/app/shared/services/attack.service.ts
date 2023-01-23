@@ -59,4 +59,8 @@ export class AttackService {
   public deleteAttackFromPokedex(ap : {attack : string, pokedex_num : number}) {
     return this.http.post(`/api/pokedex/attacks/delete`, ap, {headers : this.token.AuthHeaders});
   }
+
+  public deleteAttackFromPokemon(PokemonAttack : {attack : string, pokemon_id : number}) {
+    return this.http.post(`/api/pokemons/attacks/delete`, PokemonAttack, {headers : this.token.AuthHeaders});
+  }
 }

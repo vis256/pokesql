@@ -57,4 +57,8 @@ export class ArenaService {
     }
     return this.http.post(`/api/users/${this.user.user.login}/memberships/new`, ad, {headers: this.token.AuthHeaders});
   }
+
+  public getRelativeArenaMembers(arena : string) : Observable<ArenaMember[]> {
+    return this.http.get(`/arenas/${arena}/members_relative`) as Observable<ArenaMember[]>
+  }
 }

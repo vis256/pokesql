@@ -7,7 +7,7 @@
         Mój Pokemon - {{ pokemonData.name }}
         <dx-button
           *ngIf="user.isProfessor()"
-          (click)="router.navigate(['/mypokemon/' + pokemonID])"
+          (click)="router.navigate(['/mypokemon/entry/' + pokemonID + '/edit'])"
           class="modify-button"
           text="Zmodyfikuj"
           icon="edit"
