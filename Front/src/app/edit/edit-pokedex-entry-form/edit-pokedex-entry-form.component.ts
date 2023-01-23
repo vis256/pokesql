@@ -70,12 +70,18 @@ export class EditPokedexEntryFormComponent implements OnInit {
       })
   
       this.attack.getAttacksForPokedex(this.formData.number).subscribe(data => {
-        this.formData.attacks = data;
+        this.formData.attacks = [];
+        for (const atk of data) {
+          this.formData.attacks.push(atk.name);
+        }
         this.originalAttacks = data;
       })
 
       this.pokeball.getPokeballsUsedForPokedex(this.formData.number).subscribe(data => {
-        this.formData.pokeballs = data;
+        this.formData.pokeballs = []
+        for (const pkbl of data) {
+          this.formData.pokeballs.push(pkbl.name)
+        }
         this.originalPokeballs = data;
       })
     })
