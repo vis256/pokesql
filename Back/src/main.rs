@@ -65,6 +65,7 @@ async fn rocket() -> _ {
                 arenas::members::get_memberships,
                 arenas::members::get_members,
                 arenas::members::add_member,
+                arenas::members::get_members_relative,
                 arenas::regions::get_all_regions,
                 arenas::regions::get_region_name,
                 arenas::regions::get_arena_region,
