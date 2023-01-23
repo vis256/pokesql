@@ -70,16 +70,23 @@ pub async fn del_attack(
     auth: AuthStatus,
     pa: Json<PokemonAttack>
 ) -> Response<()> {
+    let p = pa.into_inner();
     match auth {
-        AuthStatus::Professor(_) => {
-            if let Err(e) = delete_attack(pool, &pa.into_inner()).await {
-                if let Error::RowNotFound = e {
-                    Response::NotFound(Some(Json(ErrInfo::from(e))))
+        AuthStatus::Professor(name) |
+        AuthStatus::Trainer(name) => {
+            let owner = sqlx::query!("SELECT owner FROM Pokemons WHERE id = $1", p.pokemon_id).fetch_one(&**pool).await.unwrap().owner;
+            if name == owner {
+                if let Err(e) = delete_attack(pool, &p).await {
+                    if let Error::RowNotFound = e {
+                        Response::NotFound(Some(Json(ErrInfo::from(e))))
+                    } else {
+                        Response::BadRequest(Some(Json(ErrInfo::from(e))))
+                    }
                 } else {
-                    Response::BadRequest(Some(Json(ErrInfo::from(e))))
+                    Response::Success(Some(()))
                 }
             } else {
-                Response::Success(Some(()))
+                Response::Unauthorized(())
             }
         }
         _ => Response::Unauthorized(())
@@ -96,8 +103,9 @@ async fn update_one(
         r#"UPDATE Pokemons SET
             name = $1,
             sex = $2,
-            pokeball = $3 WHERE id = $4"#,
-        p.name, p.sex, p.pokeball, id).execute(&mut transaction).await?;
+            level = $3,
+            pokeball = $4 WHERE id = $5"#,
+        p.name, p.sex, p.level, p.pokeball, id).execute(&mut transaction).await?;
     transaction.commit().await
 }
 
