@@ -27,9 +27,14 @@ export class NewPokeballEntryFormComponent implements OnInit {
     console.log({$event});
     console.log({data: this.formData})
 
+    const p : any = this.formData;
+    if (p.name === "") {
+      p.name = null;
+    }
+
     $event.preventDefault();
 
-    this.pokeball.addNewPokeball(this.formData).subscribe(
+    this.pokeball.addNewPokeball(p).subscribe(
       data => { this.router.navigate(['/pokedex/pokeball/list']) },
       err => {this.error.displayError(err.error)}
     )

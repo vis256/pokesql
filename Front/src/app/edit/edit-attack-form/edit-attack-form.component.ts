@@ -59,7 +59,7 @@ export class EditAttackFormComponent implements OnInit {
     
     $event.preventDefault();
 
-    this.attack.addNewAttack(this.formData).subscribe(
+    this.attack.updateAttack(this.formData).subscribe(
       data => {
         console.log({data});
         this.router.navigate(['pokedex/attacks/list']);

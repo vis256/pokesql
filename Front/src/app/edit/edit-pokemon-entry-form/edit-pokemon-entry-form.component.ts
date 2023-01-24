@@ -129,9 +129,9 @@ export class EditPokemonEntryFormComponent implements OnInit {
 
     console.log({pd : this.currentPokedexData});
 
-    const newPokemon : Pokemon = {
+    const newPokemon : any = {
       id: this.formData.id,
-      name: this.formData.name,
+      name: (this.formData.name == '' ? null : this.formData.name),
       level: this.formData.level,
       sex: this.formData.sex,
       pokedex_num: this.formData.pokedex_num,

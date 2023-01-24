@@ -52,8 +52,8 @@ export class AttackService {
     return this.http.get(`/api/attack/${attackName}/delete`, {headers : this.token.AuthHeaders});
   }
 
-  public updateAttack() {
-    // FIXME: Implement this
+  public updateAttack(attack : Attack) {
+    return this.http.post(`/api/attacks/${attack.name}/update`, attack, {headers : this.token.AuthHeaders});
   }
 
   public deleteAttackFromPokedex(ap : {attack : string, pokedex_num : number}) {
