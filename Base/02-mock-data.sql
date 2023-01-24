@@ -1,2 +1,4 @@
 INSERT INTO Users(login, password, username, is_professor)
-VALUES('pokemaster69', 'deadbeefb00b135', 'ash', TRUE);
+VALUES('deadbeefcafe', 'deadbeefb00b135', 'Ash', TRUE);
+INSERT INTO Users(login, password, username, is_professor)
+VALUES('marcel', '123456', 'Marcel', FALSE);
