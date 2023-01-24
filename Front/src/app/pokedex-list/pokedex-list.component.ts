@@ -17,16 +17,31 @@ export class PokedexListComponent implements OnInit {
     private pokedex : PokedexService
   ) { }
 
-  dataSource : Array<Pokedex> = [];
+  dataSource : any[] = [];
 
   ngOnInit(): void {
-    this.pokedex.getPokedexList().subscribe((data : any) => {
-      this.dataSource = data;
+    this.pokedex.getPokedexList().subscribe(data => {
+      let nd : any[] = [];
+      for (const pkdx of data) {
+        const ne = {
+          number : pkdx.number,
+          name : pkdx.name,
+          min_level : pkdx.min_level,
+          region : pkdx.region,
+          types : [
+            pkdx.primary_type,
+            (pkdx.secondary_type ? pkdx.secondary_type : null)
+          ]
+        }
+
+        nd.push(ne);
+      }
+      this.dataSource = nd;
     });
   }
 
   itemClick($event: any) {
-    this.router.navigate([`/pokedex/entry/${$event.itemData.number}`]);
+    this.router.navigate([`/pokedex/entry/${$event.data.number}`]);
   }
 }
 

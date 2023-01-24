@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { ArenaRegion } from 'src/app/shared/models/ArenaRegion';
 import { ArenaService } from 'src/app/shared/services/arena.service';
+import { ErrorService } from 'src/app/shared/services/error.service';
+import { TypesService } from 'src/app/shared/services/types.service';
 
 @Component({
   selector: 'app-new-region-arena-form',
@@ -9,7 +12,10 @@ import { ArenaService } from 'src/app/shared/services/arena.service';
 })
 export class NewRegionArenaFormComponent implements OnInit {
   constructor(
-    private arena : ArenaService
+    private arena : ArenaService,
+    private router : Router,
+    private error : ErrorService,
+    private type : TypesService
   ) { }
 
   formData : ArenaRegion = {
@@ -18,16 +24,21 @@ export class NewRegionArenaFormComponent implements OnInit {
     type: ''
   }
 
-  types = ['Normal', 'Fire']
+  types : string[] = []
   
   ngOnInit(): void {
-    // FIXME: Load type list
+    this.type.getAllTypesString().subscribe( data => {
+      this.types = data;
+    })
   }
   
   onFormSubmit($event : any) {
     $event.preventDefault();
     
-    this.arena.addNewArena(this.formData);
+    this.arena.addNewArena(this.formData).subscribe(
+      data => {this.router.navigate(['/pokedex/regions/list'])},
+      err => {this.error.displayError(err.error)}
+    );
   }
 
 }

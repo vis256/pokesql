@@ -4,7 +4,7 @@
   <div class="main">
     <dx-scroll-view>
       <h1 class="title">
-        {{pokedexId}}  -  Bulbasaur
+        {{pokedexId}}  -  {{pokedexData.name}}
         <dx-button
           *ngIf="user.isProfessor()"
           (click)="router.navigate(['/pokedex/edit/' + pokedexId])"
@@ -28,6 +28,11 @@
           </div>
 
           <div class="entry">
+            <div class="label">Minimalny poziom</div>
+            <div class="value">{{pokedexData.min_level}}</div>
+          </div>
+
+          <div class="entry">
             <div class="label">Typy</div>
             <div class="value">
               <div style="display: flex; flex-direction: row">
@@ -43,20 +48,27 @@
           </div>
 
           <div class="entry">
-            <div class="label">Możliwe ataki do poznania</div>
+            <div class="label">Możliwe Pokeballe do złapania</div>
             <div class="value">
               <ul>
-                <app-attack-label *ngFor="let attack of pokedexData.Attacks" [name]="attack"></app-attack-label>
+                <li *ngFor="let pokeball of pokeballs">{{pokeball.name}}</li>
               </ul>
             </div>
           </div>
 
+          <div class="entry">
+            <div class="label">Możliwe ataki do poznania</div>
+            <div class="value">
+              <ul>
+                <app-attack-label *ngFor="let attack of pokedexAttacks" [attack]="attack"></app-attack-label>
+              </ul>
+            </div>
+          </div>
         </div>
 
         <img *ngIf="pokedexId !== -1" [src]="'/assets/sprites/pokemon/' + pokedexId + '.png'">
       </div>
     </dx-scroll-view>
   </div>
-
 </div>
 

@@ -23,3 +23,15 @@
     }
   }
 }
+
+:host ::ng-deep .dx-list {
+  .dx-list-item {
+    border: 0 !important;
+    min-height: 4rem !important;
+    height: 4rem !important;
+    max-height: 4rem !important;
+    overflow: hidden !important;
+    float: left !important;
+    margin: 0 !important;
+  }
+}

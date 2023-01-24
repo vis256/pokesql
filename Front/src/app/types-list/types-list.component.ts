@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import {UserService} from "../shared/services";
 import {Router} from "@angular/router";
+import { TypesService } from '../shared/services/types.service';
+import { Type } from '../shared/models/Type';
+import { Counter } from '../shared/models/Counter';
+import { ErrorService } from '../shared/services/error.service';
 
 const colors : any = {
   Normal: '#A8A77A',
@@ -32,26 +36,95 @@ export class TypesListComponent implements OnInit {
 
   constructor(
     public user : UserService,
-    public router : Router
-  ) { }
+    public router : Router,
+    public type : TypesService,
+    private error : ErrorService
+  ) {
+    this.validate = this.validate.bind(this);
+  }
 
-  types : Array<string> = [];
+  types : Type[]= [];
+
+  countered : any = {
+  };
+
+  formData : any = {
+    counter : ''
+  }
 
   colors = colors;
 
   ngOnInit(): void {
-    // TODO: Fetch data from backend
-    for (let type of Object.keys(colors)) {
-      this.types.push(type);
-    }
+    this.type.getAllTypes().subscribe(data => {
+      this.types = data;
+
+      for (const type of this.types) {
+        this.type.getCountersWorse(type.name).subscribe(data => {
+          this.countered[type.name] = data;
+        })
+      }
+    })
   }
+
+  showNewCounterPopup = false;
 
   currentType : string = ''
   popupVisible : boolean = false;
 
+  closePopup() {
+    this.showNewCounterPopup = false;
+    this.formData.counter = '';
+  }
+
+  betterType : string = ''
+
   click($event : any) {
-    this.currentType = $event.itemData;
-    this.popupVisible = true;
+    this.router.navigate([`/pokedex/types/edit/${$event}`])
+  }
+
+  clickCounter(better : string, worse : string) {
+    console.log({better, worse});
+    const c : Counter = {better_type : better, worse_type : worse}
+    this.type.deleteCounter(c).subscribe(
+      data => {this.ngOnInit()},
+      err => {this.error.displayError(err.error)}
+    )
+  }
+
+  validate($event : any) {
+    const r : Type[] = this.countered[$event.value];
+    let n : string[] = [];
+    for (const t of r) {
+      n.push(t.name);
+    }
+    const res = n.includes(this.betterType);
+    console.log(this.countered[$event.value], $event.value, this.betterType, res);
+    
+    return !res;
+  }
+
+  comp = () => this.betterType;
+
+  onFormSubmit($event: any) {
+    console.log({$event});
+    console.log({data: this.formData})
+
+    $event.preventDefault();
+    const worse = this.formData.counter;
+
+    const cnt : Counter = {
+      better_type: this.betterType,
+      worse_type: worse
+    }
+
+    this.type.addNewCounter(cnt).subscribe(
+      data => {
+        this.ngOnInit();
+        this.showNewCounterPopup = false;
+        this.formData.counter = '';
+      },
+      err => {this.error.displayError(err.error)}
+    );
   }
 
 }

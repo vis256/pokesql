@@ -6,7 +6,6 @@ export interface Pokedex {
   pokeball? : string;
   primary_type : string;
   secondary_type? : string;
-  Attacks? : string[];
 }
 
 export function findPokedex(pokedexData : Pokedex[], pokedex_num : number) {

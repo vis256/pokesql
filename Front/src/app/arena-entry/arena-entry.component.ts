@@ -1,7 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ArenaMember } from '../shared/models/ArenaMember';
+import { Duel } from '../shared/models/Duel';
+import { UserInfo } from '../shared/models/UserInfo';
+import { UserService } from '../shared/services';
 import { ArenaService } from '../shared/services/arena.service';
+import { DuelService } from '../shared/services/duel.service';
+import { PokemonService } from '../shared/services/pokemon.service';
 
 @Component({
   selector: 'app-arena-entry',
@@ -12,177 +17,86 @@ export class ArenaEntryComponent implements OnInit {
 
   constructor(
     private arena : ArenaService,
-    private route : ActivatedRoute
-  ) { }
+    private route : ActivatedRoute,
+    private duels : DuelService,
+    public router : Router,
+    private user : UserService,
+    private pokemon : PokemonService
+  ) { 
+  }
 
   ngOnInit(): void {
-    // this.route.paramMap.subscribe((data : any) => {
-    //   console.log({xd: data.params});
-    //   if (data.params.arenaMemberID) {
-    //     const arenaMemberID = parseInt(data.params.arenaMemberID);
+    this.route.paramMap.subscribe((data : any) => {
+      console.log({xd: data.params});
+      if (data.params.arenaMemberID) {
+        const arenaMemberID = parseInt(data.params.arenaMemberID);
+        console.log({arenaMemberID});
 
-    //     this.arena.getArenaMember(arenaMemberID).subscribe(data => {
-    //       this.arenaData = data;
+        this.user.getAllUsers().subscribe(data => {
+          this.allUsers = data;
+        })
 
-    //       this.arena.getArenaMembers(this.arenaData!.arena).subscribe(data => {
-    //         this.arenaMembers = data;
-    //       })
-    //     })
-    //   }
-    // })
+        this.arena.getArenaMember(arenaMemberID).subscribe(data => {
+          this.arenaData = data;
+
+          this.arena.getArenaMembers(data.arena).subscribe(data => {
+            console.log({data});
+            
+            this.arenaMembers = data;
+          })
+
+          this.arena.getRelativeArenaMembers(data.arena).subscribe(data => {
+            console.log({data});
+            
+            this.myScoreDiff = data.find(e => e.id === arenaMemberID)!.score!;
+          })
+
+          this.duels.getMyDuels(this.arenaData).subscribe(duelData => {
+            const last = duelData.length
+            for (const [index, duel] of duelData.entries()) {
+              this.pokemon.getPokemonData(duel.my_pokemon_id).subscribe(data => {
+                this.allPokemonData[duel.my_pokemon_id] = data;
+
+                this.pokemon.getPokemonData(duel.opponent_pokemon_id).subscribe(data => {
+                  this.allPokemonData[duel.opponent_pokemon_id] = data;
+
+                  if (index === last-1) {
+                    this.myFights = duelData;
+                  }
+                })
+              })
+            }
+          })
+        })
+      }
+    })
   }
 
-  arenaData? : ArenaMember;
+  allUsers : UserInfo[] = [];
 
-  arenaMembers : ArenaMember[] = [
-    {
-      id : 1,
-      join_date: new Date(2020, 12, 23),
-      usr : 'xd234',
-      score : 12,
-      arena : 'xd'
-    },    
-    {
-      id : 2,
-      join_date: new Date(2020, 1, 22),
-      usr : 'jasiu2345',
-      score : 3,
-      arena : 'xd'
-    },
-    {
-      id : 3,
-      join_date: new Date(2020, 11, 21),
-      usr : 'chujadefrgt',
-      score : 1,
-      arena : 'xd'
-    },    {
-      id : 3,
-      join_date: new Date(2020, 11, 21),
-      usr : 'chujadefrgt',
-      score : 1,
-      arena : 'xd'
-    },    {
-      id : 3,
-      join_date: new Date(2020, 11, 21),
-      usr : 'chujadefrgt',
-      score : 1,
-      arena : 'xd'
-    },    {
-      id : 3,
-      join_date: new Date(2020, 11, 21),
-      usr : 'chujadefrgt',
-      score : 1,
-      arena : 'xd'
-    },    {
-      id : 3,
-      join_date: new Date(2020, 11, 21),
-      usr : 'chujadefrgt',
-      score : 1,
-      arena : 'xd'
-    },    {
-      id : 3,
-      join_date: new Date(2020, 11, 21),
-      usr : 'chujadefrgt',
-      score : 1,
-      arena : 'xd'
-    },    {
-      id : 3,
-      join_date: new Date(2020, 11, 21),
-      usr : 'chujadefrgt',
-      score : 1,
-      arena : 'xd'
-    },    {
-      id : 3,
-      join_date: new Date(2020, 11, 21),
-      usr : 'chujadefrgt',
-      score : 1,
-      arena : 'xd'
-    },    {
-      id : 3,
-      join_date: new Date(2020, 11, 21),
-      usr : 'chujadefrgt',
-      score : 1,
-      arena : 'xd'
-    },    {
-      id : 3,
-      join_date: new Date(2020, 11, 21),
-      usr : 'chujadefrgt',
-      score : 1,
-      arena : 'xd'
-    },    {
-      id : 3,
-      join_date: new Date(2020, 11, 21),
-      usr : 'chujadefrgt',
-      score : 1,
-      arena : 'xd'
-    },    {
-      id : 3,
-      join_date: new Date(2020, 11, 21),
-      usr : 'chujadefrgt',
-      score : 1,
-      arena : 'xd'
-    },    {
-      id : 3,
-      join_date: new Date(2020, 11, 21),
-      usr : 'chujadefrgt',
-      score : 1,
-      arena : 'xd'
-    },    {
-      id : 3,
-      join_date: new Date(2020, 11, 21),
-      usr : 'chujadefrgt',
-      score : 1,
-      arena : 'xd'
-    },    {
-      id : 3,
-      join_date: new Date(2020, 11, 21),
-      usr : 'chujadefrgt',
-      score : 1,
-      arena : 'xd'
-    },
-
-  ];
-
-  recentFights = [
-    {
-      Rezultat : 'W',
-      'Data walki' : new Date("2022-12-23T03:24:00"),
-      Przeciwnik : 'Rocket Member',
-      'Twój Pokemon' : 'Marcel'
-    },
-    {
-      Rezultat : 'W',
-      'Data walki' : new Date("2022-12-22T12:27:00"),
-      Przeciwnik : 'Rocket Member',
-      'Twój Pokemon' : 'Marcel'
-    },
-    {
-      Rezultat : 'W',
-      'Data walki' : new Date("2022-12-21T16:45:00"),
-      Przeciwnik : 'Rocket Member',
-      'Twój Pokemon' : 'Marcel'
-    },
-    {
-      Rezultat : 'L',
-      'Data walki' : new Date("2022-12-19T23:24:00"),
-      Przeciwnik : 'Rocket Member',
-      'Twój Pokemon' : 'Mścisław'
-    },
-    {
-      Rezultat : 'W',
-      'Data walki' : new Date("2022-12-17T01:28:00"),
-      Przeciwnik : 'Emily',
-      'Twój Pokemon' : 'Bulbasaur'
-    },
-
-  ]
-
-  askAgain : boolean = true;
-
-  leaveArena() {
-    // TODO: Leave arena
-    console.log("Leaving arena");
-    
+  public getUsername(login : string) {
+    return this.allUsers.find(e => e.login === login)!.username;
   }
 
+  public getUsernameFromId( id : number ) {
+    return this.allUsers.find(e => e.login == (
+      this.arenaMembers.find(e => e.id === id)!.usr
+    ))!.username
+  }
+
+  arenaData : ArenaMember = {
+    usr: '',
+    arena: '',
+    score: 0,
+    id: 0,
+    join_date: new Date()
+  };
+
+  myScoreDiff = 0;
+
+  arenaMembers : ArenaMember[] = [];
+
+  myFights : any[] = []
+
+  allPokemonData : any = {};
 }

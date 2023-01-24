@@ -4,6 +4,7 @@ import {PokedexService} from "../shared/services/pokedex.service";
 import {Pokemon} from "../shared/models/Pokemon";
 import {findPokedex, Pokedex} from "../shared/models/Pokedex";
 import { PokemonService } from '../shared/services/pokemon.service';
+import { triggerHandler } from 'devextreme/events';
 
 @Component({
   selector: 'app-owned-pokemon-list',
@@ -18,27 +19,23 @@ export class OwnedPokemonListComponent implements OnInit {
     private pokemon : PokemonService
   ) { }
 
-  public pkdx(pokedex_num : number) {
-    return findPokedex(this.pokedexData, pokedex_num);
-  }
-
   ngOnInit(): void {
     // GET POKEDEX
     this.pokedex.getPokedexList().subscribe(data => {
       this.pokedexData = data;
-    })
 
-    // GET OWNED POKEMON
-    this.pokemon.getMyPokemon().subscribe(data => {
-      let i : any = data;
-      i.forEach((e : any) => {
-        const pd = this.pkdx(e.pokedex_num)!
-        i.types = [ pd.primary_type ]
-        if (pd.secondary_type) {
-          i.types.push(pd.secondary_type);
-        }
+      this.pokemon.getMyPokemon().subscribe(data => {
+        let nd : any = data;
+        nd.forEach((poke : any) => {
+          const pkdxd = this.pokedexData.find(e => e.number == poke.pokedex_num)!
+          poke.pokedex_name = pkdxd.name;
+          poke.types = [
+            pkdxd.primary_type,
+            (pkdxd.secondary_type ? pkdxd.secondary_type : null)
+          ]
+        });
+        this.pokemonList = nd;
       })
-      this.pokemonList = i;
     })
   }
 
@@ -46,8 +43,8 @@ export class OwnedPokemonListComponent implements OnInit {
   pokedexData : Pokedex[] = [];
 
   itemClick($event : any) {
-    this.router.navigate([`/mypokemon/entry/${$event.itemData.id}`])
     console.log({$event});
+    this.router.navigate([`/mypokemon/entry/${$event.data.id}`])
   }
 
   sexFilter = [

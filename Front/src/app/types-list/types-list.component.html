@@ -7,7 +7,7 @@
         Typy
         <dx-button
           *ngIf="user.isProfessor()"
-          (click)="router.navigate(['/pokedex/new'])"
+          (click)="router.navigate(['/pokedex/types/new'])"
           class="modify-button"
           text="Dodaj nowy typ"
           icon="add"
@@ -18,12 +18,12 @@
       <dx-list
         [items]="types"
         itemTemplate="item"
-        (onItemClick)="click($event)"
       >
-        <div *dxTemplate="let item of 'item'" [style]="{
-          backgroundColor: colors[item]
-        }">
-          {{item}}
+        <div *dxTemplate="let item of 'item'" style="width: 100%; display: flex; flex-direction: row; align-items: center;">
+          <app-type-label (click)="click(item.name)" [type]="item.name"></app-type-label>
+          <div style="font-weight: 600; font-size: 1.4rem; margin: 0 1rem;">></div>
+          <app-type-label (click)="clickCounter(item.name, counteredType.name)" *ngFor="let counteredType of countered[item.name]" [type]="counteredType.name"></app-type-label>
+          <dx-button *ngIf="user.isProfessor()" icon="add" text="Nowa kontra" (onClick)="showNewCounterPopup = true; betterType=item.name; formData.counter = ''"></dx-button>
         </div>
       </dx-list>
     </dx-scroll-view>
@@ -31,17 +31,66 @@
 </div>
 
 <dx-popup
-  [(visible)]="popupVisible"
+  [(visible)]="showNewCounterPopup"
   [closeOnOutsideClick]="true"
-  [title]="currentType"
-  [width]="'20rem'"
-  [height]="'min-content'"
+  [width]="600"
+  [height]="500"
   >
-  <div
-    style="display: flex; align-items: center; justify-content: center; flex-direction: column"
-  >
-    <dx-button style="margin: 1rem" text="Znajdź Pokemony tego typu"></dx-button>
-    <dx-button style="margin: 1rem" text="Idź do regionu tego typu"></dx-button>
-    <dx-button style="margin: 1rem" text="Idź do areny tego typu"></dx-button>
-  </div>
+  <form (submit)="onFormSubmit($event)">
+    <dx-form
+      id="newCounterEntryForm"
+      [colCount]="1"
+      [formData]="formData"
+      [showValidationSummary]="true"
+      validationGroup="typeData"
+      >
+      <dxi-item 
+        [colSpan]="1"
+        dataField="counter"
+        editorType="dxSelectBox"
+        [editorOptions]="{
+          dataSource: types,
+          displayExpr: 'name',
+          valueExpr: 'name'
+        }"
+        >
+          <dxi-validation-rule
+                type="required"
+                message="Podaj typ kontrowany"
+                >
+            </dxi-validation-rule>
+            <dxi-validation-rule
+              type="required"
+              message="Podaj nazwe dodawanego typu"
+              >
+            </dxi-validation-rule>
+            <dxi-validation-rule
+              type="compare"
+              comparisonType="!="
+              [ignoreEmptyValue]="true"
+              message="Typ nie może kontrować samego siebie"
+              [comparisonTarget]="comp"
+              >
+            </dxi-validation-rule>
+            <dxi-validation-rule
+              type="custom"
+              [validationCallback]="validate"
+              message="Istnieje sprzeczna kontra"
+              >
+            </dxi-validation-rule>
+          <dxo-label text="Typ kontrowany"></dxo-label>
+        </dxi-item>
+      
+      <dxi-item
+        [colSpan]="1"
+        itemType="button"
+        [buttonOptions]="{
+          text: 'Dodaj nową kontre',
+          useSubmitBehavior: true,
+          type: 'success'
+        }"
+      >
+      </dxi-item>
+    </dx-form>
+    </form>
 </dx-popup>

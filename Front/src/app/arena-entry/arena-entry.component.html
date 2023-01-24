@@ -9,6 +9,7 @@
         class="modify-button"
         text="Dodaj nową walkę"
         icon="add"
+        (onClick)="router.navigate(['arena/'+arenaData.id + '/newfight'])"
       >
       </dx-button>
     </h1>
@@ -20,32 +21,57 @@
         <dx-data-grid
           [dataSource]="arenaMembers"
           >
-          <dxi-column caption="Gracz" dataField="usr"></dxi-column>
+          <dxi-column caption="Gracz" dataField="usr" cellTemplate="userTemplate"></dxi-column>
           <dxi-column caption="Data dołączenia" dataField="join_date"></dxi-column>
           <dxi-column caption="Punkty" dataField="score"></dxi-column>
+
+          <div *dxTemplate="let d of 'userTemplate'">
+            {{ getUsername(d.value) }}
+          </div>
         </dx-data-grid>
         </dx-scroll-view>
       </div>
       <div style="width: 20%; background-color: #0f02; border-radius: 1rem; padding: 2rem">
         <h3 style="font-size: 2rem">Twoje punkty:</h3>
-        <h2 style="font-size: 3.2rem; font-weight: 500; display: flex; flex-direction: row"> {{arenaData?.score}} </h2>
+        <h2 style="font-size: 3.2rem; font-weight: 500; display: flex; flex-direction: row"> {{arenaData?.score}} 
+          <div style="color: #fffa; margin-left: 1rem;">
+            {{(myScoreDiff !== 0 ? '(-' + myScoreDiff + ')' : '')}}
+          </div>
+         </h2>
       </div>
     </div>
 
-    <div style="margin-top: 2rem; font-size: 1.6rem">Twoje ostatnie 5 walk:</div>
+    <div style="margin-top: 2rem; font-size: 1.6rem">Twoje walki</div>
     <dx-data-grid
-      [dataSource]="recentFights"
+      [dataSource]="myFights"
       [columnAutoWidth]="true"
       [columnWidth]="'auto'"
       [width]="'100%'"
-    >
-    </dx-data-grid>
+      >
+      <dxi-column dataField="won" caption="Rezultat" cellTemplate="resultTemplate"></dxi-column>
+      <dxi-column dataField="duel_date" caption="Data walki"></dxi-column>
+      <dxi-column [width]="400" dataField="my_pokemon_id" caption="Mój Pokemon" cellTemplate="pokemonTemplate"></dxi-column>
+      <dxi-column dataField="opponent_id" caption="Przeciwnik" cellTemplate="enemyTemplate"></dxi-column>
+      <dxi-column [width]="400" dataField="opponent_pokemon_id" caption="Pokemon przeciwnika" cellTemplate="enemyPokemonTemplate"></dxi-column>
 
-    <div style="margin-top: 2rem;">
-      <dx-button *ngIf="askAgain" [width]="250" icon="close" text="Opuść arene" (click)="askAgain = false;"></dx-button>
-      <dx-button *ngIf="!askAgain" [width]="250" icon="check" text="Napewno opuścić?" (click)="leaveArena()"></dx-button>
-    </div>
-    
+      <div *dxTemplate="let r of 'resultTemplate'">
+        {{r.value ? 'Wygrana' : 'Przegrana'}}
+      </div>
+
+      <div *dxTemplate="let mp of 'pokemonTemplate'" style="display: flex; flex-direction: row; align-items: center;">
+        <img height="50" width="50" [src]="'/assets/sprites/pokemon/' + allPokemonData[mp.value].pokedex_num + '.png'">
+        {{ allPokemonData[mp.value].name }}
+      </div>
+
+      <div *dxTemplate="let e of 'enemyTemplate'">
+        {{ getUsernameFromId(e.value)}}
+      </div>
+
+      <div *dxTemplate="let ep of 'enemyPokemonTemplate'" style="display: flex; flex-direction: row; align-items: center;">
+        <img height="50" width="50" [src]="'/assets/sprites/pokemon/' + allPokemonData[ep.value].pokedex_num + '.png'">
+        {{ allPokemonData[ep.value].name }}
+      </div>
+    </dx-data-grid>
     </dx-scroll-view>
   </div>
 </div>

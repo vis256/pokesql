@@ -1,11 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {PokedexService} from "../../shared/services/pokedex.service";
 import {Pokedex} from "../../shared/models/Pokedex";
 import {Pokemon} from "../../shared/models/Pokemon";
 import { UserService } from 'src/app/shared/services';
 import { Pokeball } from 'src/app/shared/models/Pokeball';
+import { PokemonService } from 'src/app/shared/services/pokemon.service';
+import { ErrorService } from 'src/app/shared/services/error.service';
+import { PokeballsService } from 'src/app/shared/services/pokeballs.service';
+import { Attack } from 'src/app/shared/models/Attack';
+import { AttackService } from 'src/app/shared/services/attack.service';
 
 @Component({
   selector: 'app-new-pokemon-entry-form',
@@ -17,20 +22,26 @@ export class NewPokemonEntryFormComponent implements OnInit {
     private http: HttpClient,
     private route : ActivatedRoute,
     private pokedex : PokedexService,
-    private user : UserService
+    private user : UserService,
+    private pokemon : PokemonService,
+    private error : ErrorService,
+    private pokeball : PokeballsService,
+    private attack : AttackService,
+    private router : Router
   ) {
     this.checkMinLevel = this.checkMinLevel.bind(this);
     this.updateCurrentPokedex = this.updateCurrentPokedex.bind(this);
   }
 
-  formData : Pokemon = {
+  formData : any = {
     id: -1,
     name: '',
     level: 0,
     sex: false,
     pokedex_num: null,
     pokeball: '',
-    owner: this.user.user?.login!
+    owner: this.user.user?.login!,
+    attacks : []
   }
 
   currentPokedexData : Pokedex = {
@@ -42,35 +53,29 @@ export class NewPokemonEntryFormComponent implements OnInit {
     secondary_type: 'Grass'
   };
 
-  currentPokedexList : Array<Pokedex> = [
-
-  ];
+  currentPokedexList : Array<Pokedex> = [];
+  allPossiblePokeballs : Pokeball[] = [];
+  allPossibleAttacks : Attack[] = [];
 
   ngOnInit(): void {
-    // this.pokedex.getPokedexList().subscribe((data : any) => {
-    //   this.currentPokedexList = data;
-    // })
-    this.currentPokedexList = [    {
-      number: 1,
-      name: "XD",
-      min_level: 11,
-      region: 'Unova',
-      primary_type: 'Grass',
-      secondary_type: 'Fire'
-    },
-    {
-      number: 2,
-      name: "XD2",
-      min_level: 15,
-      region: 'Kanto',
-      primary_type: 'Normal'
-    },]
+    this.pokedex.getPokedexList().subscribe((data : any) => {
+      this.currentPokedexList = data;
+    })
+
   }
 
   updateCurrentPokedex($event : any) {
     console.log({this : this});
     
     this.currentPokedexData = $event.selectedItem;
+    this.pokeball.getPokeballsUsedForPokedex($event.selectedItem.number).subscribe(data => {
+      this.allPossiblePokeballs = data;
+    })
+
+    this.attack.getAttacksForPokedex($event.selectedItem.number).subscribe(data => {
+      this.allPossibleAttacks = data;
+    })
+
   }
 
   checkMinLevel() {
@@ -95,8 +100,37 @@ export class NewPokemonEntryFormComponent implements OnInit {
 
     $event.preventDefault();
 
-    this.http.post("http://localhost:5000/newPokedexEntry", this.formData, {}).subscribe(resp => {
-      console.log({resp})
-    })
+    console.log({pd : this.currentPokedexData});
+
+    const newPokemon : Pokemon = {
+      id: -1,
+      name: this.formData.name,
+      level: this.formData.level,
+      sex: this.formData.sex,
+      pokedex_num: this.formData.pokedex_num,
+      pokeball: this.formData.pokeball,
+      owner: this.formData.owner
+    }
+    
+
+    this.pokemon.addNewPokemon(newPokemon).subscribe(
+      (data : any) => {
+        console.log(data);
+        for (const attack of this.formData.attacks) {
+          this.attack.addAttacksToPokemon({pokemon_id: data, attack }).subscribe(
+            data => {
+              this.router.navigate(['/mypokemon'])
+            },
+            err => {this.error.displayError(err.error)}
+          )
+          
+        }
+        
+      },
+      err => {
+        console.log(err);
+        this.error.displayError(err.error)
+      }
+    );
   }
 }

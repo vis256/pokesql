@@ -15,7 +15,9 @@ import { AuthService } from '../../services';
 })
 export class CreateAccountFormComponent {
   loading = false;
-  formData: any = {};
+  formData: any = {
+    is_professor: false
+  };
 
   constructor(private authService: AuthService, private router: Router) { }
 
@@ -29,7 +31,6 @@ export class CreateAccountFormComponent {
       if (result.isOk) {
         this.router.navigate(['/login-form']);
       } else {
-        notify(result.message, 'error', 2000);
       }
     });
   }

@@ -49,4 +49,16 @@ export class ArenaService {
   public getAllRegions() : Observable<Region[]> {
     return this.http.get('/api/regions') as Observable<Region[]>;
   }
+
+  public joinArena(arena : string) {
+    const ad : ArenaMember = {
+      usr: this.user.user?.login,
+      arena
+    }
+    return this.http.post(`/api/users/${this.user.user.login}/memberships/new`, ad, {headers: this.token.AuthHeaders});
+  }
+
+  public getRelativeArenaMembers(arena : string) : Observable<ArenaMember[]> {
+    return this.http.get(`api/arenas/${arena}/members_relative`) as Observable<ArenaMember[]>
+  }
 }

@@ -1,3 +1,5 @@
+pub mod counters;
+
 use rocket::State;
 use rocket::serde::{Serialize, Deserialize};
 use rocket::serde::json::Json;
@@ -32,6 +34,17 @@ async fn update_one(
     sqlx::query!(
         "UPDATE Types SET name = $1 WHERE name = $2",
         type_.name, name).execute(&mut transaction).await?;
+    transaction.commit().await
+}
+
+async fn delete_one(
+    pool: &Pool<Postgres>,
+    name: &str
+) -> Result<(), Error> {
+    let mut transaction = pool.begin().await?;
+    sqlx::query!(
+        "DELETE FROM Types WHERE name = $1", name
+    ).execute(&mut transaction).await?;
     transaction.commit().await
 }
 
@@ -72,6 +85,23 @@ pub async fn new_type(
     match auth {
         AuthStatus::Professor(_) => {
             match add_one(pool, &type_.into_inner()).await {
+                Ok(()) => Response::Success(Some(())),
+                Err(e) => Response::BadRequest(Some(Json(ErrInfo::from(e))))
+            }
+        }
+        _ => Response::Unauthorized(())
+    }
+}
+
+#[get("/types/<name>/delete")]
+pub async fn del_type(
+    pool: &State<Pool<Postgres>>,
+    auth: AuthStatus,
+    name: &str,
+) -> Response<()> {
+    match auth {
+        AuthStatus::Professor(_) => {
+            match delete_one(pool, name).await {
                 Ok(()) => Response::Success(Some(())),
                 Err(e) => Response::BadRequest(Some(Json(ErrInfo::from(e))))
             }

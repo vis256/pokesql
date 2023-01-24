@@ -80,7 +80,7 @@ INSERT INTO Pokedex(number, name, min_level, primary_type, secondary_type, regio
 INSERT INTO Pokedex(number, name, min_level, primary_type, secondary_type, region) VALUES(80, 'Slowbro', 4, 'Water', 'Psychic', 'Sinnoh');
 INSERT INTO Pokedex(number, name, min_level, primary_type, secondary_type, region) VALUES(81, 'Magnemite', 3, 'Electric', 'Steel', 'Unova');
 INSERT INTO Pokedex(number, name, min_level, primary_type, secondary_type, region) VALUES(82, 'Magneton', 4, 'Electric', 'Steel', 'Kalos');
-INSERT INTO Pokedex(number, name, min_level, primary_type, secondary_type, region) VALUES(83, 'Farfetch''d', 3, 'Normal', 'Flying', 'Unova');
+INSERT INTO Pokedex(number, name, min_level, primary_type, secondary_type, region) VALUES(83, 'Farfetchd', 3, 'Normal', 'Flying', 'Unova');
 INSERT INTO Pokedex(number, name, min_level, primary_type, secondary_type, region) VALUES(84, 'Doduo', 3, 'Normal', 'Flying', 'Unova');
 INSERT INTO Pokedex(number, name, min_level, primary_type, secondary_type, region) VALUES(85, 'Dodrio', 4, 'Normal', 'Flying', 'Unova');
 INSERT INTO Pokedex(number, name, min_level, primary_type, secondary_type, region) VALUES(86, 'Seel', 3, 'Water', NULL, 'Sinnoh');
@@ -119,7 +119,7 @@ INSERT INTO Pokedex(number, name, min_level, primary_type, secondary_type, regio
 INSERT INTO Pokedex(number, name, min_level, primary_type, secondary_type, region) VALUES(119, 'Seaking', 4, 'Water', NULL, 'Sinnoh');
 INSERT INTO Pokedex(number, name, min_level, primary_type, secondary_type, region) VALUES(120, 'Staryu', 3, 'Water', NULL, 'Sinnoh');
 INSERT INTO Pokedex(number, name, min_level, primary_type, secondary_type, region) VALUES(121, 'Starmie', 5, 'Water', 'Psychic', 'Sinnoh');
-INSERT INTO Pokedex(number, name, min_level, primary_type, secondary_type, region) VALUES(122, 'Mr. Mime', 4, 'Psychic', 'Fairy', 'Johto');
+INSERT INTO Pokedex(number, name, min_level, primary_type, secondary_type, region) VALUES(122, 'MrMime', 4, 'Psychic', 'Fairy', 'Johto');
 INSERT INTO Pokedex(number, name, min_level, primary_type, secondary_type, region) VALUES(123, 'Scyther', 5, 'Bug', 'Flying', 'Kanto');
 INSERT INTO Pokedex(number, name, min_level, primary_type, secondary_type, region) VALUES(124, 'Jynx', 4, 'Ice', 'Psychic', 'Galar');
 INSERT INTO Pokedex(number, name, min_level, primary_type, secondary_type, region) VALUES(125, 'Electabuzz', 4, 'Electric', NULL, 'Kalos');
@@ -247,7 +247,7 @@ INSERT INTO Pokedex(number, name, min_level, primary_type, secondary_type, regio
 INSERT INTO Pokedex(number, name, min_level, primary_type, secondary_type, region) VALUES(247, 'Pupitar', 4, 'Rock', 'Ground', 'Kanto');
 INSERT INTO Pokedex(number, name, min_level, primary_type, secondary_type, region) VALUES(248, 'Tyranitar', 6, 'Rock', 'Dark', 'Sinnoh');
 INSERT INTO Pokedex(number, name, min_level, primary_type, secondary_type, region) VALUES(249, 'Lugia', 6, 'Psychic', 'Flying', 'Johto');
-INSERT INTO Pokedex(number, name, min_level, primary_type, secondary_type, region) VALUES(250, 'Ho-oh', 6, 'Fire', 'Flying', 'Johto');
+INSERT INTO Pokedex(number, name, min_level, primary_type, secondary_type, region) VALUES(250, 'Ho_oh', 6, 'Fire', 'Flying', 'Johto');
 INSERT INTO Pokedex(number, name, min_level, primary_type, secondary_type, region) VALUES(251, 'Celebi', 6, 'Psychic', 'Grass', 'Unova');
 INSERT INTO Pokedex(number, name, min_level, primary_type, secondary_type, region) VALUES(252, 'Treecko', 3, 'Grass', NULL, 'Kanto');
 INSERT INTO Pokedex(number, name, min_level, primary_type, secondary_type, region) VALUES(253, 'Grovyle', 4, 'Grass', NULL, 'Kanto');

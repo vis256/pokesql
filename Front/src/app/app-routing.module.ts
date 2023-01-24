@@ -27,6 +27,14 @@ import {FightEntryComponent} from "./fight-entry/fight-entry.component";
 import { NewPokeballEntryFormComponent } from './new/new-pokeball-entry-form/new-pokeball-entry-form.component';
 import { MyArenaListComponent } from './my-arena-list/my-arena-list.component';
 import { NewRegionArenaFormComponent } from './new/new-region-arena-form/new-region-arena-form.component';
+import { NewAttackFormComponent } from './new/new-attack-form/new-attack-form.component';
+import { NewTypeFormComponent } from './new/new-type-form/new-type-form.component';
+import { EditTypeFormComponent } from './edit/edit-type-form/edit-type-form.component';
+import { EditPokedexEntryFormComponent } from './edit/edit-pokedex-entry-form/edit-pokedex-entry-form.component';
+import { EditAttackFormComponent } from './edit/edit-attack-form/edit-attack-form.component';
+import { RegionListComponent } from './region-list/region-list.component';
+import { NewFightFormComponent } from './new/new-fight-form/new-fight-form.component';
+import { EditPokemonEntryFormComponent } from './edit/edit-pokemon-entry-form/edit-pokemon-entry-form.component';
 
 const routes: Routes = [
   {
@@ -81,7 +89,7 @@ const routes: Routes = [
   },
   {
     path: 'pokedex/edit/:pokedexid',
-    component: NewPokedexEntryFormComponent,
+    component: EditPokedexEntryFormComponent,
     canActivate: [ AuthGuardService ]
   },
   {
@@ -110,6 +118,11 @@ const routes: Routes = [
     canActivate : [ AuthGuardService ]
   },
   {
+    path : 'mypokemon/entry/:pokemonID/edit',
+    component : EditPokemonEntryFormComponent,
+    canActivate : [ AuthGuardService ]
+  },
+  {
     path : 'pokedex/pokeball/list',
     component : PokeballListComponent,
     canActivate : [ AuthGuardService ]
@@ -130,13 +143,33 @@ const routes: Routes = [
     canActivate : [ AuthGuardService ]
   },
   {
+    path : 'pokedex/types/new',
+    component : NewTypeFormComponent,
+    canActivate : [ AuthGuardService ]
+  },
+  {
+    path : 'pokedex/types/edit/:typeName',
+    component : EditTypeFormComponent,
+    canActivate : [ AuthGuardService ]
+  },
+  {
     path : 'pokedex/attacks/list',
     component : AttackListComponent,
     canActivate : [ AuthGuardService ]
   },
   {
+    path : 'pokedex/attacks/new',
+    component : NewAttackFormComponent,
+    canActivate : [ AuthGuardService ]
+  },
+  {
     path : 'pokedex/attacks/:attackName',
     component : AttackEntryComponent,
+    canActivate : [ AuthGuardService ]
+  },
+  {
+    path : 'pokedex/attacks/:attackName/edit',
+    component : EditAttackFormComponent,
     canActivate : [ AuthGuardService ]
   },
   {
@@ -155,6 +188,11 @@ const routes: Routes = [
     canActivate : [ AuthGuardService ]
   },
   {
+    path : 'arena/:arenaMemberID/newfight',
+    component : NewFightFormComponent,
+    canActivate : [ AuthGuardService ]
+  },
+  {
     path : 'fight/:id',
     component : FightEntryComponent,
     canActivate : [ AuthGuardService ]
@@ -162,6 +200,11 @@ const routes: Routes = [
   {
     path: 'pokedex/regions/new',
     component : NewRegionArenaFormComponent,
+    canActivate : [ AuthGuardService ]
+  },
+  {
+    path: 'pokedex/regions/list',
+    component : RegionListComponent,
     canActivate : [ AuthGuardService ]
   },
   {

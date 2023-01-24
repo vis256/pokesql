@@ -14,6 +14,7 @@ import {
   DxDataGridModule,
   DxNumberBoxModule, DxPopupModule,
   DxSelectBoxModule,
+  DxTagBoxModule,
   DxTextBoxModule, DxTileViewModule, DxValidationSummaryModule, DxValidatorModule
 } from "devextreme-angular";
 import {DxButtonModule} from "devextreme-angular/ui/button";
@@ -41,6 +42,14 @@ import { NewPokeballEntryFormComponent } from './new/new-pokeball-entry-form/new
 import { MyArenaListComponent } from './my-arena-list/my-arena-list.component';
 import { DxiValidationRuleModule } from 'devextreme-angular/ui/nested';
 import { NewRegionArenaFormComponent } from './new/new-region-arena-form/new-region-arena-form.component';
+import { NewAttackFormComponent } from './new/new-attack-form/new-attack-form.component';
+import { NewTypeFormComponent } from './new/new-type-form/new-type-form.component';
+import { EditTypeFormComponent } from './edit/edit-type-form/edit-type-form.component';
+import { EditPokedexEntryFormComponent } from './edit/edit-pokedex-entry-form/edit-pokedex-entry-form.component';
+import { EditAttackFormComponent } from './edit/edit-attack-form/edit-attack-form.component';
+import { RegionListComponent } from './region-list/region-list.component';
+import { NewFightFormComponent } from './new/new-fight-form/new-fight-form.component';
+import { EditPokemonEntryFormComponent } from './edit/edit-pokemon-entry-form/edit-pokemon-entry-form.component';
 
 
 @NgModule({
@@ -69,6 +78,14 @@ import { NewRegionArenaFormComponent } from './new/new-region-arena-form/new-reg
     NewPokeballEntryFormComponent,
     MyArenaListComponent,
     NewRegionArenaFormComponent,
+    NewAttackFormComponent,
+    NewTypeFormComponent,
+    EditTypeFormComponent,
+    EditPokedexEntryFormComponent,
+    EditAttackFormComponent,
+    RegionListComponent,
+    NewFightFormComponent,
+    EditPokemonEntryFormComponent
   ],
   imports: [
     BrowserModule,
@@ -95,7 +112,8 @@ import { NewRegionArenaFormComponent } from './new/new-region-arena-form/new-reg
     DxPopupModule,
     DxValidatorModule,
     DxiValidationRuleModule,
-    DxValidationSummaryModule
+    DxValidationSummaryModule,
+    DxTagBoxModule
   ],
   providers: [
     AuthService,

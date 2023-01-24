@@ -15,11 +15,12 @@ export class ArenaListComponent implements OnInit {
     private arena : ArenaService
   ) { }
 
-  // FIXME: Remove garbage starting data
-
   ngOnInit(): void {
     this.arena.getAllArenas().subscribe(data => {
       this.items = data;
+
+      console.log({ALL_ARENAS : this.items});
+      
     });
 
     this.arena.getMemberships().subscribe(data => {
@@ -27,38 +28,29 @@ export class ArenaListComponent implements OnInit {
     })
   }
 
-  membershipArenas : ArenaMember[] = [
-    {
-      id : 1,
-      join_date: '',
-      usr : 'xd',
-      score : 1,
-      arena : 'Kanto Gym'
-    }
-  ]
+  membershipArenas : ArenaMember[] = []
 
   isMemberOf(arena : string) : boolean {
     return this.membershipArenas.find(elem => elem.arena == arena) !== undefined;
   }
 
   getArenaMemberId(arena : string) : number {
-    return this.membershipArenas.find(elem => elem.arena == arena)!.id;
+    return this.membershipArenas.find(elem => elem.arena == arena)!.id!;
   }
 
   items : Arena[] = [
-    {
-      name : 'Kanto Gym',
-      region : 'Kanto',
-      leader: 1
-    },
-    {
-      name : 'Unova Arena',
-      region : 'Unova',
-      leader: 2
-    },
+
   ]
 
   joinArena(arena : string) {
-    // TODO: Join arena
+    this.arena.joinArena(arena).subscribe(data => {
+      console.log({data});
+      this.arena.getMemberships().subscribe(arenaData => {
+        const a = arenaData.find(e => e.arena === arena);
+        if (a) 
+          this.router.navigate([`/arena/${a.id!}`]);
+        
+      })
+    })
   }
 }

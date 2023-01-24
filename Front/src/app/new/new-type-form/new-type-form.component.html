@@ -1,0 +1,44 @@
+<img class="background" src="/assets/backgrounds/city.webp">
+
+<div class="main-container">
+  <div class="main">
+    <h1 class="title">Dodaj nowy typ</h1>
+    <div class="form-container">
+
+      <form (submit)="onFormSubmit($event)">
+      <dx-form
+        id="newTypeEntryForm"
+        [colCount]="3"
+        [formData]="formData"
+        style="width: 30rem;"
+        [showValidationSummary]="true"
+        validationGroup="typeData"
+      >
+        <dxi-item
+            dataField="name"
+            editorType="dxTextBox"
+            [colSpan]="3"
+            >
+            <dxo-label text="Nazwa typu"></dxo-label>
+            <dxi-validation-rule
+                type="required"
+                message="Podaj nazwe dodawanego typu"
+                >
+            </dxi-validation-rule>
+        </dxi-item>
+        
+        <dxi-item
+          [colSpan]="2"
+          itemType="button"
+          [buttonOptions]="{
+            text: 'Dodaj nowy typ',
+            useSubmitBehavior: true,
+            type: 'success'
+          }"
+        >
+        </dxi-item>
+      </dx-form>
+      </form>
+    </div>
+  </div>
+</div>

@@ -28,17 +28,19 @@ pub async fn get_one(
 pub async fn add_one(
     pool: &Pool<Postgres>,
     pokemon: &Pokemon
-) -> Result<(), Error> {
+) -> Result<i64, Error> {
+	println!("{:?}", pokemon);
     let mut transaction = pool.begin().await?;
-    sqlx::query!(
+    let id = sqlx::query!(
         "INSERT INTO Pokemons(\
-            id, name, level, sex, \
+            name, level, sex, \
             pokedex_num, pokeball, owner) \
-         VALUES ($1, $2, $3, $4, $5, $6, $7)",
-         pokemon.id, pokemon.name, pokemon.level, pokemon.sex,
+         VALUES ($1, $2, $3, $4, $5, $6) RETURNING id",
+         pokemon.name, pokemon.level, pokemon.sex,
          pokemon.pokedex_num, pokemon.pokeball, pokemon.owner
-    ).execute(&mut transaction).await?;
-    transaction.commit().await
+    ).fetch_one(&mut transaction).await?.id;
+    transaction.commit().await?;
+    Ok(id)
 }
 
 async fn get_attacks(pool: &Pool<Postgres>, id: i64) -> Result<Vec<Attack>, Error> {
@@ -54,6 +56,43 @@ async fn add_attack(pool: &Pool<Postgres>, pa: &PokemonAttack) -> Result<(), Err
     transaction.commit().await
 }
 
+async fn delete_attack(pool: &Pool<Postgres>, pa: &PokemonAttack) -> Result<(), Error> {
+    let mut transaction = pool.begin().await?;
+    sqlx::query!(
+        "DELETE FROM AttacksPokemons WHERE attack = $1 AND pokemon_id = $2",
+        pa.attack, pa.pokemon_id).execute(&mut transaction).await?;
+    transaction.commit().await
+}
+
+#[post("/pokemons/attacks/delete", data = "<pa>")]
+pub async fn del_attack(
+    pool: &State<Pool<Postgres>>,
+    auth: AuthStatus,
+    pa: Json<PokemonAttack>
+) -> Response<()> {
+    let p = pa.into_inner();
+    match auth {
+        AuthStatus::Professor(name) |
+        AuthStatus::Trainer(name) => {
+            let owner = sqlx::query!("SELECT owner FROM Pokemons WHERE id = $1", p.pokemon_id).fetch_one(&**pool).await.unwrap().owner;
+            if name == owner {
+                if let Err(e) = delete_attack(pool, &p).await {
+                    if let Error::RowNotFound = e {
+                        Response::NotFound(Some(Json(ErrInfo::from(e))))
+                    } else {
+                        Response::BadRequest(Some(Json(ErrInfo::from(e))))
+                    }
+                } else {
+                    Response::Success(Some(()))
+                }
+            } else {
+                Response::Unauthorized(())
+            }
+        }
+        _ => Response::Unauthorized(())
+    }
+}
+
 async fn update_one(
     pool: &Pool<Postgres>,
     id: i64,
@@ -64,8 +103,9 @@ async fn update_one(
         r#"UPDATE Pokemons SET
             name = $1,
             sex = $2,
-            pokeball = $3 WHERE id = $4"#,
-        p.name, p.sex, p.pokeball, id).execute(&mut transaction).await?;
+            level = $3,
+            pokeball = $4 WHERE id = $5"#,
+        p.name, p.sex, p.level, p.pokeball, id).execute(&mut transaction).await?;
     transaction.commit().await
 }
 
@@ -107,7 +147,7 @@ pub async fn update_pokemon(
     }
 }
 
-#[get("/pokemons/<id>")]
+#[get("/pokemon/<id>")]
 pub async fn get_pokemon(
     pool: &State<Pool<Postgres>>,
     id: i64
@@ -173,7 +213,7 @@ pub async fn user_new_pokemon(
     auth: AuthStatus,
     entry: Json<Pokemon>,
     login: String
-) -> Response<()> {
+) -> Response<String> {
     match auth {
         AuthStatus::Professor(name) |
         AuthStatus::Trainer(name) => {
@@ -181,7 +221,7 @@ pub async fn user_new_pokemon(
                 return Response::Unauthorized(());
             }
             match add_one(pool, &entry.into_inner()).await {
-                Ok(()) => Response::Success(None),
+                Ok(id) => Response::Success(Some(format!("{}", id))),
                 Err(e) => Response::BadRequest(
                     Some(Json(ErrInfo::from(e))))
             }

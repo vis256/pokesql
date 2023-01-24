@@ -1,5 +1,6 @@
 pub mod members;
 pub mod regions;
+pub mod duels;
 
 use rocket::serde::{Deserialize, Serialize};
 use rocket::serde::json::Json;

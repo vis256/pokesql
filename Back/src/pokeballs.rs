@@ -9,7 +9,7 @@ use crate::user::AuthStatus;
 
 #[derive(Serialize, Deserialize)]
 pub struct Pokeball {
-    name: String,
+    pub name: String,
 }
 
 async fn get_all(pool: &Pool<Postgres>) -> Result<Vec<Pokeball>, Error> {
@@ -25,6 +25,17 @@ async fn add_one(pool: &Pool<Postgres>, pokeball: &Pokeball) -> Result<(), Error
     sqlx::query!(
         "INSERT INTO Pokeballs(name) VALUES ($1)",
         pokeball.name
+    ).execute(&mut transaction).await?;
+    transaction.commit().await
+}
+
+async fn delete_one(
+    pool: &Pool<Postgres>,
+    pokeball: &str
+) -> Result<(), Error> {
+    let mut transaction = pool.begin().await?;
+    sqlx::query!(
+        "DELETE FROM Pokeballs WHERE name = $1", pokeball
     ).execute(&mut transaction).await?;
     transaction.commit().await
 }
@@ -93,6 +104,28 @@ pub async fn add_pokeball(
                 Ok(()) => Response::Success(Some(())),
                 Err(err) =>Response::BadRequest(
                     Some(Json(ErrInfo::from(err))))
+            }
+        }
+        _ => Response::Unauthorized(())
+    }
+}
+
+#[get("/pokeballs/<name>/delete")]
+pub async fn del_pokeball(
+    pool: &State<Pool<Postgres>>,
+    auth: AuthStatus,
+    name: &str
+) -> Response<()> {
+    match auth {
+        AuthStatus::Professor(_) => {
+            if let Err(e) = delete_one(pool, name).await {
+                if let Error::RowNotFound = e {
+                    Response::NotFound(Some(Json(ErrInfo::from(e))))
+                } else {
+                    Response::BadRequest(Some(Json(ErrInfo::from(e))))
+                }
+            } else {
+                Response::Success(Some(()))
             }
         }
         _ => Response::Unauthorized(())
