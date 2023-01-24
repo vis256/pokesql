@@ -96,7 +96,7 @@ BEGIN
     END IF;
 
     IF NEW.level < vMinLevel THEN
-        RAISE EXCEPTION 'Invalid Pokemon level';
+        RAISE EXCEPTION 'Błędny poziom pokemona';
     END IF;
 
     RETURN NEW;
@@ -122,7 +122,7 @@ BEGIN
     WHERE id = NEW.user1;
 
     IF vArenaMemberArena != NEW.arena THEN
-        RAISE EXCEPTION 'User1 in a member of a wrong arena';
+        RAISE EXCEPTION 'Pierwszy użytkownik nie jest członkiem tej areny';
     END IF;
 
     SELECT arena
@@ -131,7 +131,7 @@ BEGIN
     WHERE id = NEW.user2;
 
     IF vArenaMemberArena != NEW.arena THEN
-        RAISE EXCEPTION 'User2 in a member of a wrong arena';
+        RAISE EXCEPTION 'Drugi użytkownik nie jest członkiem tej areny';
     END IF;
 
     RETURN NEW;
@@ -159,7 +159,7 @@ BEGIN
     WHERE id = NEW.user1;
 
     IF vUserLogin1 != vUserLogin2 THEN
-        RAISE EXCEPTION 'Pokemon1 does not belong to User1';
+        RAISE EXCEPTION 'Pierwszy pokemon nie należy do pierwszego użytkownika';
     END IF;
 
     SELECT usr
@@ -168,7 +168,7 @@ BEGIN
     WHERE id = NEW.user2;
     
     IF vUserLogin1 = vUserLogin2 THEN
-        RAISE EXCEPTION 'Trainer cannot duel himself';
+        RAISE EXCEPTION 'Trener nie może pojedynkować się z samym sobą';
     END IF;
 
     SELECT owner
@@ -177,7 +177,7 @@ BEGIN
     WHERE id = NEW.pokemon2;
 
     IF vUserLogin1 != vUserLogin2 THEN
-        RAISE EXCEPTION 'Pokemon2 does not belong to User2';
+        RAISE EXCEPTION 'Drugi pokemon nie należy do drugiego użytkownika';
     END IF;
 
     RETURN NEW;
@@ -196,7 +196,7 @@ BEGIN
     WHERE pokeball = NEW.pokeball AND pokedex = NEW.pokedex_num;
 
     IF NOT FOUND THEN
-        RAISE EXCEPTION 'This pokemon cannot be caught in this pokeball';
+        RAISE EXCEPTION 'Tego pokemona nie można złapać w tego pokeballa';
     END IF;
 
     RETURN NEW;
@@ -218,7 +218,7 @@ BEGIN
     WHERE id = NEW.pokemon_id;
 
     IF NOT FOUND THEN
-        RAISE EXCEPTION 'This pokemon is incapable of learning this attack';
+        RAISE EXCEPTION 'Ten pokemon nie może nauczyć się tego ataku';
     END IF;
     
     PERFORM *
@@ -226,7 +226,7 @@ BEGIN
     WHERE attack = NEW.attack AND pokedex_num = vPokedexNum;
 
     IF NOT FOUND THEN
-        RAISE EXCEPTION 'This pokemon is incapable of learning this attack';
+        RAISE EXCEPTION 'Ten pokemon nie może nauczyć się tego ataku';
     END IF;
 
     RETURN NEW;
